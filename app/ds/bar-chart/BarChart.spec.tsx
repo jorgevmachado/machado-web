@@ -53,5 +53,38 @@ describe('<BarChart />', () => {
 
     expect(screen.queryByText('48')).not.toBeInTheDocument();
   });
+
+  it('falls through to danger when no threshold matches', () => {
+    render(
+      <BarChart
+        label='Stat'
+        value={5}
+        tone='auto'
+        thresholds={[{ min: 50, tone: 'success' }, { min: 80, tone: 'primary' }]}
+      />,
+    );
+
+    const progressBar = screen.getByRole('progressbar', { name: 'Stat' });
+    expect(progressBar).toHaveClass('bg-rose-500');
+  });
+
+  it('renders sm and lg sizes', () => {
+    const { rerender } = render(<BarChart label='A' value={50} size='sm' />);
+    expect(screen.getByRole('progressbar', { name: 'A' })).toBeInTheDocument();
+
+    rerender(<BarChart label='A' value={50} size='lg' />);
+    expect(screen.getByRole('progressbar', { name: 'A' })).toBeInTheDocument();
+  });
+
+  it('renders without animation when withAnimation is false', () => {
+    render(<BarChart label='B' value={50} withAnimation={false} />);
+    expect(screen.getByRole('progressbar', { name: 'B' })).toBeInTheDocument();
+  });
+
+  it('uses fallback aria-label when label is a ReactNode (not a string)', () => {
+    render(<BarChart label={<span>HP</span>} value={75} />);
+    // typeof label !== 'string' → aria-label defaults to 'Bar chart value'
+    expect(screen.getByRole('progressbar', { name: 'Bar chart value' })).toBeInTheDocument();
+  });
 });
 

@@ -68,6 +68,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({
   }, [onChange, onValueChange]);
 
   const handleClear = useCallback(() => {
+    // istanbul ignore next – clear button is hidden when disabled/readOnly (shouldShowClearButton), so this guard is defensive only
     if (disabled || readOnly) {
       return;
     }

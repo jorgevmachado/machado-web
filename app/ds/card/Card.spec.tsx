@@ -125,6 +125,13 @@ describe('<Card />', () => {
     expect(ref.current?.tagName).toBe('ARTICLE');
   });
 
+  it('renders as div element', () => {
+    render(<Card as='div'>Div card</Card>);
+
+    const card = screen.getByText('Div card');
+    expect(card.tagName).toBe('DIV');
+  });
+
   it('renders all variants without errors', () => {
     const variants: Array<'elevated' | 'filled' | 'outlined' | 'tonal'> = [
       'elevated',
@@ -142,6 +149,22 @@ describe('<Card />', () => {
       expect(screen.getByText(`${variant} variant`)).toBeInTheDocument();
       unmount();
     });
+  });
+
+  it('renders as generic div for unrecognised as value (fallthrough branch)', () => {
+    // TypeScript only allows 'article'|'div'|'section', but the component has a
+    // safe fallthrough for any other runtime value.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    render(<Card as={'aside' as any}>Fallthrough</Card>);
+    const el = screen.getByText('Fallthrough');
+    expect(el.tagName).toBe('DIV');
+  });
+
+  it('renders with falsy shadow (if shadow false branch)', () => {
+    // null bypasses the default param ('md'), making shadow falsy
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    render(<Card shadow={null as any}>No shadow</Card>);
+    expect(screen.getByText('No shadow')).toBeInTheDocument();
   });
 });
 

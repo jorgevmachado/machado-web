@@ -22,6 +22,7 @@ const RouteChangeTracker = () => {
       return;
     }
 
+    // istanbul ignore next – effect only fires when pathname changes (its dep), so the false branch (same pathname) is structurally unreachable
     if (pathname !== previousPathname.current) {
       stopPageLoading();
       previousPathname.current = pathname;

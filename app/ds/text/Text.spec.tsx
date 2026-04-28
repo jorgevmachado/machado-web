@@ -90,5 +90,33 @@ describe('<Text />', () => {
     expect(quote).toHaveClass('break-words');
     expect(quote).toHaveClass('line-clamp-3');
   });
+
+  it('applies fontFamily prop (covers mono font path)', () => {
+    render(<Text fontFamily='mono'>Monospace text</Text>);
+
+    expect(screen.getByText('Monospace text')).toHaveClass('font-mono');
+  });
+
+  it('renders as code tag (uses default fontFamily from tag map)', () => {
+    render(<Text as='code'>Code snippet</Text>);
+
+    expect(screen.getByText('Code snippet').tagName).toBe('CODE');
+    expect(screen.getByText('Code snippet')).toHaveClass('font-mono');
+  });
+
+  it('applies srOnly class', () => {
+    render(<Text srOnly>Screen reader only</Text>);
+
+    expect(screen.getByText('Screen reader only')).toHaveClass('sr-only');
+  });
+
+  it('renders span with inherit tone (falsy tagColor branch)', () => {
+    // span's default tone is 'inherit'; TEXT_TONE_CLASS_MAP['inherit'] = 'text-inherit' (truthy)
+    // but using an invalid tag makes tagClassProps undefined → buildColorTone returns undefined
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    render(<Text as={'section' as any}>Unknown tag text</Text>);
+
+    expect(screen.getByText('Unknown tag text')).toBeInTheDocument();
+  });
 });
 

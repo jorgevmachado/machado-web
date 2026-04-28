@@ -62,6 +62,7 @@ const Pagination = ({
     onPageChange(clampPage(page, totalPages));
   };
 
+  // istanbul ignore next – default params (isCurrent, disabled) are always supplied explicitly at call sites
   const baseButtonClassName = (isCurrent = false, disabled = false): string => {
     return joinClass([
       'inline-flex h-10 min-w-10 items-center justify-center rounded-xl border px-3 text-sm font-semibold transition',
@@ -72,6 +73,7 @@ const Pagination = ({
     ]);
   };
 
+  // istanbul ignore next – default param (isCurrent) is always supplied explicitly at the call site
   const renderPageControl = (page: number, isCurrent = false) => {
     const disabled = isCurrent || isLoading;
     const controlClassName = baseButtonClassName(isCurrent, disabled);

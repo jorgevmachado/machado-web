@@ -99,5 +99,51 @@ describe('<Input />', () => {
     expect(textbox).toHaveAttribute('aria-invalid', 'true');
     expect(screen.getByRole('alert')).toHaveTextContent('This field is required.');
   });
+
+  it('does not show clear button when input is readOnly', () => {
+    render(
+      <Input
+        value='pikachu'
+        onChange={() => undefined}
+        showClearButton
+        readOnly
+        onClear={jest.fn()}
+      />,
+    );
+
+    expect(screen.queryByRole('button', { name: 'Clear input' })).not.toBeInTheDocument();
+  });
+
+  it('does not show clear button when input is disabled', () => {
+    render(
+      <Input
+        value='pikachu'
+        onChange={() => undefined}
+        showClearButton
+        disabled
+        onClear={jest.fn()}
+      />,
+    );
+
+    expect(screen.queryByRole('button', { name: 'Clear input' })).not.toBeInTheDocument();
+  });
+
+  it('renders helper text when no error', () => {
+    render(
+      <Input
+        value=''
+        onChange={() => undefined}
+        helperText='Enter your trainer name'
+      />,
+    );
+
+    expect(screen.getByText('Enter your trainer name')).toBeInTheDocument();
+  });
+
+  it('applies filled variant class', () => {
+    render(<Input value='' onChange={() => undefined} variant='filled' />);
+    const wrapper = screen.getByRole('textbox').closest('div');
+    expect(wrapper).toHaveClass('bg-slate-100');
+  });
 });
 
