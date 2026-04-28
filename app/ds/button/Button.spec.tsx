@@ -3,17 +3,17 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MdCatchingPokemon, MdOutlineCatchingPokemon } from 'react-icons/md';
 
-import { DsButton } from './index';
+import Button from '.';
 
-describe('<DsButton />', () => {
+describe('<Button />', () => {
   it('renders button content with left and right icons', () => {
     render(
-      <DsButton
+      <Button
         iconLeft={<MdCatchingPokemon data-testid='left-icon' />}
         iconRight={<MdOutlineCatchingPokemon data-testid='right-icon' />}
       >
         Catch
-      </DsButton>,
+      </Button>,
     );
 
     expect(screen.getByRole('button', { name: 'Catch' })).toBeInTheDocument();
@@ -22,7 +22,7 @@ describe('<DsButton />', () => {
   });
 
   it('applies outline appearance classes', () => {
-    render(<DsButton appearance='outline'>Outline</DsButton>);
+    render(<Button appearance='outline'>Outline</Button>);
 
     const button = screen.getByRole('button', { name: 'Outline' });
 
@@ -32,7 +32,7 @@ describe('<DsButton />', () => {
 
   it('renders icon no border appearance for icon-only actions', () => {
     render(
-      <DsButton
+      <Button
         aria-label='Open filters'
         appearance='iconNoBorder'
         iconLeft={<MdCatchingPokemon data-testid='icon-only' />}
@@ -48,9 +48,9 @@ describe('<DsButton />', () => {
 
   it('renders loading state and disables interaction', () => {
     render(
-      <DsButton isLoading loadingText='Saving trainer'>
+      <Button isLoading loadingText='Saving trainer'>
         Save
-      </DsButton>,
+      </Button>,
     );
 
     const button = screen.getByRole('button', { name: 'Saving trainer' });
