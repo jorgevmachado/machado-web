@@ -1,0 +1,1 @@
+export type { TPokemonEncounter } from './types';

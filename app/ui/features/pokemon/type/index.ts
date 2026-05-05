@@ -1,0 +1,1 @@
+export type { TPokemonType, TPokemonTypeDamage } from './types';

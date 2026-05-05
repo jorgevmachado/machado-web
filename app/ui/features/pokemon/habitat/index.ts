@@ -1,0 +1,1 @@
+export type { TPokemonHabitat } from './types';
