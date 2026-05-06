@@ -20,8 +20,17 @@ const statEntries = [
   ['Speed', 'speed'],
 ] as const;
 
-const uniqueNames = (names: string[]): string[] => {
-  return Array.from(new Set(names.filter(Boolean)));
+const uniqueById = <T extends { id: string }>(items: T[]): T[] => {
+  const seenIds = new Set<string>();
+
+  return items.filter((item) => {
+    if (seenIds.has(item.id)) {
+      return false;
+    }
+
+    seenIds.add(item.id);
+    return true;
+  });
 };
 
 const getPrimaryImage = (pokemon: PokemonDetail): string => {
@@ -76,8 +85,8 @@ export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
 
   const primaryImage = getPrimaryImage(data);
   const galleryImages = getGalleryImages(data);
-  const weaknesses = uniqueNames(data.types.flatMap((type) => type.weaknesses?.map((weakness) => weakness.name) ?? []));
-  const strengths = uniqueNames(data.types.flatMap((type) => type.strengths?.map((strength) => strength.name) ?? []));
+  const weaknesses = uniqueById(data.types.flatMap((type) => type.weaknesses ?? []));
+  const strengths = uniqueById(data.types.flatMap((type) => type.strengths ?? []));
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-6 text-slate-950 sm:px-6 lg:px-8">
@@ -155,9 +164,11 @@ export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
             <Text as="h2" className="text-xl font-semibold text-slate-950">Abilities</Text>
             <div className="mt-4 flex flex-wrap gap-2">
               {data.abilities.map((ability) => (
+                  <Link key={ability.id} href={`/pokemon/ability/${ability.name}`} className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
                 <Badge key={ability.id} tone="info" variant="soft">
                   {ability.name}
                 </Badge>
+                  </Link>
               ))}
               {data.abilities.length === 0 ? (
                 <Badge tone="neutral" variant="soft">abilities pending</Badge>
@@ -165,6 +176,40 @@ export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
             </div>
           </Card>
 
+          <Card rounded="lg" className="bg-white">
+            <Text as="h2" className="text-xl font-semibold text-slate-950">Strengths</Text>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {strengths.map((strength, index) => (
+                  <Link key={strength.id} href={`/pokemon/type/${strength.name}`} className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <Badge
+                  key={`${strength.id}-${index}`}
+                  style={{ color: strength.text_color, backgroundColor: strength.background_color }}
+                >
+                  {strength.name}
+                </Badge>
+                  </Link>
+              ))}
+            </div>
+          </Card>
+
+          <Card rounded="lg" className="bg-white">
+            <Text as="h2" className="text-xl font-semibold text-slate-950">Weaknesses</Text>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {weaknesses.map((weakness, index) => (
+                  <Link key={weakness.id} href={`/pokemon/type/${weakness.name}`} className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <Badge
+                  key={`${weakness.id}-${index}`}
+                  style={{ color: weakness.text_color, backgroundColor: weakness.background_color }}
+                >
+                  {weakness.name}
+                </Badge>
+                  </Link>
+              ))}
+            </div>
+          </Card>
+        </section>
+
+        <section className="flex flex-wrap gap-2">
           <Card rounded="lg" className="bg-white">
             <Text as="h2" className="text-xl font-semibold text-slate-950">Moves</Text>
             <div className="mt-4 flex max-h-40 flex-wrap gap-2 overflow-auto pr-1">
@@ -176,14 +221,6 @@ export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
               {data.moves.length === 0 ? (
                 <Badge tone="neutral" variant="soft">moves pending</Badge>
               ) : null}
-            </div>
-          </Card>
-
-          <Card rounded="lg" className="bg-white">
-            <Text as="h2" className="text-xl font-semibold text-slate-950">Effectiveness</Text>
-            <div className="mt-4 space-y-3">
-              <Text className="text-sm text-slate-600">Weaknesses: {weaknesses.join(', ') || 'none'}</Text>
-              <Text className="text-sm text-slate-600">Strengths: {strengths.join(', ') || 'none'}</Text>
             </div>
           </Card>
         </section>
