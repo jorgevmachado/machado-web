@@ -157,6 +157,104 @@
   overflow: hidden;
 }
 
+.app-sidebar__group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.app-sidebar__link-row {
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.app-sidebar__link--with-toggle {
+  flex: 1;
+  min-width: 0;
+}
+
+.app-sidebar__group-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(226, 232, 240, 0.86);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.app-sidebar__group-toggle:hover {
+  background: rgba(37, 99, 235, 0.18);
+  border-color: rgba(96, 165, 250, 0.25);
+  color: #f8fafc;
+}
+
+.app-sidebar__group-toggle:focus-visible {
+  outline: 2px solid rgba(250, 204, 21, 0.85);
+  outline-offset: 1px;
+}
+
+.app-sidebar__group-toggle-icon {
+  transition: transform 0.18s ease;
+}
+
+.app-sidebar__group-toggle-icon--expanded {
+  transform: rotate(180deg);
+}
+
+.app-sidebar__children {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-left: 18px;
+  padding-left: 12px;
+  border-left: 1px solid rgba(148, 163, 184, 0.28);
+}
+
+.app-sidebar__child-link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 34px;
+  padding: 7px 10px;
+  border-radius: 10px;
+  color: rgba(226, 232, 240, 0.76);
+  text-decoration: none;
+  font-size: 0.84rem;
+  font-weight: 600;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.app-sidebar__child-link:hover {
+  background: rgba(37, 99, 235, 0.14);
+  color: #f8fafc;
+}
+
+.app-sidebar__child-link:focus-visible {
+  outline: 2px solid rgba(250, 204, 21, 0.85);
+  outline-offset: 1px;
+}
+
+.app-sidebar__child-link--active {
+  background: rgba(96, 165, 250, 0.2);
+  color: #ffffff;
+}
+
+.app-sidebar__child-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.app-sidebar__child-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .app-sidebar__link:hover {
   transform: translateX(1px);
   background: rgba(37, 99, 235, 0.18);

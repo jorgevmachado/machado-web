@@ -164,11 +164,11 @@ export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
             <Text as="h2" className="text-xl font-semibold text-slate-950">Abilities</Text>
             <div className="mt-4 flex flex-wrap gap-2">
               {data.abilities.map((ability) => (
-                  <Link key={ability.id} href={`/pokemon/ability/${ability.name}`} className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <Badge key={ability.id} tone="info" variant="soft">
-                  {ability.name}
-                </Badge>
-                  </Link>
+                <Link key={ability.id} href={`/pokemon/ability/${ability.name}`} className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <Badge tone="info" variant="soft">
+                    {ability.name}
+                  </Badge>
+                </Link>
               ))}
               {data.abilities.length === 0 ? (
                 <Badge tone="neutral" variant="soft">abilities pending</Badge>
@@ -180,14 +180,17 @@ export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
             <Text as="h2" className="text-xl font-semibold text-slate-950">Strengths</Text>
             <div className="mt-4 flex flex-wrap gap-2">
               {strengths.map((strength, index) => (
-                  <Link key={strength.id} href={`/pokemon/type/${strength.name}`} className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <Badge
-                  key={`${strength.id}-${index}`}
-                  style={{ color: strength.text_color, backgroundColor: strength.background_color }}
-                >
-                  {strength.name}
-                </Badge>
-                  </Link>
+                <Link key={strength.id} href={`/pokemon/type/${strength.name}`} className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <Badge
+                    key={`${strength.id}-${index}`}
+                    style={{
+                      color: strength.text_color || undefined,
+                      backgroundColor: strength.background_color || undefined,
+                    }}
+                  >
+                    {strength.name}
+                  </Badge>
+                </Link>
               ))}
             </div>
           </Card>
@@ -196,14 +199,17 @@ export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
             <Text as="h2" className="text-xl font-semibold text-slate-950">Weaknesses</Text>
             <div className="mt-4 flex flex-wrap gap-2">
               {weaknesses.map((weakness, index) => (
-                  <Link key={weakness.id} href={`/pokemon/type/${weakness.name}`} className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <Badge
-                  key={`${weakness.id}-${index}`}
-                  style={{ color: weakness.text_color, backgroundColor: weakness.background_color }}
-                >
-                  {weakness.name}
-                </Badge>
-                  </Link>
+                <Link key={weakness.id} href={`/pokemon/type/${weakness.name}`} className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <Badge
+                    key={`${weakness.id}-${index}`}
+                    style={{
+                      color: weakness.text_color || undefined,
+                      backgroundColor: weakness.background_color || undefined,
+                    }}
+                  >
+                    {weakness.name}
+                  </Badge>
+                </Link>
               ))}
             </div>
           </Card>
@@ -214,9 +220,11 @@ export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
             <Text as="h2" className="text-xl font-semibold text-slate-950">Moves</Text>
             <div className="mt-4 flex max-h-40 flex-wrap gap-2 overflow-auto pr-1">
               {data.moves.slice(0, 24).map((move) => (
-                <Badge key={move.id} tone="neutral" variant="soft">
-                  {move.name}
-                </Badge>
+                <Link key={move.id} href={`/pokemon/move/${move.name}`} className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <Badge tone="neutral" variant="soft">
+                    {move.name}
+                  </Badge>
+                </Link>
               ))}
               {data.moves.length === 0 ? (
                 <Badge tone="neutral" variant="soft">moves pending</Badge>

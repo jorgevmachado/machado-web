@@ -1,3 +1,5 @@
+import type { TPaginatedListResponse } from '@/app/ds';
+
 export type TPokemonMove = {
   id: string;
   pp: number;
@@ -16,3 +18,14 @@ export type TPokemonMove = {
   updated_at?: string | null;
   deleted_at?: string | null;
 };
+
+export type PokemonMoveFilters = {
+  name?: string;
+  order?: string;
+};
+
+export type PokemonMoveListItem = TPokemonMove;
+
+export type PokemonMoveDetail = TPokemonMove;
+
+export type PokemonMoveListResponse = TPaginatedListResponse<PokemonMoveListItem>;

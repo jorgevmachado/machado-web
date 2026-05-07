@@ -1,0 +1,1 @@
+export { AssociationCard } from './AssociationCard';

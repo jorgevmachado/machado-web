@@ -59,8 +59,8 @@ describe('PokemonDetailView', () => {
 
     expect(screen.getByRole('heading', { name: 'bulbasaur' })).toBeInTheDocument();
     expect(screen.getByText('Seed Pokemon')).toBeInTheDocument();
-    expect(screen.getByText('overgrow')).toBeInTheDocument();
-    expect(screen.getByText('tackle')).toBeInTheDocument();
-    expect(screen.getByText('Weaknesses: fire')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'overgrow' })).toHaveAttribute('href', '/pokemon/ability/overgrow');
+    expect(screen.getByRole('link', { name: 'tackle' })).toHaveAttribute('href', '/pokemon/move/tackle');
+    expect(screen.getByRole('link', { name: 'fire' })).toHaveAttribute('href', '/pokemon/type/fire');
   });
 });

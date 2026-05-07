@@ -1,0 +1,79 @@
+import { render, screen } from '@testing-library/react';
+
+import { PokemonTypeListView } from './PokemonTypeListView';
+
+const showAlertMock = jest.fn();
+const usePokemonTypeListMock = jest.fn();
+
+jest.mock('./usePokemonTypeList', () => ({
+  usePokemonTypeList: () => usePokemonTypeListMock(),
+}));
+
+jest.mock('@/app/ds', () => {
+  const React = jest.requireActual('react');
+  const Text = ({ as = 'p', children, ...props }: { as?: string; children: React.ReactNode }) => React.createElement(as, props, children);
+
+  return {
+    Badge: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
+    Card: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+    Filters: () => <div aria-label="filters" />,
+    Image: ({ alt }: { alt: string }) => <span aria-label={alt} />,
+    Pagination: () => <nav aria-label="pagination" />,
+    Text,
+    useAlert: () => ({ showAlert: showAlertMock }),
+  };
+});
+
+const defaultHookValue = {
+  items: [{
+    id: 'type-1',
+    name: 'fire',
+    order: 10,
+    url: 'https://example.com/fire',
+    text_color: '#fff',
+    background_color: '#f00',
+    badge_url: 'https://example.com/fire.png',
+    strengths: [],
+    weaknesses: [],
+    created_at: '2026-01-01',
+  }],
+  meta: { total: 1, current_page: 1, total_pages: 1 },
+  isLoading: false,
+  errorMessage: undefined,
+  inputFilters: [],
+  goToPage: jest.fn(),
+  applyInputFilters: jest.fn(),
+  clearInputFilters: jest.fn(),
+};
+
+describe('PokemonTypeListView', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    usePokemonTypeListMock.mockReturnValue(defaultHookValue);
+  });
+
+  it('renders type cards with badge image', () => {
+    render(<PokemonTypeListView />);
+
+    expect(screen.getByRole('heading', { name: 'Pokemon Types' })).toBeInTheDocument();
+    expect(screen.getByLabelText('fire badge')).toBeInTheDocument();
+    expect(screen.getByText('1 records')).toBeInTheDocument();
+  });
+
+  it('renders existing empty pattern for no results', () => {
+    usePokemonTypeListMock.mockReturnValue({ ...defaultHookValue, items: [], meta: { total: 0, current_page: 1, total_pages: 0 } });
+
+    render(<PokemonTypeListView />);
+
+    expect(screen.getByText('No Pokemon types found.')).toBeInTheDocument();
+  });
+
+  it('shows alert for errors only', () => {
+    usePokemonTypeListMock.mockReturnValue({ ...defaultHookValue, errorMessage: 'Could not load Pokemon types.' });
+
+    render(<PokemonTypeListView />);
+
+    expect(showAlertMock).toHaveBeenCalledWith({ type: 'error', message: 'Could not load Pokemon types.' });
+    expect(screen.queryByRole('button', { name: /retry/i })).not.toBeInTheDocument();
+  });
+});

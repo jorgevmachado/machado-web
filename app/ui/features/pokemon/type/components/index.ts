@@ -1,0 +1,1 @@
+export { default as PokemonTypeVisual } from './pokemon-type-visual';

@@ -8,6 +8,10 @@ import type { BreadcrumbItem } from './types';
  */
 export const ROUTE_SEGMENT_LABELS: Record<string, string> = {
   home: 'Home',
+  pokemon: 'Pokemon',
+  type: 'Types',
+  ability: 'Abilities',
+  move: 'Moves',
   pokedex: 'Pokédex',
   'register-user': 'Register User',
 };
@@ -65,4 +69,3 @@ export const buildBreadcrumbs = (pathname: string): BreadcrumbItem[] => {
 
   return items;
 };
-

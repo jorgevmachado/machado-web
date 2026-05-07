@@ -1,0 +1,95 @@
+'use client';
+
+import Link from 'next/link';
+import { MdAutoAwesome } from 'react-icons/md';
+
+import { Badge, Card, Text } from '@/app/ds';
+
+import { usePokemonAbilityDetail } from './usePokemonAbilityDetail';
+
+type PokemonAbilityDetailViewProps = {
+  identifier: string;
+};
+
+const formatOrder = (order: number): string => `#${String(order).padStart(3, '0')}`;
+
+export function PokemonAbilityDetailView({ identifier }: PokemonAbilityDetailViewProps) {
+  const { data, isLoading, errorMessage } = usePokemonAbilityDetail(identifier);
+
+  if (isLoading && !data) {
+    return (
+      <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+        <Card rounded="lg" className="mx-auto max-w-5xl text-center">
+          <Text className="text-slate-600">Loading Pokemon ability...</Text>
+        </Card>
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
+        <Card rounded="lg" className="mx-auto max-w-5xl text-center">
+          <Text className="text-slate-600">{errorMessage || 'Pokemon ability not found.'}</Text>
+        </Card>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-50 px-4 py-6 text-slate-950 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-5xl flex-col gap-6">
+        <Link href="/pokemon/ability" className="text-sm font-semibold text-blue-700">
+          Back to Abilities
+        </Link>
+
+        <Card rounded="lg" className="bg-white">
+          <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
+            <div className="flex gap-4">
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-blue-50 text-blue-700">
+                <MdAutoAwesome size={32} />
+              </div>
+              <div>
+                <Text as="h1" className="text-3xl font-bold capitalize text-slate-950 sm:text-5xl">
+                  {data.name}
+                </Text>
+                <Text className="mt-2 text-sm font-semibold text-slate-500">
+                  {formatOrder(data.order)}
+                </Text>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Badge tone={data.is_hidden ? 'warning' : 'info'} variant="soft" size="lg">
+                {data.is_hidden ? 'Hidden' : 'Standard'}
+              </Badge>
+              <Badge tone="neutral" variant="soft" size="lg">
+                Slot {data.slot}
+              </Badge>
+            </div>
+          </div>
+        </Card>
+
+        <section className="grid gap-6 lg:grid-cols-[1fr_320px]">
+          <div className="flex flex-col gap-6">
+            <Card rounded="lg" className="bg-white">
+              <Text as="h2" className="text-xl font-semibold text-slate-950">Short Effect</Text>
+              <Text className="mt-3 text-slate-700">{data.short_effect || 'Short effect pending.'}</Text>
+            </Card>
+
+            <Card rounded="lg" className="bg-white">
+              <Text as="h2" className="text-xl font-semibold text-slate-950">Effect</Text>
+              <Text className="mt-3 whitespace-pre-line text-slate-700">{data.effect || 'Effect pending.'}</Text>
+            </Card>
+          </div>
+
+          <Card rounded="lg" className="bg-white">
+            <Text as="h2" className="text-xl font-semibold text-slate-950">Flavor Text</Text>
+            <Text className="mt-3 text-sm italic text-slate-600">
+              {data.flavor_text || 'Flavor text pending.'}
+            </Text>
+          </Card>
+        </section>
+      </div>
+    </div>
+  );
+}

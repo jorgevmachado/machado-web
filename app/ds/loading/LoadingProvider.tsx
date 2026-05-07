@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { LoadingContext } from './LoadingContext';
 import RouteChangeTracker from './RouteChangeTracker';
@@ -30,6 +30,7 @@ const LoadingProvider = ({ children }: LoadingProviderProps) => {
   // Timers to enforce minimum display duration (300ms)
   const pageLoadingTimerRef = useRef<NodeJS.Timeout | null>(null);
   const contentLoadingTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isMountedRef = useRef(true);
 
   const MIN_LOADING_DURATION_MS = 300;
 
@@ -39,12 +40,18 @@ const LoadingProvider = ({ children }: LoadingProviderProps) => {
       clearTimeout(pageLoadingTimerRef.current);
       pageLoadingTimerRef.current = null;
     }
+    if (!isMountedRef.current) {
+      return;
+    }
     setIsPageLoading(true);
   }, []);
 
   const stopPageLoading = useCallback(() => {
     // Ensure minimum display duration
     pageLoadingTimerRef.current = setTimeout(() => {
+      if (!isMountedRef.current) {
+        return;
+      }
       setIsPageLoading(false);
       pageLoadingTimerRef.current = null;
     }, MIN_LOADING_DURATION_MS);
@@ -56,15 +63,37 @@ const LoadingProvider = ({ children }: LoadingProviderProps) => {
       clearTimeout(contentLoadingTimerRef.current);
       contentLoadingTimerRef.current = null;
     }
+    if (!isMountedRef.current) {
+      return;
+    }
     setIsContentLoading(true);
   }, []);
 
   const stopContentLoading = useCallback(() => {
     // Ensure minimum display duration
     contentLoadingTimerRef.current = setTimeout(() => {
+      if (!isMountedRef.current) {
+        return;
+      }
       setIsContentLoading(false);
       contentLoadingTimerRef.current = null;
     }, MIN_LOADING_DURATION_MS);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+
+      if (pageLoadingTimerRef.current) {
+        clearTimeout(pageLoadingTimerRef.current);
+        pageLoadingTimerRef.current = null;
+      }
+
+      if (contentLoadingTimerRef.current) {
+        clearTimeout(contentLoadingTimerRef.current);
+        contentLoadingTimerRef.current = null;
+      }
+    };
   }, []);
 
   return (
@@ -87,4 +116,3 @@ const LoadingProvider = ({ children }: LoadingProviderProps) => {
 };
 
 export default LoadingProvider;
-
