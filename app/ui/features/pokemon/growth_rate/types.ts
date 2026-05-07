@@ -1,3 +1,5 @@
+import type {TPaginatedListResponse} from "@/app/ds";
+
 export type TPokemonGrowthRate = {
   id: string;
   url: string;
@@ -9,3 +11,10 @@ export type TPokemonGrowthRate = {
   updated_at?: string | null;
   deleted_at?: string | null;
 };
+
+export type PokemonGrowthRateFilters = {
+  name?: string;
+  order?: string;
+};
+
+export type PokemonGrowthRateListResponse = TPaginatedListResponse<TPokemonGrowthRate>;

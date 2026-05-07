@@ -1,11 +1,11 @@
 import { render, screen } from '@testing-library/react';
 
-import { PokemonMoveListView } from './PokemonMoveListView';
+import { PokemonGrowthRateListView } from './PokemonGrowthRateListView';
 
 const showAlertMock = jest.fn();
 const usePokemonMoveListMock = jest.fn();
 
-jest.mock('./usePokemonMoveList', () => ({
+jest.mock('./usePokemonGrowthRateList', () => ({
   usePokemonMoveList: () => usePokemonMoveListMock(),
 }));
 
@@ -55,7 +55,7 @@ describe('PokemonGrowthRateListView', () => {
   });
 
   it('renders move cards prioritizing effects', () => {
-    render(<PokemonMoveListView />);
+    render(<PokemonGrowthRateListView />);
 
     expect(screen.getByRole('heading', { name: 'Pokemon Moves' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'tackle' })).toBeInTheDocument();
@@ -65,7 +65,7 @@ describe('PokemonGrowthRateListView', () => {
   it('renders empty and alert-only error states', () => {
     usePokemonMoveListMock.mockReturnValue({ ...defaultHookValue, items: [], errorMessage: 'Could not load Pokemon moves.' });
 
-    render(<PokemonMoveListView />);
+    render(<PokemonGrowthRateListView />);
 
     expect(screen.getByText('No Pokemon moves found.')).toBeInTheDocument();
     expect(showAlertMock).toHaveBeenCalledWith({ type: 'error', message: 'Could not load Pokemon moves.' });

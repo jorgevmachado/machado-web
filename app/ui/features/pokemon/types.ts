@@ -10,15 +10,11 @@ import type { TPokemonType } from '@/app/ui/features/pokemon/type';
 
 export type PokemonStatus = 'COMPLETE' | 'INCOMPLETE';
 
-export type TPokemon = {
+export type TPokemonEvolution = {
   id: string;
   hp: number;
   name: string;
   order: number;
-  types: Array<TPokemonType>;
-  moves: Array<TPokemonMove>;
-  images?: TPokemonImage | null;
-  shape?: TPokemonShape | null;
   speed: number;
   height: number;
   weight: number;
@@ -26,10 +22,6 @@ export type TPokemon = {
   attack: number;
   defense: number;
   is_baby: boolean;
-  habitat?: TPokemonHabitat | null;
-  abilities: Array<TPokemonAbility>;
-  encounters: Array<TPokemonEncounter>;
-  growth_rate?: TPokemonGrowthRate | null;
   gender_rate: number;
   is_mythical: boolean;
   description?: string | null;
@@ -47,6 +39,18 @@ export type TPokemon = {
   created_at: string;
   updated_at?: string | null;
   deleted_at?: string | null;
+}
+
+export type TPokemon = TPokemonEvolution & {
+  types: Array<TPokemonType>;
+  moves: Array<TPokemonMove>;
+  shape?: TPokemonShape | null;
+  images?: TPokemonImage | null;
+  habitat?: TPokemonHabitat | null;
+  abilities: Array<TPokemonAbility>;
+  evolutions: Array<TPokemonEvolution>;
+  encounters: Array<TPokemonEncounter>;
+  growth_rate?: TPokemonGrowthRate | null;
 };
 
 export type NamedResource = {
@@ -101,4 +105,4 @@ export type PokemonListFilters = {
   type?: string;
 };
 
-export type PokemonListResponse = TPaginatedListResponse<PokemonListItem>;
+export type PokemonListResponse = TPaginatedListResponse<TPokemon>;

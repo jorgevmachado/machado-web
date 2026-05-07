@@ -19,7 +19,7 @@ jest.mock('@/app/ds', () => {
   };
 });
 
-describe('PokemonMoveDetailView', () => {
+describe('PokemonGrowthRateDetailView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     usePokemonMoveDetailMock.mockReturnValue({

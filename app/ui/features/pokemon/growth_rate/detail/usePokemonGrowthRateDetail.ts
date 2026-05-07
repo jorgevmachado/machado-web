@@ -4,16 +4,16 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useAlert, useLoading } from '@/app/ds';
 
-import type { TPokemon } from '../types';
+import type { TPokemonGrowthRate } from '../types';
 
-type PokemonDetailState = {
-  data?: TPokemon;
+type PokemonGrowthRateDetailState = {
+  data?: TPokemonGrowthRate;
   isLoading: boolean;
   errorMessage?: string;
 };
 
-export function usePokemonDetail(identifier: string) {
-  const [state, setState] = useState<PokemonDetailState>({
+export function usePokemonGrowthRateDetail(identifier: string) {
+  const [state, setState] = useState<PokemonGrowthRateDetailState>({
     data: undefined,
     isLoading: true,
     errorMessage: undefined,
@@ -22,22 +22,15 @@ export function usePokemonDetail(identifier: string) {
   const { showAlert } = useAlert();
 
   const load = useCallback(async () => {
-    setState((previousState) => ({
-      ...previousState,
-      isLoading: true,
-      errorMessage: undefined,
-    }));
+    setState((previousState) => ({ ...previousState, isLoading: true, errorMessage: undefined }));
     startContentLoading();
 
     try {
-      const response = await fetch(`/api/pokemon/${identifier}`, {
-        method: 'GET',
-        cache: 'no-store',
-      });
-      const json = await response.json() as TPokemon | { message?: string; error?: string };
+      const response = await fetch(`/api/pokemon/growth-rate/${identifier}`, { method: 'GET', cache: 'no-store' });
+      const json = await response.json() as TPokemonGrowthRate | { message?: string };
 
       if (!response.ok || !('id' in json)) {
-        const message = 'message' in json && json.message ? json.message : 'Could not load Pokemon detail.';
+        const message = 'message' in json && json.message ? json.message : 'Could not load Pokemon growth rate detail.';
         setState({ data: undefined, isLoading: false, errorMessage: message });
         showAlert({ type: 'error', message });
         return;
@@ -45,7 +38,7 @@ export function usePokemonDetail(identifier: string) {
 
       setState({ data: json, isLoading: false, errorMessage: undefined });
     } catch (error) {
-      const message = error instanceof Error && error.message ? error.message : 'Could not load Pokemon detail.';
+      const message = error instanceof Error && error.message ? error.message : 'Could not load Pokemon growth rate detail.';
       setState({ data: undefined, isLoading: false, errorMessage: message });
       showAlert({ type: 'error', message });
     } finally {
@@ -63,8 +56,5 @@ export function usePokemonDetail(identifier: string) {
     };
   }, [load]);
 
-  return {
-    ...state,
-    reload: load,
-  };
+  return { ...state, reload: load };
 }

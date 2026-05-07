@@ -1,6 +1,6 @@
 import { BaseServiceAbstract } from '@/app/shared/services/service/service';
 
-import type { PokemonDetail, PokemonListFilters, PokemonListResponse } from '../types';
+import type { TPokemon, PokemonListFilters, PokemonListResponse } from '../types';
 
 export class PokemonService extends BaseServiceAbstract {
   constructor(baseUrl: string, token?: string) {
@@ -11,7 +11,7 @@ export class PokemonService extends BaseServiceAbstract {
     return await this.get<PokemonListResponse>(this.pathUrl, { params });
   }
 
-  public async detail(identifier: string): Promise<PokemonDetail> {
-    return await this.get<PokemonDetail>(`${this.pathUrl}/${identifier}`);
+  public async detail(identifier: string): Promise<TPokemon> {
+    return await this.get<TPokemon>(`${this.pathUrl}/${identifier}`);
   }
 }

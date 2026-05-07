@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import type { FiltersProps } from '@/app/ds';
 import usePaginatedList from '@/app/ui/hooks/list/usePaginatedList';
 
-import type { PokemonListFilters, PokemonListItem } from '../types';
+import type { PokemonListFilters, TPokemon } from '../types';
 
 const INITIAL_FILTERS: PokemonListFilters = {
   name: undefined,
@@ -29,7 +29,7 @@ export function usePokemonList() {
     { name: 'status', label: 'Status', type: 'text', value: '', placeholder: 'COMPLETE' },
   ], []);
 
-  return usePaginatedList<PokemonListItem, PokemonListFilters>({
+  return usePaginatedList<TPokemon, PokemonListFilters>({
     endpoint: '/api/pokemon',
     initialFilters: INITIAL_FILTERS,
     initialInputFilters,

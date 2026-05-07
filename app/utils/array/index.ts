@@ -1,1 +1,1 @@
-export { shuffle } from './array';
+export { shuffle, uniqueById } from './array';
