@@ -1,7 +1,7 @@
-import {GiCrossedSwords, GiPunchBlast} from 'react-icons/gi';
-import {MdAutoAwesome, MdCatchingPokemon, MdCategory, MdHome, MdInventory2} from 'react-icons/md';
+import { GiCrossedSwords, GiPunchBlast } from 'react-icons/gi';
+import { MdAutoAwesome, MdCatchingPokemon, MdCategory, MdHome, MdInventory2 } from 'react-icons/md';
 
-import type {MenuItem} from './types';
+import type { MenuItem } from './types';
 
 export const AUTHENTICATED_MENU_ITEMS: MenuItem[] = [
   {

@@ -10,13 +10,13 @@ export type AutocompleteOption = {
   icon?: ReactNode;
 };
 
-export type AutocompleteProps = Omit<
+export type AutocompleteProps = Readonly<Omit<
   InputProps,
   'role' | 'value' | 'onChange' | 'onValueChange' | 'children'
 > & {
   name: string;
   value: string;
-  options: Array<AutocompleteOption>;
+  options: ReadonlyArray<AutocompleteOption>;
   onValueChange?: (value: string) => void;
   onSelectOption?: (option: AutocompleteOption) => void;
   loadingPlaceholder?: string;
@@ -26,5 +26,4 @@ export type AutocompleteProps = Omit<
   onInputKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
   listboxClassName?: string;
   optionClassName?: string;
-};
-
+}>;

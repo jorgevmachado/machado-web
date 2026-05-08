@@ -11,18 +11,19 @@ export function getBaseUrl(): string {
     ?? DEFAULT_POKEDEX_SERVICE_BASE_URL;
 }
 
-export function formatUrl(url: string, path: string, params = {}): string {
+export function formatUrl(url: string, path: string, params?: Record<string, unknown>): string {
   const query = serialize_url(params);
   const filteredUrl = [url, path].filter((i) => i).join('/');
 
   return `${filteredUrl}${query ? `?${query}` : ''}`;
 }
 
-export function serialize_url(value: Record<string, unknown>): string | undefined {
-  if (Object.keys(value).some((key) => key)) {
-    return new URLSearchParams(value as Record<string, string>).toString();
+export function serialize_url(value?: Record<string, unknown>): string | undefined {
+  if (!value || Object.keys(value).length === 0) {
+    return;
   }
-  return;
+
+  return new URLSearchParams(value as Record<string, string>).toString();
 }
 
 export function convertSubPathUrl({ by, pathUrl, isParam, subPathUrl, conectorPath }: TConvertSubPathUrlParams): string {

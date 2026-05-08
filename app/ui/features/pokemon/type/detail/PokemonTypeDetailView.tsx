@@ -11,7 +11,9 @@ type PokemonTypeDetailViewProps = {
     identifier: string;
 };
 
-const formatOrder = (order: number): string => `#${String(order).padStart(3, '0')}`;
+const formatOrder = (order: number | null | undefined): string => (
+  order === null || order === undefined ? '#---' : `#${String(order).padStart(3, '0')}`
+);
 
 export function PokemonTypeDetailView({ identifier }: PokemonTypeDetailViewProps) {
   const { data, isLoading, errorMessage } = usePokemonTypeDetail(identifier);

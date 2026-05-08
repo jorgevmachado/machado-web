@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { PokemonMoveListView } from './PokemonMoveListView';
 
@@ -16,7 +16,12 @@ jest.mock('@/app/ds', () => {
   return {
     Badge: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
     Card: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-    Filters: () => <div aria-label="filters" />,
+    Filters: ({ onApply, onClear }: { onApply: (filters: unknown) => void; onClear: () => void }) => (
+      <div aria-label="filters">
+        <button type="button" onClick={() => onApply({ name: 'tackle' })}>Apply filters</button>
+        <button type="button" onClick={onClear}>Clear filters</button>
+      </div>
+    ),
     Pagination: () => <nav aria-label="pagination" />,
     Text,
     useAlert: () => ({ showAlert: showAlertMock }),
@@ -48,7 +53,7 @@ const defaultHookValue = {
   clearInputFilters: jest.fn(),
 };
 
-describe('PokemonGrowthRateListView', () => {
+describe('PokemonMoveListView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     usePokemonMoveListMock.mockReturnValue(defaultHookValue);
@@ -60,6 +65,39 @@ describe('PokemonGrowthRateListView', () => {
     expect(screen.getByRole('heading', { name: 'Pokemon Moves' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'tackle' })).toBeInTheDocument();
     expect(screen.getByText('Inflicts regular damage.')).toBeInTheDocument();
+  });
+
+  it('renders null combat values and effect fallback without empty state while loading', () => {
+    usePokemonMoveListMock.mockReturnValue({
+      ...defaultHookValue,
+      isLoading: true,
+      items: [{
+        ...defaultHookValue.items[0],
+        short_effect: '',
+        effect: '',
+        power: null,
+        accuracy: null,
+        pp: null,
+      }],
+    });
+
+    render(<PokemonMoveListView />);
+
+    expect(screen.getByText('Effect pending.')).toBeInTheDocument();
+    expect(screen.getByText('Power -')).toBeInTheDocument();
+    expect(screen.getByText('Acc -')).toBeInTheDocument();
+    expect(screen.getByText('PP -')).toBeInTheDocument();
+    expect(screen.queryByText('No Pokemon moves found.')).not.toBeInTheDocument();
+  });
+
+  it('forwards filter actions to the list hook', () => {
+    render(<PokemonMoveListView />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
+
+    expect(defaultHookValue.applyInputFilters).toHaveBeenCalledWith({ name: 'tackle' });
+    expect(defaultHookValue.clearInputFilters).toHaveBeenCalledTimes(1);
   });
 
   it('renders empty and alert-only error states', () => {

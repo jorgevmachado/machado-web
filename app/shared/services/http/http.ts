@@ -1,16 +1,16 @@
 import { formatUrl } from '@/app/utils';
 
 export type RequestConfig<B = unknown> = {
- body?: B;
- params?: Record<string, unknown>;
- override?: Omit<RequestInit, 'body' | 'method'>;
-}
+  body?: B;
+  params?: Record<string, unknown>;
+  override?: Omit<RequestInit, 'body' | 'method'>;
+};
 
 export type ResponseError = {
- error: string;
- message: string;
- statusCode: number;
-}
+  error: string;
+  message: string;
+  statusCode: number;
+};
 
 export abstract class Http {
   private readonly _url: string;
@@ -31,9 +31,9 @@ export abstract class Http {
 
   get<T>(
     path: string,
-    config: Omit<RequestConfig, 'body'> = { params: {}, override: {} },
+    config?: Omit<RequestConfig, 'body'>,
   ): Promise<T> {
-    const { params, override } = config;
+    const { params = {}, override = {} } = config ?? {};
 
     const url = formatUrl(this.url, path, params);
 
@@ -42,9 +42,9 @@ export abstract class Http {
 
   path<B, T = unknown>(
     path: string,
-    config: RequestConfig<B> = { params: {}, override: {}, body: {} as B },
+    config?: RequestConfig<B>,
   ): Promise<T> {
-    const { body, params, override } = config;
+    const { body, params = {}, override = {} } = config ?? {};
 
     const url = formatUrl(this.url, path, params);
 
@@ -59,9 +59,9 @@ export abstract class Http {
 
   post<B, T = unknown>(
     path: string,
-    config: RequestConfig<B> = { params: {}, override: {}, body: {} as B },
+    config?: RequestConfig<B>,
   ): Promise<T> {
-    const { body, params, override } = config;
+    const { body, params = {}, override = {} } = config ?? {};
 
     const url = formatUrl(this.url, path, params);
 
@@ -76,9 +76,9 @@ export abstract class Http {
 
   remove<T>(
     path: string,
-    config: Omit<RequestConfig, 'body'> = { params: {}, override: {} },
+    config?: Omit<RequestConfig, 'body'>,
   ): Promise<T> {
-    const { params, override } = config;
+    const { params = {}, override = {} } = config ?? {};
 
     const url = formatUrl(this.url, path, params);
 

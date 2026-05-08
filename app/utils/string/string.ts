@@ -19,16 +19,16 @@ export const displayDate = (value: string) => {
 };
 
 export const formatLabel = (value: string): string => {
-    return value
-        .split('-')
-        .map((chunk) => chunk.charAt(0).toUpperCase() + chunk.slice(1))
-        .join(' ');
+  return value
+    .split('-')
+    .map((chunk) => chunk.charAt(0).toUpperCase() + chunk.slice(1))
+    .join(' ');
 };
 
 export const formatNumber = (value?: number | null): string => {
-    if (typeof value !== 'number') {
-        return 'Unknown';
-    }
+  if (typeof value !== 'number') {
+    return 'Unknown';
+  }
 
-    return value.toString();
+  return value.toString();
 };

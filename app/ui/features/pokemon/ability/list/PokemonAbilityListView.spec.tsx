@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { PokemonAbilityListView } from './PokemonAbilityListView';
 
@@ -16,7 +16,12 @@ jest.mock('@/app/ds', () => {
   return {
     Badge: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
     Card: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-    Filters: () => <div aria-label="filters" />,
+    Filters: ({ onApply, onClear }: { onApply: (filters: unknown) => void; onClear: () => void }) => (
+      <div aria-label="filters">
+        <button type="button" onClick={() => onApply({ name: 'overgrow' })}>Apply filters</button>
+        <button type="button" onClick={onClear}>Clear filters</button>
+      </div>
+    ),
     Pagination: () => <nav aria-label="pagination" />,
     Text,
     useAlert: () => ({ showAlert: showAlertMock }),
@@ -57,6 +62,36 @@ describe('PokemonAbilityListView', () => {
     expect(screen.getByRole('heading', { name: 'Pokemon Abilities' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'overgrow' })).toBeInTheDocument();
     expect(screen.getByText('Boosts Grass moves in a pinch.')).toBeInTheDocument();
+  });
+
+  it('renders hidden ability fallback copy without the empty state while loading', () => {
+    usePokemonAbilityListMock.mockReturnValue({
+      ...defaultHookValue,
+      isLoading: true,
+      items: [{
+        ...defaultHookValue.items[0],
+        short_effect: '',
+        effect: '',
+        flavor_text: '',
+        is_hidden: true,
+      }],
+    });
+
+    render(<PokemonAbilityListView />);
+
+    expect(screen.getByText('Effect pending.')).toBeInTheDocument();
+    expect(screen.getByText('Hidden')).toBeInTheDocument();
+    expect(screen.queryByText('No Pokemon abilities found.')).not.toBeInTheDocument();
+  });
+
+  it('forwards filter actions to the list hook', () => {
+    render(<PokemonAbilityListView />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
+
+    expect(defaultHookValue.applyInputFilters).toHaveBeenCalledWith({ name: 'overgrow' });
+    expect(defaultHookValue.clearInputFilters).toHaveBeenCalledTimes(1);
   });
 
   it('renders empty and alert-only error states', () => {

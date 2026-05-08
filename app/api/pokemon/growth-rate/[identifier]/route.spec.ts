@@ -1,6 +1,8 @@
 import { GET } from './route';
+import { getServerSession } from '@/app/shared/lib/auth/server';
 
 const detailMock = jest.fn();
+const getServerSessionMock = getServerSession as jest.Mock;
 
 jest.mock('next/server', () => ({
   NextResponse: {
@@ -22,6 +24,7 @@ jest.mock('@/app/ui/features/pokemon/growth_rate', () => ({
 describe('GET /api/pokemon/growth_rate/[identifier]', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    getServerSessionMock.mockResolvedValue({ isAuthenticated: true, token: 'token' });
   });
 
   it('delegates identifier to the pokemon growth rate service', async () => {
@@ -33,5 +36,25 @@ describe('GET /api/pokemon/growth_rate/[identifier]', () => {
     expect(response.status).toBe(200);
     expect(json).toEqual({ id: '1', name: 'tackle' });
     expect(detailMock).toHaveBeenCalledWith('tackle');
+  });
+
+  it('returns unauthorized and error responses', async () => {
+    getServerSessionMock.mockResolvedValueOnce({ isAuthenticated: false });
+
+    const unauthorizedResponse = await GET({} as Request, { params: Promise.resolve({ identifier: 'medium' }) });
+    expect(unauthorizedResponse.status).toBe(401);
+    await expect(unauthorizedResponse.json()).resolves.toEqual({ message: 'Unauthorized' });
+
+    detailMock.mockRejectedValueOnce(new Error('Growth rate missing'));
+
+    const errorResponse = await GET({} as Request, { params: Promise.resolve({ identifier: 'missing' }) });
+    expect(errorResponse.status).toBe(500);
+    await expect(errorResponse.json()).resolves.toEqual({ message: 'Growth rate missing' });
+
+    detailMock.mockRejectedValueOnce(undefined);
+
+    const fallbackResponse = await GET({} as Request, { params: Promise.resolve({ identifier: 'missing' }) });
+    expect(fallbackResponse.status).toBe(500);
+    await expect(fallbackResponse.json()).resolves.toEqual({ message: 'Could not load Pokemon Growth Rate detail.' });
   });
 });

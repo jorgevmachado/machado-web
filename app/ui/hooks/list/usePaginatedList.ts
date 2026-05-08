@@ -158,13 +158,13 @@ const usePaginatedList = <TItem, TFilters>({
   }, [fetchPage, startContentLoading]);
 
   useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
+    const timeoutId = globalThis.setTimeout(() => {
       startContentLoading();
       void fetchPage(1, initialFilters);
     }, 0);
 
     return () => {
-      window.clearTimeout(timeoutId);
+      globalThis.clearTimeout(timeoutId);
     };
   }, [fetchPage, initialFilters, startContentLoading]);
 

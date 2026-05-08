@@ -16,6 +16,14 @@ yarn dev
 yarn build
 yarn lint
 yarn test
+yarn test:coverage
+yarn test:visual
+```
+
+Playwright usa `E2E_PORT` quando definido; o padrão local é `3003`:
+
+```bash
+E2E_PORT=3010 yarn test:visual
 ```
 
 ## Patterns & Conventions

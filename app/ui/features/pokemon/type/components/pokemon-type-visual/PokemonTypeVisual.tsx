@@ -1,8 +1,14 @@
-import { TPokemonType } from '@/app/ui/features/pokemon/type';
 import { Image } from '@/app/ds';
 
+type PokemonTypeVisualData = {
+  badge_url?: string | null;
+  background_color?: string | null;
+  name: string;
+  text_color?: string | null;
+};
+
 type PokemonTypeVisualProps = {
-    type: TPokemonType;
+  type: PokemonTypeVisualData;
 }
 
 export default function PokemonTypeVisual({ type }: PokemonTypeVisualProps) {

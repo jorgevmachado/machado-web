@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { PokemonTypeListView } from './PokemonTypeListView';
 
@@ -16,7 +16,12 @@ jest.mock('@/app/ds', () => {
   return {
     Badge: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
     Card: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-    Filters: () => <div aria-label="filters" />,
+    Filters: ({ onApply, onClear }: { onApply: (filters: unknown) => void; onClear: () => void }) => (
+      <div aria-label="filters">
+        <button type="button" onClick={() => onApply({ name: 'fire' })}>Apply filters</button>
+        <button type="button" onClick={onClear}>Clear filters</button>
+      </div>
+    ),
     Image: ({ alt }: { alt: string }) => <span aria-label={alt} />,
     Pagination: () => <nav aria-label="pagination" />,
     Text,
@@ -66,6 +71,36 @@ describe('PokemonTypeListView', () => {
     render(<PokemonTypeListView />);
 
     expect(screen.getByText('No Pokemon types found.')).toBeInTheDocument();
+  });
+
+  it('renders fallback description and keeps empty state hidden while loading', () => {
+    usePokemonTypeListMock.mockReturnValue({
+      ...defaultHookValue,
+      isLoading: true,
+      items: [{
+        ...defaultHookValue.items[0],
+        badge_url: '',
+        background_color: '',
+        text_color: '',
+        description: undefined,
+      }],
+    });
+
+    render(<PokemonTypeListView />);
+
+    expect(screen.getByText('fire')).toBeInTheDocument();
+    expect(screen.getByText('Explore damage relations and visual identity for this type.')).toBeInTheDocument();
+    expect(screen.queryByText('No Pokemon types found.')).not.toBeInTheDocument();
+  });
+
+  it('forwards filter actions to the list hook', () => {
+    render(<PokemonTypeListView />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
+
+    expect(defaultHookValue.applyInputFilters).toHaveBeenCalledWith({ name: 'fire' });
+    expect(defaultHookValue.clearInputFilters).toHaveBeenCalledTimes(1);
   });
 
   it('shows alert for errors only', () => {

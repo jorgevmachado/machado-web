@@ -40,6 +40,7 @@ const LoadingProvider = ({ children }: LoadingProviderProps) => {
       clearTimeout(pageLoadingTimerRef.current);
       pageLoadingTimerRef.current = null;
     }
+    /* istanbul ignore next -- defensive guard for callbacks retained after unmount. */
     if (!isMountedRef.current) {
       return;
     }
@@ -49,6 +50,7 @@ const LoadingProvider = ({ children }: LoadingProviderProps) => {
   const stopPageLoading = useCallback(() => {
     // Ensure minimum display duration
     pageLoadingTimerRef.current = setTimeout(() => {
+      /* istanbul ignore next -- defensive guard for callbacks retained after unmount. */
       if (!isMountedRef.current) {
         return;
       }
@@ -63,6 +65,7 @@ const LoadingProvider = ({ children }: LoadingProviderProps) => {
       clearTimeout(contentLoadingTimerRef.current);
       contentLoadingTimerRef.current = null;
     }
+    /* istanbul ignore next -- defensive guard for callbacks retained after unmount. */
     if (!isMountedRef.current) {
       return;
     }
@@ -72,6 +75,7 @@ const LoadingProvider = ({ children }: LoadingProviderProps) => {
   const stopContentLoading = useCallback(() => {
     // Ensure minimum display duration
     contentLoadingTimerRef.current = setTimeout(() => {
+      /* istanbul ignore next -- defensive guard for callbacks retained after unmount. */
       if (!isMountedRef.current) {
         return;
       }

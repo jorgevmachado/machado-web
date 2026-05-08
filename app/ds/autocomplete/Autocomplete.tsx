@@ -33,12 +33,12 @@ const Autocomplete = ({
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
 
   useLayoutEffect(() => {
-    const timeoutId = window.setTimeout(() => {
+    const timeoutId = globalThis.setTimeout(() => {
       setInputValue(value);
     }, 0);
 
     return () => {
-      window.clearTimeout(timeoutId);
+      globalThis.clearTimeout(timeoutId);
     };
   }, [value]);
 
@@ -108,7 +108,7 @@ const Autocomplete = ({
           onFocus?.(event);
         }}
         onBlur={(event) => {
-          window.setTimeout(() => {
+          globalThis.setTimeout(() => {
             setIsOptionsOpen(false);
             setHighlightedIndex(-1);
           }, 120);
@@ -208,4 +208,3 @@ const Autocomplete = ({
 };
 
 export default React.memo(Autocomplete);
-

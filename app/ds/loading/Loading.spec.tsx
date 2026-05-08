@@ -243,6 +243,9 @@ describe('<LoadingProvider />', () => {
     // After starting again, progress bar should be visible
     const progressBar = document.querySelector('[role="progressbar"][aria-label="Page loading"]') as HTMLElement;
     expect(progressBar).toHaveAttribute('aria-busy', 'true');
+
+    act(() => jest.advanceTimersByTime(400));
+    expect(progressBar).toHaveAttribute('aria-busy', 'true');
   });
 
   it('startContentLoading shows spinner and stopContentLoading hides it', () => {
@@ -294,6 +297,41 @@ describe('<LoadingProvider />', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Start Content' }));
 
     expect(screen.getByRole('status', { name: 'loading' })).toBeInTheDocument();
+
+    act(() => jest.advanceTimersByTime(400));
+    expect(screen.getByRole('status', { name: 'loading' })).toBeInTheDocument();
+  });
+
+  it('clears pending page and content timers on unmount', () => {
+    const clearTimeoutSpy = jest.spyOn(global, 'clearTimeout');
+    const Consumer = () => {
+      const { startPageLoading, stopPageLoading, startContentLoading, stopContentLoading } = useLoading();
+      return (
+        <>
+          <button onClick={() => {
+            startPageLoading();
+            stopPageLoading();
+            startContentLoading();
+            stopContentLoading();
+          }}
+          >
+            Schedule stops
+          </button>
+        </>
+      );
+    };
+
+    const { unmount } = render(
+      <LoadingProvider>
+        <Consumer />
+      </LoadingProvider>,
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Schedule stops' }));
+    unmount();
+
+    expect(clearTimeoutSpy).toHaveBeenCalledTimes(2);
+    clearTimeoutSpy.mockRestore();
   });
 });
 

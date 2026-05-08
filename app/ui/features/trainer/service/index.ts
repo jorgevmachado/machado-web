@@ -6,4 +6,4 @@ export const trainerService = (token?: string): TrainerService => {
   return new TrainerService(getBaseUrl(), token);
 };
 
-export { TrainerService };
+export { TrainerService } from './service';

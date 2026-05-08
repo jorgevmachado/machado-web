@@ -51,4 +51,18 @@ describe('GET /api/pokemon/move', () => {
     expect(response.status).toBe(401);
     expect(json).toEqual({ message: 'Unauthorized' });
   });
+
+  it('returns service and fallback error messages', async () => {
+    listMock.mockRejectedValueOnce(new Error('Move API unavailable'));
+
+    const errorResponse = await GET({ nextUrl: { searchParams: new URLSearchParams() } } as never);
+    expect(errorResponse.status).toBe(500);
+    await expect(errorResponse.json()).resolves.toEqual({ message: 'Move API unavailable' });
+
+    listMock.mockRejectedValueOnce(undefined);
+
+    const fallbackResponse = await GET({ nextUrl: { searchParams: new URLSearchParams() } } as never);
+    expect(fallbackResponse.status).toBe(500);
+    await expect(fallbackResponse.json()).resolves.toEqual({ message: 'Could not load Pokemon moves.' });
+  });
 });

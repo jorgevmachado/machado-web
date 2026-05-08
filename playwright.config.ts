@@ -1,5 +1,8 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const e2ePort = process.env.E2E_PORT ?? '3003';
+const e2eBaseUrl = `http://127.0.0.1:${e2ePort}`;
+
 export default defineConfig({
   testDir: './e2e',
   snapshotDir: './e2e/__screenshots__',
@@ -14,12 +17,12 @@ export default defineConfig({
     },
   },
   use: {
-    baseURL: 'http://127.0.0.1:3002',
+    baseURL: e2eBaseUrl,
     trace: 'on-first-retry',
   },
   webServer: {
-    command: 'yarn dev --hostname 127.0.0.1 --port 3002 --webpack',
-    url: 'http://127.0.0.1:3002',
+    command: `yarn dev --hostname 127.0.0.1 --port ${e2ePort} --webpack`,
+    url: e2eBaseUrl,
     reuseExistingServer: true,
     timeout: 120_000,
   },

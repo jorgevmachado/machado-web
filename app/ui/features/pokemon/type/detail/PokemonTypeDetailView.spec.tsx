@@ -49,6 +49,33 @@ describe('PokemonTypeDetailView', () => {
     expect(screen.getByRole('link', { name: 'Open grass type' })).toHaveAttribute('href', '/pokemon/type/grass');
   });
 
+  it('renders fallback order, description and omits empty relation sections', () => {
+    usePokemonTypeDetailMock.mockReturnValueOnce({
+      isLoading: false,
+      errorMessage: undefined,
+      data: {
+        id: 'type-2',
+        name: 'unknown',
+        order: null,
+        url: 'https://example.com/unknown',
+        text_color: '',
+        background_color: '',
+        badge_url: '',
+        description: '',
+        strengths: [],
+        weaknesses: [],
+        created_at: '2026-01-01',
+      },
+    });
+
+    render(<PokemonTypeDetailView identifier="unknown" />);
+
+    expect(screen.getByText('#---')).toBeInTheDocument();
+    expect(screen.getByText('No description available.')).toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Strengths' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { name: 'Weaknesses' })).not.toBeInTheDocument();
+  });
+
   it('renders loading and alert-only error states', () => {
     usePokemonTypeDetailMock.mockReturnValueOnce({ isLoading: true, data: undefined, errorMessage: undefined });
     const { rerender } = render(<PokemonTypeDetailView identifier="fire" />);
@@ -60,5 +87,17 @@ describe('PokemonTypeDetailView', () => {
 
     expect(screen.getByText('Type failed.')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /retry/i })).not.toBeInTheDocument();
+  });
+
+  it('renders the default not found message when loading finishes without data', () => {
+    usePokemonTypeDetailMock.mockReturnValueOnce({
+      isLoading: false,
+      data: undefined,
+      errorMessage: undefined,
+    });
+
+    render(<PokemonTypeDetailView identifier="missing" />);
+
+    expect(screen.getByText('Pokemon type not found.')).toBeInTheDocument();
   });
 });

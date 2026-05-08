@@ -1,1 +1,1 @@
-export { capitalize, displayDate, normalizedName, formatLabel, formatNumber } from './string';
+export { capitalize, displayDate, formatLabel, formatNumber,normalizedName } from './string';

@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "test": "jest --passWithNoTests",
+    "test:coverage": "jest --passWithNoTests --coverage",
     "test:visual": "playwright test"
   },
   "dependencies": {

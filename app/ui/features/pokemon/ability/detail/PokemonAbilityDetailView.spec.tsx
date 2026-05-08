@@ -49,6 +49,32 @@ describe('PokemonAbilityDetailView', () => {
     expect(screen.getByText('Boosts grass moves.')).toBeInTheDocument();
   });
 
+  it('renders hidden ability and pending copy fallbacks', () => {
+    usePokemonAbilityDetailMock.mockReturnValueOnce({
+      isLoading: false,
+      errorMessage: undefined,
+      data: {
+        id: 'ability-2',
+        name: 'chlorophyll',
+        order: 66,
+        url: 'https://example.com/chlorophyll',
+        slot: 3,
+        effect: '',
+        short_effect: '',
+        flavor_text: '',
+        is_hidden: true,
+        created_at: '2026-01-01',
+      },
+    });
+
+    render(<PokemonAbilityDetailView identifier="chlorophyll" />);
+
+    expect(screen.getByText('Hidden')).toBeInTheDocument();
+    expect(screen.getByText('Short effect pending.')).toBeInTheDocument();
+    expect(screen.getByText('Effect pending.')).toBeInTheDocument();
+    expect(screen.getByText('Flavor text pending.')).toBeInTheDocument();
+  });
+
   it('renders loading and alert-only error states', () => {
     usePokemonAbilityDetailMock.mockReturnValueOnce({ isLoading: true, data: undefined, errorMessage: undefined });
     const { rerender } = render(<PokemonAbilityDetailView identifier="overgrow" />);
@@ -60,5 +86,17 @@ describe('PokemonAbilityDetailView', () => {
 
     expect(screen.getByText('Ability failed.')).toBeInTheDocument();
     expect(screen.queryByRole('button', { name: /retry/i })).not.toBeInTheDocument();
+  });
+
+  it('renders the default not found message when loading finishes without data', () => {
+    usePokemonAbilityDetailMock.mockReturnValueOnce({
+      isLoading: false,
+      data: undefined,
+      errorMessage: undefined,
+    });
+
+    render(<PokemonAbilityDetailView identifier="missing" />);
+
+    expect(screen.getByText('Pokemon ability not found.')).toBeInTheDocument();
   });
 });

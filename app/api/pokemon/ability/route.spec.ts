@@ -51,4 +51,24 @@ describe('GET /api/pokemon/ability', () => {
     expect(response.status).toBe(401);
     expect(json).toEqual({ message: 'Unauthorized' });
   });
+
+  it('returns service error messages', async () => {
+    listMock.mockRejectedValueOnce(new Error('Ability API unavailable'));
+
+    const response = await GET({ nextUrl: { searchParams: new URLSearchParams() } } as never);
+    const json = await response.json();
+
+    expect(response.status).toBe(500);
+    expect(json).toEqual({ message: 'Ability API unavailable' });
+  });
+
+  it('returns the fallback error message for unknown failures', async () => {
+    listMock.mockRejectedValueOnce(null);
+
+    const response = await GET({ nextUrl: { searchParams: new URLSearchParams() } } as never);
+    const json = await response.json();
+
+    expect(response.status).toBe(500);
+    expect(json).toEqual({ message: 'Could not load Pokemon abilities.' });
+  });
 });

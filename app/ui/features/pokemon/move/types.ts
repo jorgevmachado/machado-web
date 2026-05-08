@@ -8,6 +8,7 @@ export type TPokemonMove = {
   type: string;
   power: number;
   order: number;
+  priority?: number | null;
   target: string;
   effect: string;
   accuracy: number;

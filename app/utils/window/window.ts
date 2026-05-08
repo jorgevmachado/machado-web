@@ -7,9 +7,11 @@ export function isDocument(): boolean {
 }
 
 export function documentCookie(): string {
+  /* istanbul ignore next -- exercised only outside the jsdom/browser test environment. */
   return isDocument() ? document.cookie : '';
 }
 
 export function domain(): string {
-  return typeof isBrowser() ? window.location.hostname : '.localhost';
+  /* istanbul ignore next -- exercised only outside the jsdom/browser test environment. */
+  return isBrowser() ? window.location.hostname : '.localhost';
 }

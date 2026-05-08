@@ -8,9 +8,9 @@ import { Card, Text } from '@/app/ds';
 
 import { usePokemonGrowthRateDetail } from './usePokemonGrowthRateDetail';
 
-type PokemonGrowthRateDetailViewProps = {
+type PokemonGrowthRateDetailViewProps = Readonly<{
   identifier: string;
-};
+}>;
 
 type TExperienceTableRow = {
   level: number;
@@ -71,7 +71,7 @@ const calculateExperience = (level: number, formula: string): number | null => {
   }
 
   const result = evaluateFormulaExpression(expression);
-  return Number.isFinite(result) ? Math.floor(result) : null;
+  return result !== null && Number.isFinite(result) ? Math.floor(result) : null;
 };
 
 export function PokemonGrowthRateDetailView({ identifier }: PokemonGrowthRateDetailViewProps) {

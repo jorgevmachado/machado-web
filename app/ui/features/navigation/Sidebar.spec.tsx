@@ -45,4 +45,18 @@ describe('Sidebar', () => {
     expect(screen.getByRole('link', { name: /home/i })).toHaveAttribute('href', '/home');
     expect(screen.getByRole('button', { name: 'Sign out' })).toBeInTheDocument();
   });
+
+  it('uses titles and hides labels when collapsed', () => {
+    const onLogout = jest.fn();
+
+    render(<Sidebar items={items} isCollapsed pathname="/home" onLogout={onLogout} />);
+
+    expect(screen.getByTitle('Home')).toHaveAttribute('href', '/home');
+    expect(screen.getByTitle('Pokemon')).toHaveAttribute('href', '/pokemon');
+    expect(screen.queryByRole('button', { name: 'Expand Pokemon' })).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Sign out' }));
+
+    expect(onLogout).toHaveBeenCalledTimes(1);
+  });
 });

@@ -71,6 +71,17 @@ const createMeta = (overrides?: Partial<{
   ...overrides,
 });
 
+const createDeferred = <T,>() => {
+  let resolve!: (value: T) => void;
+  let reject!: (reason?: unknown) => void;
+  const promise = new Promise<T>((promiseResolve, promiseReject) => {
+    resolve = promiseResolve;
+    reject = promiseReject;
+  });
+
+  return { promise, resolve, reject };
+};
+
 const renderUsePaginatedList = () => {
   return renderHook(() => {
     return usePaginatedList<TestPokemon, TestFilters>({
@@ -164,6 +175,34 @@ describe('usePaginatedList', () => {
     expect(result.current.inputFilters.find((filter) => filter.name === 'order')?.value).toBe(' 25 ');
   });
 
+  it('uses an empty string when an input filter value is omitted', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+
+    fetchMock
+      .mockResolvedValueOnce(createResponse({
+        items: [],
+        meta: createMeta({ total: 0, total_pages: 0 }),
+      }) as Response)
+      .mockResolvedValueOnce(createResponse({
+        items: [{ id: '25', name: 'pikachu' }],
+        meta: createMeta(),
+      }) as Response);
+
+    const { result } = renderUsePaginatedList();
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    act(() => {
+      result.current.applyInputFilters({ name: 'pikachu' });
+    });
+
+    await waitFor(() => {
+      expect(result.current.inputFilters.find((filter) => filter.name === 'order')?.value).toBe('');
+    });
+  });
+
   it('clears input filters and refetches the first page without filters', async () => {
     const fetchMock = global.fetch as jest.Mock;
 
@@ -220,5 +259,224 @@ describe('usePaginatedList', () => {
     });
 
     expect(result.current.inputFilters.every((filter) => filter.value === '')).toBe(true);
+  });
+
+  it('handles invalid response payloads with the configured fallback message', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+
+    fetchMock.mockResolvedValueOnce(createResponse({ message: 'Invalid payload' }, false) as Response);
+
+    const { result } = renderUsePaginatedList();
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(result.current.errorMessage).toBe('Invalid payload');
+  });
+
+  it('uses the configured fallback message for invalid responses without messages', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+
+    fetchMock.mockResolvedValueOnce(createResponse({ unexpected: true }, true) as Response);
+
+    const { result } = renderUsePaginatedList();
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(result.current.errorMessage).toBe('Could not fetch test entries.');
+  });
+
+  it('handles fetch exceptions and supports reload', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+
+    fetchMock
+      .mockRejectedValueOnce(new Error('Network down'))
+      .mockResolvedValueOnce(createResponse({
+        items: [{ id: '7', name: 'squirtle' }],
+        meta: createMeta({ current_page: 1 }),
+      }) as Response);
+
+    const { result } = renderUsePaginatedList();
+
+    await waitFor(() => {
+      expect(result.current.errorMessage).toBe('Network down');
+    });
+
+    act(() => {
+      result.current.reload();
+    });
+
+    await waitFor(() => {
+      expect(result.current.items).toEqual([{ id: '7', name: 'squirtle' }]);
+    });
+  });
+
+  it('uses the configured fallback message for non-error exceptions', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+
+    fetchMock.mockRejectedValueOnce('offline');
+
+    const { result } = renderUsePaginatedList();
+
+    await waitFor(() => {
+      expect(result.current.errorMessage).toBe('Could not fetch test entries.');
+    });
+  });
+
+  it('ignores stale successful responses after a newer request starts', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+    const initialResponse = createDeferred<Response>();
+
+    fetchMock
+      .mockReturnValueOnce(initialResponse.promise)
+      .mockResolvedValueOnce(createResponse({
+        items: [{ id: '2', name: 'ivysaur' }],
+        meta: createMeta({ total_pages: 1, current_page: 1 }),
+      }) as Response);
+
+    const { result } = renderUsePaginatedList();
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
+    act(() => {
+      result.current.applyFilters({ name: 'ivysaur', order: '' });
+    });
+
+    await waitFor(() => {
+      expect(result.current.items).toEqual([{ id: '2', name: 'ivysaur' }]);
+    });
+
+    await act(async () => {
+      initialResponse.resolve(createResponse({
+        items: [{ id: '1', name: 'bulbasaur' }],
+        meta: createMeta({ total_pages: 1, current_page: 1 }),
+      }) as Response);
+      await initialResponse.promise;
+    });
+
+    expect(result.current.items).toEqual([{ id: '2', name: 'ivysaur' }]);
+  });
+
+  it('ignores stale rejected responses after a newer request starts', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+    const initialResponse = createDeferred<Response>();
+
+    fetchMock
+      .mockReturnValueOnce(initialResponse.promise)
+      .mockResolvedValueOnce(createResponse({
+        items: [{ id: '2', name: 'ivysaur' }],
+        meta: createMeta({ total_pages: 1, current_page: 1 }),
+      }) as Response);
+
+    const { result } = renderUsePaginatedList();
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+    });
+
+    act(() => {
+      result.current.applyFilters({ name: 'ivysaur', order: '' });
+    });
+
+    await waitFor(() => {
+      expect(result.current.items).toEqual([{ id: '2', name: 'ivysaur' }]);
+    });
+
+    await act(async () => {
+      initialResponse.reject(new Error('Stale failure'));
+      await initialResponse.promise.catch(() => undefined);
+    });
+
+    expect(result.current.errorMessage).toBeUndefined();
+    expect(result.current.items).toEqual([{ id: '2', name: 'ivysaur' }]);
+  });
+  it('goes to another page and clamps out-of-range current pages from the response', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+
+    fetchMock
+      .mockResolvedValueOnce(createResponse({
+        items: [{ id: '1', name: 'bulbasaur' }],
+        meta: createMeta({ total_pages: 3, current_page: 1 }),
+      }) as Response)
+      .mockResolvedValueOnce(createResponse({
+        items: [{ id: '2', name: 'ivysaur' }],
+        meta: createMeta({ total_pages: 3, current_page: 99 }),
+      }) as Response);
+
+    const { result } = renderUsePaginatedList();
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    act(() => {
+      result.current.goToPage(2);
+    });
+
+    await waitFor(() => {
+      expect(result.current.items).toEqual([{ id: '2', name: 'ivysaur' }]);
+    });
+
+    expect(result.current.meta.current_page).toBe(3);
+  });
+
+  it('does not refetch when requested page is current or loading', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+
+    fetchMock.mockResolvedValueOnce(createResponse({
+      items: [{ id: '1', name: 'bulbasaur' }],
+      meta: createMeta({ total_pages: 3, current_page: 1 }),
+    }) as Response);
+
+    const { result } = renderUsePaginatedList();
+
+    act(() => {
+      result.current.goToPage(2);
+    });
+
+    expect(fetchMock).toHaveBeenCalledTimes(0);
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    act(() => {
+      result.current.goToPage(1);
+    });
+
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('updates input filters without fetching', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+
+    fetchMock.mockResolvedValueOnce(createResponse({
+      items: [],
+      meta: createMeta({ total: 0, total_pages: 0 }),
+    }) as Response);
+
+    const { result } = renderUsePaginatedList();
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    act(() => {
+      result.current.updateInputFilters([
+        { ...INITIAL_INPUT_FILTERS[0], value: 'mew' },
+      ]);
+    });
+
+    expect(result.current.inputFilters).toEqual([
+      { ...INITIAL_INPUT_FILTERS[0], value: 'mew' },
+    ]);
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });

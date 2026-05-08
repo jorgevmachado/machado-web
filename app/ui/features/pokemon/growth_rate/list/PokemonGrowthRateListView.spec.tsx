@@ -1,12 +1,12 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { PokemonGrowthRateListView } from './PokemonGrowthRateListView';
 
 const showAlertMock = jest.fn();
-const usePokemonMoveListMock = jest.fn();
+const usePokemonGrowthRateListMock = jest.fn();
 
 jest.mock('./usePokemonGrowthRateList', () => ({
-  usePokemonMoveList: () => usePokemonMoveListMock(),
+  usePokemonGrowthRateList: () => usePokemonGrowthRateListMock(),
 }));
 
 jest.mock('@/app/ds', () => {
@@ -16,7 +16,12 @@ jest.mock('@/app/ds', () => {
   return {
     Badge: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
     Card: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-    Filters: () => <div aria-label="filters" />,
+    Filters: ({ onApply, onClear }: { onApply: (filters: unknown) => void; onClear: () => void }) => (
+      <div aria-label="filters">
+        <button type="button" onClick={() => onApply({ name: 'medium' })}>Apply filters</button>
+        <button type="button" onClick={onClear}>Clear filters</button>
+      </div>
+    ),
     Pagination: () => <nav aria-label="pagination" />,
     Text,
     useAlert: () => ({ showAlert: showAlertMock }),
@@ -25,18 +30,12 @@ jest.mock('@/app/ds', () => {
 
 const defaultHookValue = {
   items: [{
-    id: 'move-1',
-    name: 'tackle',
-    order: 33,
-    url: 'https://example.com/tackle',
-    pp: 35,
-    type: 'normal',
-    power: 40,
-    target: 'selected-pokemon',
-    effect: 'Inflicts regular damage.',
-    accuracy: 100,
-    short_effect: 'Inflicts regular damage.',
-    damage_class: 'physical',
+    id: 'growth-1',
+    name: 'medium',
+    order: 1,
+    url: 'https://example.com/medium',
+    formula: 'x ** 3',
+    description: 'Medium growth rate.',
     created_at: '2026-01-01',
   }],
   meta: { total: 1, current_page: 1, total_pages: 1 },
@@ -51,24 +50,52 @@ const defaultHookValue = {
 describe('PokemonGrowthRateListView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    usePokemonMoveListMock.mockReturnValue(defaultHookValue);
+    usePokemonGrowthRateListMock.mockReturnValue(defaultHookValue);
   });
 
-  it('renders move cards prioritizing effects', () => {
+  it('renders growth rate cards prioritizing formulas', () => {
     render(<PokemonGrowthRateListView />);
 
-    expect(screen.getByRole('heading', { name: 'Pokemon Moves' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'tackle' })).toBeInTheDocument();
-    expect(screen.getByText('Inflicts regular damage.')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Pokemon Growth Rate' })).toBeInTheDocument();
+    expect(screen.getByText('medium')).toBeInTheDocument();
+    expect(screen.getByText('x ** 3')).toBeInTheDocument();
   });
 
   it('renders empty and alert-only error states', () => {
-    usePokemonMoveListMock.mockReturnValue({ ...defaultHookValue, items: [], errorMessage: 'Could not load Pokemon moves.' });
+    usePokemonGrowthRateListMock.mockReturnValue({
+      ...defaultHookValue,
+      items: [],
+      errorMessage: 'Could not load Pokemon growth rates.',
+    });
 
     render(<PokemonGrowthRateListView />);
 
-    expect(screen.getByText('No Pokemon moves found.')).toBeInTheDocument();
-    expect(showAlertMock).toHaveBeenCalledWith({ type: 'error', message: 'Could not load Pokemon moves.' });
+    expect(screen.getByText('No Pokemon growth rate found.')).toBeInTheDocument();
+    expect(showAlertMock).toHaveBeenCalledWith({
+      type: 'error',
+      message: 'Could not load Pokemon growth rates.',
+    });
     expect(screen.queryByRole('button', { name: /retry/i })).not.toBeInTheDocument();
+  });
+
+  it('renders fallback copy and forwards filter actions', () => {
+    usePokemonGrowthRateListMock.mockReturnValue({
+      ...defaultHookValue,
+      items: [{
+        ...defaultHookValue.items[0],
+        formula: '',
+        description: '',
+      }],
+    });
+
+    render(<PokemonGrowthRateListView />);
+
+    expect(screen.getByText('Formula pending.')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: 'Apply filters' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Clear filters' }));
+
+    expect(defaultHookValue.applyInputFilters).toHaveBeenCalledWith({ name: 'medium' });
+    expect(defaultHookValue.clearInputFilters).toHaveBeenCalledTimes(1);
   });
 });

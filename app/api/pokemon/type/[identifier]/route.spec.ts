@@ -50,4 +50,18 @@ describe('GET /api/pokemon/type/[identifier]', () => {
     expect(json).toEqual({ message: 'Unauthorized' });
     expect(detailMock).not.toHaveBeenCalled();
   });
+
+  it('returns service and fallback error messages', async () => {
+    detailMock.mockRejectedValueOnce(new Error('Type missing'));
+
+    const errorResponse = await GET({} as Request, { params: Promise.resolve({ identifier: 'missing' }) });
+    expect(errorResponse.status).toBe(500);
+    await expect(errorResponse.json()).resolves.toEqual({ message: 'Type missing' });
+
+    detailMock.mockRejectedValueOnce(null);
+
+    const fallbackResponse = await GET({} as Request, { params: Promise.resolve({ identifier: 'missing' }) });
+    expect(fallbackResponse.status).toBe(500);
+    await expect(fallbackResponse.json()).resolves.toEqual({ message: 'Could not load Pokemon type detail.' });
+  });
 });

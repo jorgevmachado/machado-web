@@ -11,8 +11,8 @@ export async function initializeTrainerAction(
   _: AuthActionState,
   formData: FormData,
 ): Promise<AuthActionState> {
-  const pokeballs = parseInt(formData.get('pokeballs') as string, 10);
-  const capture_rate = parseInt(formData.get('capture_rate') as string, 10);
+  const pokeballs = Number.parseInt(formData.get('pokeballs') as string, 10);
+  const capture_rate = Number.parseInt(formData.get('capture_rate') as string, 10);
 
   if (!Number.isInteger(pokeballs) || pokeballs <= 0) {
     return toErrorState('Pokeballs must be a positive number.');

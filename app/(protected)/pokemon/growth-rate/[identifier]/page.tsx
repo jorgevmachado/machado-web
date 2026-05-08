@@ -1,10 +1,10 @@
 import { PokemonGrowthRateDetailView } from '@/app/ui/features/pokemon/growth_rate';
 
-type PokemonGrowthRateDetailPageProps = {
+type PokemonGrowthRateDetailPageProps = Readonly<{
   params: Promise<{
     identifier: string;
   }>;
-};
+}>;
 
 export default async function PokemonGrowthRateDetailPage({ params }: PokemonGrowthRateDetailPageProps) {
   const { identifier } = await params;

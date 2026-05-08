@@ -63,4 +63,15 @@ describe('GET /api/pokemon/type', () => {
     expect(response.status).toBe(500);
     expect(json).toEqual({ message: 'API unavailable' });
   });
+
+  it('returns fallback error messages for unknown failures', async () => {
+    listMock.mockRejectedValueOnce(undefined);
+    const request = { nextUrl: { searchParams: new URLSearchParams() } };
+
+    const response = await GET(request as never);
+    const json = await response.json();
+
+    expect(response.status).toBe(500);
+    expect(json).toEqual({ message: 'Could not load Pokemon types.' });
+  });
 });

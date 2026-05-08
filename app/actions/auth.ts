@@ -87,7 +87,7 @@ const validateRegisterPayload = ({
     return toErrorState(INVALID_FULL_NAME_MESSAGE);
   }
 
-  if (!email || !email.includes('@')) {
+  if (!email?.includes('@')) {
     return toErrorState('Please enter a valid email address.');
   }
 

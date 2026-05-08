@@ -1,4 +1,4 @@
-import type {TPaginatedListResponse} from "@/app/ds";
+import type { TPaginatedListResponse } from '@/app/ds';
 
 export type TPokemonGrowthRate = {
   id: string;
