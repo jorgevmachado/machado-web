@@ -87,14 +87,29 @@ describe('PokemonDetailView', () => {
           short_effect: 'Inflicts regular damage.',
           effect: 'Inflicts regular damage.',
         }],
-        encounters: [],
+        encounters: [{
+          id: 'b0d43225-73f4-4c39-8ad9-9300bbd97a46',
+          url: 'https://pokeapi.co/api/v2/location-area/281/',
+          name: 'cerulean-city-area',
+          order: 281,
+          chance: 100,
+          method: 'gift',
+          version: 'yellow',
+          min_level: 10,
+          max_level: 10,
+          condition: '',
+          max_chance: 100,
+          created_at: '2026-05-07T15:03:35.795702Z',
+          updated_at: null,
+          deleted_at: null
+        }],
         evolutions: [],
       },
     });
   });
 
   it('renders detail sections for a loaded pokemon', () => {
-    render(<PokemonDetailView identifier="bulbasaur" />);
+    render(<PokemonDetailView identifier='bulbasaur' />);
 
     expect(screen.getByRole('heading', { level: 1, name: 'bulbasaur' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Overgrow' })).toHaveAttribute('href', '/pokemon/ability/overgrow');
@@ -107,17 +122,17 @@ describe('PokemonDetailView', () => {
 
   it('renders loading, explicit error, and default not found states', () => {
     usePokemonDetailMock.mockReturnValueOnce({ isLoading: true, data: undefined, errorMessage: undefined });
-    const { rerender } = render(<PokemonDetailView identifier="bulbasaur" />);
+    const { rerender } = render(<PokemonDetailView identifier='bulbasaur' />);
 
     expect(screen.getByText('Loading Pokemon...')).toBeInTheDocument();
 
     usePokemonDetailMock.mockReturnValueOnce({ isLoading: false, data: undefined, errorMessage: 'Pokemon failed.' });
-    rerender(<PokemonDetailView identifier="bulbasaur" />);
+    rerender(<PokemonDetailView identifier='bulbasaur' />);
 
     expect(screen.getByText('Pokemon failed.')).toBeInTheDocument();
 
     usePokemonDetailMock.mockReturnValueOnce({ isLoading: false, data: undefined, errorMessage: undefined });
-    rerender(<PokemonDetailView identifier="missing" />);
+    rerender(<PokemonDetailView identifier='missing' />);
 
     expect(screen.getByText('Pokemon not found.')).toBeInTheDocument();
   });
@@ -168,7 +183,7 @@ describe('PokemonDetailView', () => {
       },
     });
 
-    render(<PokemonDetailView identifier="ivysaur" />);
+    render(<PokemonDetailView identifier='ivysaur' />);
 
     expect(screen.getByRole('heading', { level: 1, name: 'ivysaur' })).toBeInTheDocument();
     expect(screen.getAllByText('Unknown')).toHaveLength(9);

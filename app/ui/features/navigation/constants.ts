@@ -1,4 +1,9 @@
-import { GiCrossedSwords, GiPunchBlast } from 'react-icons/gi';
+import {
+  GiCrossedSwords ,
+  GiPositionMarker ,
+  GiPunchBlast ,
+  GiStumpRegrowth,
+} from 'react-icons/gi';
 import { MdAutoAwesome, MdCatchingPokemon, MdCategory, MdHome, MdInventory2 } from 'react-icons/md';
 
 import type { MenuItem } from './types';
@@ -32,8 +37,13 @@ export const AUTHENTICATED_MENU_ITEMS: MenuItem[] = [
       {
         label: 'Growth Rate',
         href: '/pokemon/growth-rate',
-        icon: GiPunchBlast,
+        icon: GiStumpRegrowth,
       },
+      {
+        label: 'Encounter',
+        href: '/pokemon/encounter',
+        icon: GiPositionMarker,
+      }
     ],
   },
   {

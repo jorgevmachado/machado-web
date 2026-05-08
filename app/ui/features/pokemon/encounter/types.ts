@@ -1,3 +1,5 @@
+import type { TPaginatedListResponse } from '@/app/ds';
+
 export type TPokemonEncounter = {
   id: string;
   url: string;
@@ -14,3 +16,10 @@ export type TPokemonEncounter = {
   updated_at?: string | null;
   deleted_at?: string | null;
 };
+
+export type PokemonEncounterFilters = {
+  name?: string;
+  order?: string;
+};
+
+export type PokemonEncounterListResponse = TPaginatedListResponse<TPokemonEncounter>;

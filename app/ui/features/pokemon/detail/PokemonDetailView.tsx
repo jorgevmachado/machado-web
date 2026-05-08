@@ -206,6 +206,20 @@ export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
           <MovesExpand moves={data.moves}/>
 
           <EvolutionTimeline pokemon={data}/>
+
+          <Card rvariant="elevated" rounded="2xl" className="border border-white/80 bg-white/90">
+            <Text as="h2" className="text-xl font-semibold text-slate-950">Found</Text>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {data.encounters.map((encounter) => (
+                <Link key={encounter.id} href={`/pokemon/encounter/${encounter.name}`}
+                      className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
+                  <Badge random={true}>
+                    {encounter.name}
+                  </Badge>
+                </Link>
+              ))}
+            </div>
+          </Card>
         </section>
       </div>
     </main>
