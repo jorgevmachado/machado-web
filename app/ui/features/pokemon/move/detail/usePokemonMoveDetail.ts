@@ -4,10 +4,10 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useAlert, useLoading } from '@/app/ds';
 
-import type { PokemonMoveDetail } from '../types';
+import type { TPokemonMove } from '../types';
 
 type PokemonMoveDetailState = {
-  data?: PokemonMoveDetail;
+  data?: TPokemonMove;
   isLoading: boolean;
   errorMessage?: string;
 };
@@ -27,7 +27,7 @@ export function usePokemonMoveDetail(identifier: string) {
 
     try {
       const response = await fetch(`/api/pokemon/move/${identifier}`, { method: 'GET', cache: 'no-store' });
-      const json = await response.json() as PokemonMoveDetail | { message?: string };
+      const json = await response.json() as TPokemonMove | { message?: string };
 
       if (!response.ok || !('id' in json)) {
         const message = 'message' in json && json.message ? json.message : 'Could not load Pokemon move detail.';

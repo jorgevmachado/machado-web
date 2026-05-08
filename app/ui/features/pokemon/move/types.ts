@@ -25,8 +25,4 @@ export type PokemonMoveFilters = {
   order?: string;
 };
 
-export type PokemonMoveListItem = TPokemonMove;
-
-export type PokemonMoveDetail = TPokemonMove;
-
-export type PokemonMoveListResponse = TPaginatedListResponse<PokemonMoveListItem>;
+export type PokemonMoveListResponse = TPaginatedListResponse<TPokemonMove>;

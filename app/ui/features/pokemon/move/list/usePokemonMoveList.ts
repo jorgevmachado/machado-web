@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import type { FiltersProps } from '@/app/ds';
 import usePaginatedList from '@/app/ui/hooks/list/usePaginatedList';
 
-import type { PokemonMoveFilters, PokemonMoveListItem } from '../types';
+import type { PokemonMoveFilters, TPokemonMove } from '../types';
 
 const INITIAL_FILTERS: PokemonMoveFilters = {
   name: undefined,
@@ -23,7 +23,7 @@ export function usePokemonMoveList() {
     { name: 'order', label: 'Order', type: 'text', value: '', placeholder: '33' },
   ], []);
 
-  return usePaginatedList<PokemonMoveListItem, PokemonMoveFilters>({
+  return usePaginatedList<TPokemonMove, PokemonMoveFilters>({
     endpoint: '/api/pokemon/move',
     initialFilters: INITIAL_FILTERS,
     initialInputFilters,

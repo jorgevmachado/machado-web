@@ -4,9 +4,7 @@ export { PokemonTypeListView } from './list/PokemonTypeListView';
 export { usePokemonTypeList } from './list/usePokemonTypeList';
 export { pokemonTypeService } from './service';
 export type {
-  PokemonTypeDetail,
   PokemonTypeFilters,
-  PokemonTypeListItem,
   PokemonTypeListResponse,
   TPokemonType,
   TPokemonTypeDamage,

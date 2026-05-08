@@ -4,9 +4,7 @@ export { PokemonAbilityListView } from './list/PokemonAbilityListView';
 export { usePokemonAbilityList } from './list/usePokemonAbilityList';
 export { pokemonAbilityService } from './service';
 export type {
-  PokemonAbilityDetail,
   PokemonAbilityFilters,
-  PokemonAbilityListItem,
   PokemonAbilityListResponse,
   TPokemonAbility,
 } from './types';

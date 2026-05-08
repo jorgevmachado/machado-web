@@ -20,8 +20,4 @@ export type PokemonAbilityFilters = {
   order?: string;
 };
 
-export type PokemonAbilityListItem = TPokemonAbility;
-
-export type PokemonAbilityDetail = TPokemonAbility;
-
-export type PokemonAbilityListResponse = TPaginatedListResponse<PokemonAbilityListItem>;
+export type PokemonAbilityListResponse = TPaginatedListResponse<TPokemonAbility>;

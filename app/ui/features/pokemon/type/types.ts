@@ -46,8 +46,4 @@ export type PokemonTypeFilters = {
   order?: string;
 };
 
-export type PokemonTypeListItem = TPokemonType;
-
-export type PokemonTypeDetail = TPokemonType;
-
-export type PokemonTypeListResponse = TPaginatedListResponse<PokemonTypeListItem>;
+export type PokemonTypeListResponse = TPaginatedListResponse<TPokemonType>;

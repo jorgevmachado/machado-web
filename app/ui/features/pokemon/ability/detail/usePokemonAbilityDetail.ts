@@ -4,10 +4,10 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useAlert, useLoading } from '@/app/ds';
 
-import type { PokemonAbilityDetail } from '../types';
+import type { TPokemonAbility } from '../types';
 
 type PokemonAbilityDetailState = {
-  data?: PokemonAbilityDetail;
+  data?: TPokemonAbility;
   isLoading: boolean;
   errorMessage?: string;
 };
@@ -27,7 +27,7 @@ export function usePokemonAbilityDetail(identifier: string) {
 
     try {
       const response = await fetch(`/api/pokemon/ability/${identifier}`, { method: 'GET', cache: 'no-store' });
-      const json = await response.json() as PokemonAbilityDetail | { message?: string };
+      const json = await response.json() as TPokemonAbility | { message?: string };
 
       if (!response.ok || !('id' in json)) {
         const message = 'message' in json && json.message ? json.message : 'Could not load Pokemon ability detail.';
