@@ -12,6 +12,15 @@ export type ResponseError = {
   statusCode: number;
 };
 
+type ErrorResponse = {
+  detail: string;
+};
+
+type RequestFailure = {
+  status: number;
+  response: ErrorResponse;
+};
+
 export abstract class Http {
   private readonly _url: string;
   private readonly _config: RequestInit;
@@ -130,7 +139,7 @@ export abstract class Http {
     return data;
   }
 
-  private errorMessage = (error?: { status: number, response: { detail: string }}): ResponseError => {
+  private readonly errorMessage = (error?: RequestFailure): ResponseError => {
     return {
       error: error?.response?.detail ?? 'internal Server Error',
       message: error?.response?.detail ?? 'Internal Server Error',

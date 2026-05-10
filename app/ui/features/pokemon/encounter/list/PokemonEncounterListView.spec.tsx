@@ -94,7 +94,7 @@ describe('PokemonEncounterListView', () => {
     });
 
     render(<PokemonEncounterListView />);
-    const method =  screen.getByTestId('pokemon-encounter-list-method')
+    const method =  screen.getByTestId('pokemon-encounter-list-method');
     expect(method).toBeInTheDocument();
     expect(method).toHaveTextContent('Method: Encounter pending.');
 

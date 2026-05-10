@@ -7,9 +7,9 @@ import { Badge, Card, Text } from '@/app/ds';
 
 import { usePokemonMoveDetail } from './usePokemonMoveDetail';
 
-type PokemonMoveDetailViewProps = {
+type PokemonMoveDetailViewProps = Readonly<{
   identifier: string;
-};
+}>;
 
 const formatOrder = (order: number): string => `#${String(order).padStart(3, '0')}`;
 const formatValue = (value: number | null | undefined): string => value === null || value === undefined ? '-' : String(value);

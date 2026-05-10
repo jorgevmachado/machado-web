@@ -1,8 +1,8 @@
 import React from 'react';
 
-type TopProgressBarProps = {
+type TopProgressBarProps = Readonly<{
   isVisible: boolean;
-};
+}>;
 
 /**
  * Global page-navigation loading bar.
@@ -11,11 +11,11 @@ type TopProgressBarProps = {
  */
 const TopProgressBar = ({ isVisible }: TopProgressBarProps) => {
   return (
-    <div
-      role='progressbar'
+    <progress
+      max={100}
+      value={isVisible ? 100 : 0}
       aria-label='Page loading'
       aria-busy={isVisible}
-      aria-hidden={!isVisible}
       className={[
         'pointer-events-none fixed inset-x-0 top-0 z-300 h-0.75 overflow-hidden transition-opacity duration-300',
         isVisible ? 'opacity-100' : 'opacity-0',
@@ -28,9 +28,8 @@ const TopProgressBar = ({ isVisible }: TopProgressBarProps) => {
           backgroundSize: '200% 100%',
         }}
       />
-    </div>
+    </progress>
   );
 };
 
 export default TopProgressBar;
-

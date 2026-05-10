@@ -17,11 +17,14 @@ class Cookies {
   ) {
     const date = new Date();
     date.setTime(date.getTime() + expires * 24 * 60 * 60 * 1000);
-    return (document.cookie = `${key}=${value}; expires=${date.toUTCString()}; path=/; domain=${domain}`);
+    const cookieValue = `${key}=${value}; expires=${date.toUTCString()}; path=/; domain=${domain}`;
+    document.cookie = cookieValue;
+    return document.cookie;
   }
 
   public remove(key: string, domain: string) {
-    return (document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain}`);
+    document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${domain}`;
+    return document.cookie;
   }
   
   public getAccessToken(): string | undefined {

@@ -1,10 +1,10 @@
 import { PokemonDetailView } from '@/app/ui/features/pokemon';
 
-type PokemonDetailPageProps = {
+type PokemonDetailPageProps = Readonly<{
   params: Promise<{
     identifier: string;
   }>;
-};
+}>;
 
 export default async function PokemonDetailPage({ params }: PokemonDetailPageProps) {
   const { identifier } = await params;

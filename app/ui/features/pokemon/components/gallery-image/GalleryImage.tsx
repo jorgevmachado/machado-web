@@ -4,12 +4,12 @@ import { TPokemonImage } from '@/app/ui/features/pokemon/image';
 import { TPokemonType } from '@/app/ui/features/pokemon/type';
 import { useMemo } from 'react';
 
-type GalleryImageProps = {
+type GalleryImageProps = Readonly<{
   types?: Array<TPokemonType>;
   images?: TPokemonImage | null;
   pokemon_name: string;
   external_image?: string;
-}
+}>;
 export default function GalleryImage({ types, images, pokemon_name, external_image }: GalleryImageProps) {
 
   const galleryImages = useMemo(() => {

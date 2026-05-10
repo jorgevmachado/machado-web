@@ -9,7 +9,6 @@ import { SpinnerSize, TSpinner } from './types';
 
 type SpinnerProps = {
   size?: SpinnerSize;
-  label?: string;
   type?: TSpinner;
   overlay?: boolean;
   color?: ColorType;
@@ -38,7 +37,7 @@ export default function Spinner({
   type = 'pokeball',
   overlay = false,
   color = 'primary',
-}: SpinnerProps) {
+}: Readonly<SpinnerProps>) {
   const className = joinClass([
     overlay
       ? 'fixed inset-0 z-[250] flex items-center justify-center bg-slate-900/40 backdrop-blur-[2px]'
@@ -54,8 +53,8 @@ export default function Spinner({
   return (
     <ColorProvider color={color}>
       <div aria-live="polite" className={className}>
-        <div
-          role="status"
+        <output
+          aria-live="polite"
           aria-label="loading"
           className={getSizeClassName()}
         >
@@ -63,7 +62,7 @@ export default function Spinner({
           {type === 'circle' && <Circle />}
           {type === 'bar' && <Bar />}
           {type === 'dots' && <Dots />}
-        </div>
+        </output>
       </div>
     </ColorProvider>
   );

@@ -6,4 +6,4 @@ export const pokemonMoveService = (token?: string): PokemonMoveService => {
   return new PokemonMoveService(getBaseUrl(), token);
 };
 
-export { PokemonMoveService };
+export { PokemonMoveService } from './service';

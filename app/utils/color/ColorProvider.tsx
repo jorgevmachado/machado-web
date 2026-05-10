@@ -1,13 +1,13 @@
 'use client';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ColorContext, ColorType } from './ColorContext';
 
-type ColorProviderProps = {
+type ColorProviderProps = Readonly<{
   children: React.ReactNode;
   color?: ColorType;
-};
+}>;
 
 export const ColorProvider = ({ children, color = 'primary' }: ColorProviderProps) => {
-  return <ColorContext.Provider value={{ color }}>{children}</ColorContext.Provider>;
+  const value = useMemo(() => ({ color }), [color]);
+  return <ColorContext.Provider value={value}>{children}</ColorContext.Provider>;
 };
-

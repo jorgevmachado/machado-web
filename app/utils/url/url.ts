@@ -13,21 +13,21 @@ export function getBaseUrl(): string {
 
 export function formatUrl(url: string, path: string, params?: Record<string, unknown>): string {
   const query = serialize_url(params);
-  const filteredUrl = [url, path].filter((i) => i).join('/');
+  const filteredUrl = [url, path].filter(Boolean).join('/');
 
-  return `${filteredUrl}${query ? `?${query}` : ''}`;
+  return query ? `${filteredUrl}?${query}` : filteredUrl;
 }
 
 export function serialize_url(value?: Record<string, unknown>): string | undefined {
   if (!value || Object.keys(value).length === 0) {
-    return;
+    return undefined;
   }
 
   return new URLSearchParams(value as Record<string, string>).toString();
 }
 
 export function convertSubPathUrl({ by, pathUrl, isParam, subPathUrl, conectorPath }: TConvertSubPathUrlParams): string {
-  const currentPathUrl = !by ? pathUrl : `${pathUrl}/${by}`;
+  const currentPathUrl = by ? `${pathUrl}/${by}` : pathUrl;
   if (!subPathUrl) {
     const currentParam = conectorPath ? `/${conectorPath}` : '';
     return isParam ? `${currentPathUrl}${currentParam}` : currentPathUrl;
@@ -39,11 +39,5 @@ export function convertSubPathUrl({ by, pathUrl, isParam, subPathUrl, conectorPa
 }
 
 export function sanitizedParams(value: string | null): string | undefined {
-  if (!value) {
-    return;
-  }
-
-  const trimmedValue = value.trim();
-
-  return trimmedValue || undefined;
+  return value?.trim() || undefined;
 }

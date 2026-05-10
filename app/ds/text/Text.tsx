@@ -107,6 +107,18 @@ const TAG_CLASS_MAP_PROPS: Record<TextTag, TextTagProps> = {
   },
 };
 
+const appendMappedClass = <T extends string>(
+  classNames: string[],
+  value: T | undefined,
+  classMap: Record<T, string>,
+): void => {
+  if (!value) {
+    return;
+  }
+
+  classNames.push(classMap[value]);
+};
+
 /**
  * Polymorphic typography primitive with semantic defaults and Tailwind-friendly overrides.
  * For any advanced Tailwind rule not covered by props, pass it through `className`.
@@ -150,80 +162,31 @@ const TextBase = <T extends TextTag = 'p'>({
     if (tagColor) {
       classNames.push(tagColor);
     }
-    const tagSize = size ?? tagClassProps?.size;
-    if (tagSize) {
-      classNames.push(TEXT_SIZE_CLASS_MAP[tagSize]);
-    }
-    const tagWeight = weight ?? tagClassProps?.weight;
-
-    if (tagWeight) {
-      classNames.push(WEIGHT_CLASS_MAP[tagWeight]);
-    }
-    const tagTracking = tracking ?? tagClassProps?.tracking;
-    if (tagTracking) {
-      classNames.push(TRACKING_CLASS_MAP[tagTracking]);
-    }
-    const tagFontFamily = fontFamily ?? tagClassProps?.fontFamily;
-    if (tagFontFamily) {
-      classNames.push(FONT_FAMILY_CLASS_MAP[tagFontFamily]);
-    }
-
-    const tagLeading = leading ?? tagClassProps?.leading;
-    if (tagLeading) {
-      classNames.push(LEADING_CLASS_MAP[tagLeading]);
-    }
+    appendMappedClass(classNames, size ?? tagClassProps?.size, TEXT_SIZE_CLASS_MAP);
+    appendMappedClass(classNames, weight ?? tagClassProps?.weight, WEIGHT_CLASS_MAP);
+    appendMappedClass(classNames, tracking ?? tagClassProps?.tracking, TRACKING_CLASS_MAP);
+    appendMappedClass(classNames, fontFamily ?? tagClassProps?.fontFamily, FONT_FAMILY_CLASS_MAP);
+    appendMappedClass(classNames, leading ?? tagClassProps?.leading, LEADING_CLASS_MAP);
 
     if (tagClassProps?.className) {
       classNames.push(tagClassProps.className);
     }
+    appendMappedClass(classNames, align, TEXT_ALIGN_CLASS_MAP);
+    appendMappedClass(classNames, transform, TRANSFORM_CLASS_MAP);
+    appendMappedClass(classNames, decoration, DECORATION_CLASS_MAP);
+    appendMappedClass(classNames, display, DISPLAY_CLASS_MAP);
+    appendMappedClass(classNames, wrap, WRAP_CLASS_MAP);
+    appendMappedClass(classNames, whitespace, WHITESPACE_CLASS_MAP);
+    appendMappedClass(classNames, breakStrategy, BREAK_CLASS_MAP);
 
-    if (align) {
-      classNames.push(TEXT_ALIGN_CLASS_MAP[align]);
-    }
-
-    if (transform) {
-      classNames.push(TRANSFORM_CLASS_MAP[transform]);
-    }
-
-    if (decoration) {
-      classNames.push(DECORATION_CLASS_MAP[decoration]);
-    }
-
-    if (display) {
-      classNames.push(DISPLAY_CLASS_MAP[display]);
-    }
-
-    if (wrap) {
-      classNames.push(WRAP_CLASS_MAP[wrap]);
-    }
-
-    if (whitespace) {
-      classNames.push(WHITESPACE_CLASS_MAP[whitespace]);
-    }
-
-    if (breakStrategy) {
-      classNames.push(BREAK_CLASS_MAP[breakStrategy]);
-    }
-
-    if (typeof lineClamp !== 'undefined') {
+    if (lineClamp !== undefined) {
       classNames.push(LINE_CLAMP_CLASS_MAP[lineClamp]);
     }
 
-    if (italic) {
-      classNames.push('italic');
-    }
-
-    if (truncate) {
-      classNames.push('truncate');
-    }
-
-    if (srOnly) {
-      classNames.push('sr-only');
-    }
-
-    if (className) {
-      classNames.push(className);
-    }
+    if (italic) classNames.push('italic');
+    if (truncate) classNames.push('truncate');
+    if (srOnly) classNames.push('sr-only');
+    if (className) classNames.push(className);
 
     return joinClass(classNames);
   } ,[
@@ -261,4 +224,3 @@ const TextBase = <T extends TextTag = 'p'>({
 const Text = React.memo(TextBase) as typeof TextBase;
 
 export default Text;
-

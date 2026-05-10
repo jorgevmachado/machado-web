@@ -47,12 +47,12 @@ export function usePokemonAbilityDetail(identifier: string) {
   }, [identifier, showAlert, startContentLoading, stopContentLoading]);
 
   useEffect(() => {
-    const timeoutId = window.setTimeout(() => {
+    const timeoutId = globalThis.setTimeout(() => {
       void load();
     }, 0);
 
     return () => {
-      window.clearTimeout(timeoutId);
+      globalThis.clearTimeout(timeoutId);
     };
   }, [load]);
 

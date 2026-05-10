@@ -89,19 +89,19 @@ const UserProvider = ({
     const timeoutInMs = tokenExpiresAt - Date.now();
 
     if (timeoutInMs <= 0) {
-      window.setTimeout(() => {
+      globalThis.setTimeout(() => {
         invalidateSession();
       }, 0);
 
       return undefined;
     }
 
-    const timeoutId = window.setTimeout(() => {
+    const timeoutId = globalThis.setTimeout(() => {
       invalidateSession();
     }, timeoutInMs);
 
     return () => {
-      window.clearTimeout(timeoutId);
+      globalThis.clearTimeout(timeoutId);
     };
   }, [invalidateSession, isAuthenticated, tokenExpiresAt]);
 
@@ -120,11 +120,11 @@ const UserProvider = ({
       }
     };
 
-    window.addEventListener('focus', handleRefreshUser);
+    globalThis.addEventListener('focus', handleRefreshUser);
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      window.removeEventListener('focus', handleRefreshUser);
+      globalThis.removeEventListener('focus', handleRefreshUser);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [isAuthenticated, refreshUser]);

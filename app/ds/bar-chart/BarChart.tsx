@@ -140,7 +140,9 @@ const BarChart = ({
           trackClassName,
         ])}
       >
-        <div
+        <progress
+          max={maxValue}
+          value={value}
           className={joinClass([
             'h-full rounded-full',
             withAnimation && 'transition-all duration-700',
@@ -148,10 +150,6 @@ const BarChart = ({
             barClassName,
           ])}
           style={{ width: `${percentage}%` }}
-          role='progressbar'
-          aria-valuenow={value}
-          aria-valuemin={0}
-          aria-valuemax={maxValue}
           aria-label={typeof label === 'string' ? label : 'Bar chart value'}
         />
       </div>
@@ -160,4 +158,3 @@ const BarChart = ({
 };
 
 export default React.memo(BarChart);
-

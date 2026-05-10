@@ -28,8 +28,7 @@ const parseTokenPayload = (token: string): SessionPayload | undefined => {
   }
 
   const payloadAsString = decodeBase64Url(tokenParts[1]);
-
-  if (!payloadAsString) {
+  if (payloadAsString === undefined) {
     return undefined;
   }
 
@@ -88,7 +87,7 @@ export const extractAuthToken = (payload: LoginResponsePayload): string =>  {
 
   const token = payload.access_token;
 
-  if (!token || !token.trim()) {
+  if (!token?.trim()) {
     throw new Error(INVALID_LOGIN_RESPONSE_MESSAGE);
   }
 

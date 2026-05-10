@@ -81,7 +81,7 @@ export function PokemonEncounterDetailView({ identifier }: PokemonEncounterDetai
             {attributes.map((item) => (
               <Card key={item.id} variant="tonal" rounded="xl" className="bg-slate-50">
                 <Text as="small" color="text-slate-500" weight="semibold"
-                      className="uppercase tracking-[0.2em]">{item.label}</Text>
+                  className="uppercase tracking-[0.2em]">{item.label}</Text>
                 <Text as="p" size="xl" weight="bold">{item.value}</Text>
               </Card>
             ))}

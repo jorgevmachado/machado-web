@@ -1,6 +1,6 @@
 'use client';
 
-import { type MouseEvent, useEffect } from 'react';
+import { useEffect } from 'react';
 import { IoClose } from 'react-icons/io5';
 
 import { ModalProps } from './types';
@@ -51,24 +51,22 @@ const Modal = ({
     };
   }, [isOpen]);
 
-  const handleOutsideClick = (event: MouseEvent<HTMLDivElement>) => {
-    if (closeOnOutsideClick && event.target === event.currentTarget && onClose) {
-      onClose();
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
-    <div
-      className='modal-fade-in fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 p-4'
-      onClick={handleOutsideClick}
-      role='presentation'
-    >
-      <div
+    <div className='modal-fade-in fixed inset-0 z-50 flex items-center justify-center bg-slate-900/70 p-4'>
+      {closeOnOutsideClick && onClose ? (
+        <button
+          type='button'
+          aria-label='Close modal overlay'
+          className='absolute inset-0 cursor-default'
+          onClick={() => onClose()}
+        />
+      ) : null}
+      <dialog
+        open
         className={`modal-scale-in relative w-full rounded-lg bg-white shadow-2xl ${WIDTH_CLASS_MAP[width]}`}
         style={{ maxHeight }}
-        role='dialog'
         aria-modal='true'
         aria-labelledby='modal-title'
         aria-describedby={subtitle ? 'modal-description' : undefined}
@@ -135,7 +133,7 @@ const Modal = ({
             )}
           </div>
         )}
-      </div>
+      </dialog>
     </div>
   );
 };

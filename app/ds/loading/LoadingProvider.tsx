@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { LoadingContext } from './LoadingContext';
 import RouteChangeTracker from './RouteChangeTracker';
 import Loading from './Loading';
 
-type LoadingProviderProps = {
+type LoadingProviderProps = Readonly<{
   children: React.ReactNode;
-};
+}>;
 
 /**
  * Global loading provider.
@@ -100,16 +100,25 @@ const LoadingProvider = ({ children }: LoadingProviderProps) => {
     };
   }, []);
 
+  const value = useMemo(() => ({
+    isPageLoading,
+    isContentLoading,
+    startPageLoading,
+    stopPageLoading,
+    startContentLoading,
+    stopContentLoading,
+  }), [
+    isContentLoading,
+    isPageLoading,
+    startContentLoading,
+    startPageLoading,
+    stopContentLoading,
+    stopPageLoading,
+  ]);
+
   return (
     <LoadingContext.Provider
-      value={{
-        isPageLoading,
-        isContentLoading,
-        startPageLoading,
-        stopPageLoading,
-        startContentLoading,
-        stopContentLoading,
-      }}
+      value={value}
     >
       <RouteChangeTracker />
       <Loading type='top-progress-bar' isVisible={isPageLoading} />

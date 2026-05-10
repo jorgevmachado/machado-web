@@ -6,4 +6,4 @@ export const pokemonGrowthRateService = (token?: string): PokemonGrowthRateServi
   return new PokemonGrowthRateService(getBaseUrl(), token);
 };
 
-export { PokemonGrowthRateService };
+export { PokemonGrowthRateService } from './service';

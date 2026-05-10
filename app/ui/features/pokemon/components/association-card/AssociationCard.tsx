@@ -5,7 +5,7 @@ import type { ReactNode } from 'react';
 
 import { Card, Text } from '@/app/ds';
 
-type AssociationCardProps = {
+type AssociationCardProps = Readonly<{
   href: string;
   title?: string;
   eyebrow?: string;
@@ -13,7 +13,7 @@ type AssociationCardProps = {
   children: ReactNode;
   footer?: ReactNode;
   ariaLabel?: string;
-};
+}>;
 
 export function AssociationCard({
   href,

@@ -1,6 +1,6 @@
-export type { TPokemonEncounter, PokemonEncounterFilters, PokemonEncounterListResponse } from './types';
-export { pokemonEncounterService } from './service';
+export { PokemonEncounterDetailView } from './detail/PokemonEncounterDetailView';
+export { usePokemonEncounterDetail } from './detail/usePokemonEncounterDetail';
 export { PokemonEncounterListView } from './list/PokemonEncounterListView';
 export { usePokemonEncounterList } from './list/usePokemonEncounterList';
-export { usePokemonEncounterDetail } from './detail/usePokemonEncounterDetail';
-export { PokemonEncounterDetailView } from './detail/PokemonEncounterDetailView';
+export { pokemonEncounterService } from './service';
+export type { PokemonEncounterFilters, PokemonEncounterListResponse,TPokemonEncounter } from './types';

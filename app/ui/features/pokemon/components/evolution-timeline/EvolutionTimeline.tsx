@@ -1,9 +1,10 @@
 import { Card, Image, Text } from '@/app/ds';
 import { TPokemon } from '@/app/ui/features/pokemon/types';
+import Link from 'next/link';
 
-type EvolutionTimelineProps = {
-    pokemon: TPokemon;
-};
+type EvolutionTimelineProps = Readonly<{
+  pokemon: TPokemon;
+}>;
 
 export default function EvolutionTimeline({ pokemon }: EvolutionTimelineProps) {
   const imageSrc = pokemon?.external_image || pokemon.images?.front_image;
@@ -25,19 +26,22 @@ export default function EvolutionTimeline({ pokemon }: EvolutionTimelineProps) {
           {pokemon.evolutions.map((evolution) => {
             const evolutionImage = evolution.external_image;
             return (
-              <div key={evolution.id} className="flex items-center gap-4">
-                <Text as="span" color="text-slate-300" size="3xl">→</Text>
-                <Card variant="tonal" rounded="xl" className="bg-slate-50">
-                  <div className="flex items-center gap-4">
-                    <Image src={evolutionImage} alt={evolution.name} size="sm"
-                      fit="contain" className="h-20 w-20"/>
-                    <div>
-                      <Text as="h4" className="capitalize">{evolution.name}</Text>
-                      <Text color="text-slate-500">{evolution.status}</Text>
+              <Link key={evolution.id} href={`/pokemon/${evolution.name}`}
+                className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <div className="flex items-center gap-4">
+                  <Text as="span" color="text-slate-300" size="3xl">→</Text>
+                  <Card variant="tonal" rounded="xl" className="bg-slate-50">
+                    <div className="flex items-center gap-4">
+                      <Image src={evolutionImage} alt={evolution.name} size="sm"
+                        fit="contain" className="h-20 w-20"/>
+                      <div>
+                        <Text as="h4" className="capitalize">{evolution.name}</Text>
+                        <Text color="text-slate-500">{evolution.status}</Text>
+                      </div>
                     </div>
-                  </div>
-                </Card>
-              </div>
+                  </Card>
+                </div>
+              </Link>
             );
           })}
         </div>

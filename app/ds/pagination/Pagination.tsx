@@ -145,6 +145,4 @@ const Pagination = ({
   );
 };
 
-export type { PaginationProps };
 export default React.memo(Pagination);
-

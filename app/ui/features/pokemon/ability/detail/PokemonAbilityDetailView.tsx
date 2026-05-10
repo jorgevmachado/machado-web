@@ -7,9 +7,9 @@ import { Badge, Card, Text } from '@/app/ds';
 
 import { usePokemonAbilityDetail } from './usePokemonAbilityDetail';
 
-type PokemonAbilityDetailViewProps = {
+type PokemonAbilityDetailViewProps = Readonly<{
   identifier: string;
-};
+}>;
 
 const formatOrder = (order: number): string => `#${String(order).padStart(3, '0')}`;
 

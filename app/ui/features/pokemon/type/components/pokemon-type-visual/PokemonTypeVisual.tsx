@@ -7,9 +7,9 @@ type PokemonTypeVisualData = {
   text_color?: string | null;
 };
 
-type PokemonTypeVisualProps = {
+type PokemonTypeVisualProps = Readonly<{
   type: PokemonTypeVisualData;
-}
+}>;
 
 export default function PokemonTypeVisual({ type }: PokemonTypeVisualProps) {
   if (type.badge_url) {

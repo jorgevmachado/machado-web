@@ -34,7 +34,7 @@ const defaultMockData = {
   created_at: '2026-05-07T15:03:35.795702Z',
   updated_at: null,
   deleted_at: null
-}
+};
 
 describe('PokemonEncounterDetailView', () => {
   beforeEach(() => {

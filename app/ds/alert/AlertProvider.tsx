@@ -7,11 +7,19 @@ import Alert from './Alert';
 import { AlertContext } from './AlertContext';
 import type { GlobalAlert, ShowAlertInput } from './types';
 
-type AlertProviderProps = {
+type AlertProviderProps = Readonly<{
   children: React.ReactNode;
-};
+}>;
 
 const DEFAULT_ALERT_DURATION_MS = 4200;
+
+const buildAlertId = (): string => {
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+};
+
+const removeAlertState = (alerts: GlobalAlert[], id: string): GlobalAlert[] => {
+  return alerts.filter((alert) => alert.id !== id);
+};
 
 const AlertProvider = ({ children }: AlertProviderProps) => {
   const [alerts, setAlerts] = useState<GlobalAlert[]>([]);
@@ -25,25 +33,30 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
       timeoutsRef.current.delete(id);
     }
 
-    setAlerts((previousState) => previousState.filter((alert) => alert.id !== id));
+    setAlerts((previousState) => removeAlertState(previousState, id));
+  }, []);
+
+  const scheduleDismiss = useCallback((id: string, durationMs: number) => {
+    if (durationMs <= 0) {
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setAlerts((previousState) => removeAlertState(previousState, id));
+      timeoutsRef.current.delete(id);
+    }, durationMs);
+
+    timeoutsRef.current.set(id, timeout);
   }, []);
 
   const showAlert = useCallback(({ type = 'info', message, durationMs = DEFAULT_ALERT_DURATION_MS }: ShowAlertInput) => {
-    const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+    const id = buildAlertId();
 
     setAlerts((previousState) => [...previousState, { id, type, message }]);
-
-    if (durationMs > 0) {
-      const timeout = setTimeout(() => {
-        setAlerts((previousState) => previousState.filter((alert) => alert.id !== id));
-        timeoutsRef.current.delete(id);
-      }, durationMs);
-
-      timeoutsRef.current.set(id, timeout);
-    }
+    scheduleDismiss(id, durationMs);
 
     return id;
-  }, []);
+  }, [scheduleDismiss]);
 
   const clearAlerts = useCallback(() => {
     timeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
@@ -85,4 +98,3 @@ const AlertProvider = ({ children }: AlertProviderProps) => {
 };
 
 export default AlertProvider;
-

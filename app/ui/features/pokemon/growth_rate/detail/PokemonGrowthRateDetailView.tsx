@@ -26,22 +26,22 @@ const formatValue = (value: number | null | undefined): string => value === null
 const FRACTION_REGEX = /\\frac\{([^{}]+)\}\{([^{}]+)\}/g;
 
 const replaceFractions = (expression: string): string => {
-  const nextExpression = expression.replace(FRACTION_REGEX, '(($1)/($2))');
+  const nextExpression = expression.replaceAll(FRACTION_REGEX, '(($1)/($2))');
   return nextExpression === expression ? expression : replaceFractions(nextExpression);
 };
 
 const normalizeFormulaExpression = (formula: string, level: number): string | null => {
-  const normalizedFormula = formula.replace(/\s+/g, '').toLowerCase();
+  const normalizedFormula = formula.replaceAll(/\s+/g, '').toLowerCase();
   if (!normalizedFormula) {
     return null;
   }
 
   const expression = replaceFractions(normalizedFormula)
-    .replace(/[{}]/g, (token) => (token === '{' ? '(' : ')'))
-    .replace(/\^/g, '**')
-    .replace(/x/g, `(${String(level)})`)
-    .replace(/(\d|\))\(/g, '$1*(')
-    .replace(/\)(\d)/g, ')*$1');
+    .replaceAll(/[{}]/g, (token) => (token === '{' ? '(' : ')'))
+    .replaceAll('^', '**')
+    .replaceAll('x', `(${String(level)})`)
+    .replaceAll(/(\d|\))\(/g, '$1*(')
+    .replaceAll(/\)(\d)/g, ')*$1');
 
   if (!/^[0-9()+\-*/.]+$/.test(expression)) {
     return null;

@@ -57,7 +57,7 @@ export default function Image({
   unoptimized = true ,
   fallbackSrcList ,
   ...props
-}: ImageProps) {
+}: Readonly<ImageProps>) {
   const [isInvalid ,setIsInvalid] = useState<boolean>(false);
   const [fallbackSrcState ,setFallbackSrcState] = useState<Array<string> | undefined>(
     fallbackSrcList);

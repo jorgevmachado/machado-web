@@ -7,9 +7,9 @@ import { usePokemonTypeDetail } from './usePokemonTypeDetail';
 import { AssociationCard } from '../../components/association-card';
 import PokemonTypeVisual from '../components/pokemon-type-visual';
 
-type PokemonTypeDetailViewProps = {
-    identifier: string;
-};
+type PokemonTypeDetailViewProps = Readonly<{
+  identifier: string;
+}>;
 
 const formatOrder = (order: number | null | undefined): string => (
   order === null || order === undefined ? '#---' : `#${String(order).padStart(3, '0')}`

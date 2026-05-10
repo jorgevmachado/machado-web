@@ -1,10 +1,14 @@
 'use client';
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   BreadcrumbContext
 } from '@/app/ds/breadcrumb/BreadcrumbContext';
 
-const BreadcrumbProvider: React.FC<{children: React.ReactNode }> = ({ children }) => {
+type BreadcrumbProviderProps = Readonly<{
+  children: React.ReactNode;
+}>;
+
+const BreadcrumbProvider = ({ children }: BreadcrumbProviderProps) => {
   const [labels, setLabels] = React.useState<Record<string, string>>({});
 
   const setCustomLabel = (path: string, label: string) => {
@@ -14,11 +18,13 @@ const BreadcrumbProvider: React.FC<{children: React.ReactNode }> = ({ children }
     }));
   };
 
+  const value = useMemo(() => ({
+    setCustomLabel,
+    customLabels: labels,
+  }), [labels]);
+
   return (
-    <BreadcrumbContext.Provider value={{
-      setCustomLabel,
-      customLabels: labels,
-    }}>
+    <BreadcrumbContext.Provider value={value}>
       {children}
     </BreadcrumbContext.Provider>
   );

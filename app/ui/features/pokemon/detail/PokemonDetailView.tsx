@@ -10,9 +10,9 @@ import EvolutionTimeline from '../components/evolution-timeline';
 import MovesExpand from '../components/moves-expand';
 import GalleryImage from '../components/gallery-image';
 
-type PokemonDetailViewProps = {
-    identifier: string;
-};
+type PokemonDetailViewProps = Readonly<{
+  identifier: string;
+}>;
 
 export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
   const { data, isLoading, errorMessage } = usePokemonDetail(identifier);
@@ -144,8 +144,9 @@ export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
 
               <div className="space-y-3 border-t border-slate-100 pt-4">
                 <Text as="h4">Growth Rate</Text>
-                { data.growth_rate ? (
-                  <Link key={data.growth_rate.id} href={`/pokemon/growth-rate/${data.growth_rate.name}`}
+                {data.growth_rate ? (
+                  <Link key={data.growth_rate.id}
+                    href={`/pokemon/growth-rate/${data.growth_rate.name}`}
                     className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <Text color="text-slate-700">
                       {formatLabel(data.growth_rate.name)}
@@ -209,16 +210,26 @@ export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
 
           <Card rvariant="elevated" rounded="2xl" className="border border-white/80 bg-white/90">
             <Text as="h2" className="text-xl font-semibold text-slate-950">Found</Text>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {data.encounters.map((encounter) => (
-                <Link key={encounter.id} href={`/pokemon/encounter/${encounter.name}`}
+            {data.encounters && data.encounters?.length > 0
+              ? (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {data.encounters.map((encounter) => (
+                    <Link key={encounter.id} href={`/pokemon/encounter/${encounter.name}`}
                       className="block focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <Badge random={true}>
-                    {encounter.name}
-                  </Badge>
-                </Link>
-              ))}
-            </div>
+                      <Badge random={true}>
+                        {encounter.name}
+                      </Badge>
+                    </Link>
+                  ))}
+                </div>
+              )
+              : (
+                <Text color="text-slate-700">
+                                    Unknown
+                </Text>
+              )
+            }
+
           </Card>
         </section>
       </div>

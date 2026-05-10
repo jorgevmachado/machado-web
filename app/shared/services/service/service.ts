@@ -8,9 +8,9 @@ export abstract class BaseServiceAbstract extends Http {
     pathUrl: string ,
     token?: string ,
   ) {
-    const headers: Record<string ,string> = !token ? {} : {
+    const headers: Record<string ,string> = token ? {
       Authorization: `Bearer ${ token }` ,
-    };
+    } : {};
     super(baseUrl ,{ headers });
     this.pathUrl = pathUrl;
   }

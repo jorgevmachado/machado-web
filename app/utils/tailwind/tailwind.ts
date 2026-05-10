@@ -31,5 +31,5 @@ export const buildColorTone = ({
     return optColor;
   }
 
-  return;
+  return undefined;
 };

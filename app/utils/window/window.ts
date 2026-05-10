@@ -1,5 +1,5 @@
 export function isBrowser(): boolean {
-  return typeof window !== 'undefined';
+  return globalThis.window !== undefined;
 }
 
 export function isDocument(): boolean {
@@ -13,5 +13,5 @@ export function documentCookie(): string {
 
 export function domain(): string {
   /* istanbul ignore next -- exercised only outside the jsdom/browser test environment. */
-  return isBrowser() ? window.location.hostname : '.localhost';
+  return isBrowser() ? globalThis.window.location.hostname : '.localhost';
 }

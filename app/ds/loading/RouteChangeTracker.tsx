@@ -41,7 +41,7 @@ const RouteChangeTracker = () => {
       if (href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
       if (anchor.target === '_blank') return;
       if (href === pathname) return;
-      if (!href.startsWith('/') && !href.startsWith(window.location.origin)) return;
+      if (!href.startsWith('/') && !href.startsWith(globalThis.location.origin)) return;
 
       startPageLoading();
     };
@@ -55,4 +55,3 @@ const RouteChangeTracker = () => {
 };
 
 export default RouteChangeTracker;
-
