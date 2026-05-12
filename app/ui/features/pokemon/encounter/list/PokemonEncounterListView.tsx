@@ -4,11 +4,12 @@ import { useEffect } from 'react';
 import { GiPositionMarker } from 'react-icons/gi';
 
 import { Badge, Card, Filters, Pagination, Text, useAlert } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
+import { normalizedName } from '@/app/utils';
 import { AssociationCard } from '../../components/association-card';
 
 import type { PokemonEncounterFilters } from '../types';
 import { usePokemonEncounterList } from './usePokemonEncounterList';
-import { normalizedName } from '@/app/utils';
 
 const formatOrder = (order: number): string => `#${String(order).padStart(3, '0')}`;
 
@@ -24,6 +25,7 @@ export function PokemonEncounterListView() {
     clearInputFilters,
   } = usePokemonEncounterList();
   const { showAlert } = useAlert();
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (errorMessage) {
@@ -37,24 +39,24 @@ export function PokemonEncounterListView() {
         <header className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <Text as="h1" className="text-3xl font-bold text-slate-950 sm:text-4xl">
-              Pokemon Encounters
+              {t('pokemon.encounter.list.title')}
             </Text>
           </div>
           <Badge tone="info" variant="soft" size="lg">
-            {meta.total} records
+            {t('common.recordCount', { count: meta.total })}
           </Badge>
         </header>
 
         <Filters
           filters={inputFilters}
-          ariaLabel="Pokemon encounter filters"
+          ariaLabel={t('pokemon.encounter.list.filtersAria')}
           onApply={(filters) => applyInputFilters(filters as PokemonEncounterFilters)}
           onClear={clearInputFilters}
         />
 
         {!isLoading && items.length === 0 ? (
           <Card variant="outlined" rounded="lg" className="text-center">
-            <Text className="text-slate-600">No Pokemon encounter found.</Text>
+            <Text className="text-slate-600">{t('pokemon.encounter.list.empty')}</Text>
           </Card>
         ) : null}
 
@@ -65,7 +67,7 @@ export function PokemonEncounterListView() {
               href={`/pokemon/encounter/${encounter.name}`}
               title={normalizedName(encounter.name)}
               eyebrow={formatOrder(encounter.order)}
-              ariaLabel={`Open ${encounter.name} encounter`}
+              ariaLabel={t('pokemon.encounter.list.open', { name: encounter.name })}
               visual={(
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-700">
                   <GiPositionMarker size={30} />
@@ -73,7 +75,9 @@ export function PokemonEncounterListView() {
               )}
             >
               <Text className="line-clamp-3 text-sm text-slate-700" data-testid="pokemon-encounter-list-method">
-                Method: {encounter.method ? normalizedName(encounter.method) : 'Encounter pending.'}
+                {t('pokemon.encounter.list.method', {
+                  value: encounter.method ? normalizedName(encounter.method) : t('pokemon.encounter.list.pending'),
+                })}
               </Text>
             </AssociationCard>
           ))}

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { MdAutoAwesome } from 'react-icons/md';
 
 import { Badge, Card, Text } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
 
 import { usePokemonAbilityDetail } from './usePokemonAbilityDetail';
 
@@ -15,12 +16,13 @@ const formatOrder = (order: number): string => `#${String(order).padStart(3, '0'
 
 export function PokemonAbilityDetailView({ identifier }: PokemonAbilityDetailViewProps) {
   const { data, isLoading, errorMessage } = usePokemonAbilityDetail(identifier);
+  const { t } = useAppTranslation();
 
   if (isLoading && !data) {
     return (
       <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
         <Card rounded="lg" className="mx-auto max-w-5xl text-center">
-          <Text className="text-slate-600">Loading Pokemon ability...</Text>
+          <Text className="text-slate-600">{t('pokemon.ability.detail.loading')}</Text>
         </Card>
       </div>
     );
@@ -30,7 +32,7 @@ export function PokemonAbilityDetailView({ identifier }: PokemonAbilityDetailVie
     return (
       <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
         <Card rounded="lg" className="mx-auto max-w-5xl text-center">
-          <Text className="text-slate-600">{errorMessage || 'Pokemon ability not found.'}</Text>
+          <Text className="text-slate-600">{errorMessage || t('pokemon.ability.detail.notFound')}</Text>
         </Card>
       </div>
     );
@@ -40,7 +42,7 @@ export function PokemonAbilityDetailView({ identifier }: PokemonAbilityDetailVie
     <div className="min-h-screen bg-slate-50 px-4 py-6 text-slate-950 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-5xl flex-col gap-6">
         <Link href="/pokemon/ability" className="text-sm font-semibold text-blue-700">
-          Back to Abilities
+          {t('pokemon.ability.detail.back')}
         </Link>
 
         <Card rounded="lg" className="bg-white">
@@ -60,10 +62,10 @@ export function PokemonAbilityDetailView({ identifier }: PokemonAbilityDetailVie
             </div>
             <div className="flex flex-wrap gap-2">
               <Badge tone={data.is_hidden ? 'warning' : 'info'} variant="soft" size="lg">
-                {data.is_hidden ? 'Hidden' : 'Standard'}
+                {data.is_hidden ? t('pokemon.ability.list.hidden') : t('pokemon.ability.list.standard')}
               </Badge>
               <Badge tone="neutral" variant="soft" size="lg">
-                Slot {data.slot}
+                {t('pokemon.ability.list.slot', { value: data.slot })}
               </Badge>
             </div>
           </div>
@@ -72,20 +74,20 @@ export function PokemonAbilityDetailView({ identifier }: PokemonAbilityDetailVie
         <section className="grid gap-6 lg:grid-cols-[1fr_320px]">
           <div className="flex flex-col gap-6">
             <Card rounded="lg" className="bg-white">
-              <Text as="h2" className="text-xl font-semibold text-slate-950">Short Effect</Text>
-              <Text className="mt-3 text-slate-700">{data.short_effect || 'Short effect pending.'}</Text>
+              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.ability.detail.shortEffect')}</Text>
+              <Text className="mt-3 text-slate-700">{data.short_effect || t('pokemon.ability.detail.shortEffectPending')}</Text>
             </Card>
 
             <Card rounded="lg" className="bg-white">
-              <Text as="h2" className="text-xl font-semibold text-slate-950">Effect</Text>
-              <Text className="mt-3 whitespace-pre-line text-slate-700">{data.effect || 'Effect pending.'}</Text>
+              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.ability.detail.effect')}</Text>
+              <Text className="mt-3 whitespace-pre-line text-slate-700">{data.effect || t('pokemon.ability.detail.effectPending')}</Text>
             </Card>
           </div>
 
           <Card rounded="lg" className="bg-white">
-            <Text as="h2" className="text-xl font-semibold text-slate-950">Flavor Text</Text>
+            <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.ability.detail.flavorText')}</Text>
             <Text className="mt-3 text-sm italic text-slate-600">
-              {data.flavor_text || 'Flavor text pending.'}
+              {data.flavor_text || t('pokemon.ability.detail.flavorTextPending')}
             </Text>
           </Card>
         </section>

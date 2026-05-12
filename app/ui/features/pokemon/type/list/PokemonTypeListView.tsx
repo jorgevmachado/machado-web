@@ -3,11 +3,13 @@
 import { useEffect } from 'react';
 
 import { Badge, Card, Filters, Pagination, Text, useAlert } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
 import { AssociationCard } from '../../components/association-card';
 
+import PokemonTypeVisual from '../components/pokemon-type-visual';
+import { translatePokemonTypeName } from '../translatePokemonTypeName';
 import type { PokemonTypeFilters } from '../types';
 import { usePokemonTypeList } from './usePokemonTypeList';
-import PokemonTypeVisual from '../components/pokemon-type-visual';
 
 const formatOrder = (order: number): string => `#${String(order).padStart(3, '0')}`;
 
@@ -23,6 +25,7 @@ export function PokemonTypeListView() {
     clearInputFilters,
   } = usePokemonTypeList();
   const { showAlert } = useAlert();
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (errorMessage) {
@@ -36,50 +39,55 @@ export function PokemonTypeListView() {
         <header className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <Text as="h1" className="text-3xl font-bold text-slate-950 sm:text-4xl">
-                            Pokemon Types
+              {t('pokemon.type.list.title')}
             </Text>
             <Text className="mt-1 max-w-2xl text-sm text-slate-600 sm:text-base">
-                            Browse type badges, colors, strengths, and weaknesses.
+              {t('pokemon.type.list.description')}
             </Text>
           </div>
           <Badge tone="info" variant="soft" size="lg">
-            {meta.total} records
+            {t('common.recordCount', { count: meta.total })}
           </Badge>
         </header>
 
         <Filters
           filters={inputFilters}
-          ariaLabel="Pokemon type filters"
+          ariaLabel={t('pokemon.type.list.filtersAria')}
           onApply={(filters) => applyInputFilters(filters as PokemonTypeFilters)}
           onClear={clearInputFilters}
         />
 
         {!isLoading && items.length === 0 ? (
           <Card variant="outlined" rounded="lg" className="text-center">
-            <Text className="text-slate-600">No Pokemon types found.</Text>
+            <Text className="text-slate-600">{t('pokemon.type.list.empty')}</Text>
           </Card>
         ) : null}
 
         <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {items.map((type) => (
-            <AssociationCard
-              key={type.id}
-              href={`/pokemon/type/${type.name}`}
-              eyebrow={formatOrder(type.order)}
-              visual={<PokemonTypeVisual type={type}/>}
-              ariaLabel={`Open ${type.name} type`}
-              footer={(
-                <div className="flex flex-wrap gap-2">
-                  <Badge tone="success" variant="soft">{type.strengths.length} strengths</Badge>
-                  <Badge tone="warning" variant="soft">{type.weaknesses.length} weaknesses</Badge>
-                </div>
-              )}
-            >
-              <Text className="line-clamp-2 text-sm text-slate-600">
-                {type.description ?? 'Explore damage relations and visual identity for this type.'}
-              </Text>
-            </AssociationCard>
-          ))}
+          {items.map((type) => {
+            const translatedTypeName = translatePokemonTypeName(t, type.name);
+
+            return (
+              <AssociationCard
+                key={type.id}
+                href={`/pokemon/type/${type.name}`}
+                eyebrow={formatOrder(type.order)}
+                visual={<PokemonTypeVisual type={type}/>}
+                title={translatedTypeName}
+                ariaLabel={t('pokemon.type.list.open', { name: translatedTypeName })}
+                footer={(
+                  <div className="flex flex-wrap gap-2">
+                    <Badge tone="success" variant="soft">{t('pokemon.type.list.strengthCount', { count: type.strengths.length })}</Badge>
+                    <Badge tone="warning" variant="soft">{t('pokemon.type.list.weaknessCount', { count: type.weaknesses.length })}</Badge>
+                  </div>
+                )}
+              >
+                <Text className="line-clamp-2 text-sm text-slate-600">
+                  {type.description ?? t('pokemon.type.list.fallbackDescription')}
+                </Text>
+              </AssociationCard>
+            );
+          })}
         </section>
 
         <Pagination

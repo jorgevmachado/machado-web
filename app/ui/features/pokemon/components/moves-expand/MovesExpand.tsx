@@ -1,12 +1,17 @@
-import { Badge, Card, Text } from '@/app/ds';
-import { formatLabel } from '@/app/utils';
-import { TPokemonMove } from '@/app/ui/features/pokemon/move';
+'use client';
+
 import { useState } from 'react';
+
+import { Badge, Card, Text } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
+import type { TPokemonMove } from '@/app/ui/features/pokemon/move';
+import { formatLabel } from '@/app/utils';
 
 type MovesExpandProps = Readonly<{
   moves: Array<TPokemonMove>;
   page_size?: number;
 }>;
+
 export default function MovesExpand({
   moves,
   page_size = 2,
@@ -14,19 +19,21 @@ export default function MovesExpand({
   const [visibleMoves, setVisibleMoves] = useState<number>(page_size);
   const movesToRender = moves.slice(0, visibleMoves);
   const hasMoreMoves = visibleMoves < moves.length;
+  const { t } = useAppTranslation();
+
   return (
     <Card variant="elevated" rounded="2xl" className="border border-white/80 bg-white/90">
       <div className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="space-y-1">
-            <Text as="h3">Moves</Text>
+            <Text as="h3">{t('pokemon.movesExpand.title')}</Text>
             <Text color="text-slate-500">
-              Highlighted attacks in progressive batches so the page keeps its rhythm.
+              {t('pokemon.movesExpand.description')}
             </Text>
           </div>
 
           <Badge tone="secondary" variant="soft">
-            {moves.length} total
+            {t('pokemon.movesExpand.total', { count: moves.length })}
           </Badge>
         </div>
 
@@ -55,7 +62,7 @@ export default function MovesExpand({
                       weight="semibold"
                       className="uppercase tracking-[0.16em]"
                     >
-                      Priority
+                      {t('pokemon.movesExpand.priority')}
                     </Text>
                     <Text as="p" weight="bold" color="text-slate-900">
                       {move.priority}
@@ -64,7 +71,7 @@ export default function MovesExpand({
                 </div>
 
                 <Text color="text-slate-500">
-                  Power {move.power} • Accuracy {move.accuracy} • PP {move.pp}
+                  {t('pokemon.movesExpand.stats', { power: move.power, accuracy: move.accuracy, pp: move.pp })}
                 </Text>
                 <Text color="text-slate-600" lineClamp={2}>
                   {move.short_effect || move.effect}
@@ -85,7 +92,7 @@ export default function MovesExpand({
               }}
               className="rounded-full border border-sky-200 bg-sky-50 px-4 py-2 text-sm font-semibold text-sky-800 transition-colors hover:bg-sky-100"
             >
-              Ver mais 2 movimentos
+              {t('pokemon.movesExpand.viewMore', { count: page_size })}
             </button>
           </div>
         ) : null}

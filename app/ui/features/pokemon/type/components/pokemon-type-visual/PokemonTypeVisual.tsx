@@ -1,3 +1,5 @@
+import { useAppTranslation } from '@/app/i18n';
+import { translatePokemonTypeName } from '@/app/ui/features/pokemon/type';
 import { Image } from '@/app/ds';
 
 type PokemonTypeVisualData = {
@@ -12,11 +14,14 @@ type PokemonTypeVisualProps = Readonly<{
 }>;
 
 export default function PokemonTypeVisual({ type }: PokemonTypeVisualProps) {
+  const { t } = useAppTranslation();
+  const translatedName = translatePokemonTypeName(t, type.name);
+
   if (type.badge_url) {
     return (
       <Image
         src={type.badge_url}
-        alt={`${type.name} badge`}
+        alt={`${translatedName} badge`}
         size="lg"
         fit="contain"
         className="max-h-20"
@@ -32,7 +37,7 @@ export default function PokemonTypeVisual({ type }: PokemonTypeVisualProps) {
         color: type.text_color || '#111827',
       }}
     >
-      {type.name}
+      {translatedName}
     </span>
   );
 };

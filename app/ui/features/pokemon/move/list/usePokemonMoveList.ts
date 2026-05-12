@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 
 import type { FiltersProps } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
 import usePaginatedList from '@/app/ui/hooks/list/usePaginatedList';
 
 import type { PokemonMoveFilters, TPokemonMove } from '../types';
@@ -18,16 +19,18 @@ const normalizeFilters = (filters: PokemonMoveFilters): PokemonMoveFilters => ({
 });
 
 export function usePokemonMoveList() {
+  const { t } = useAppTranslation();
+
   const initialInputFilters = useMemo<FiltersProps['filters']>(() => [
-    { name: 'name', label: 'Name', type: 'text', value: '', placeholder: 'tackle' },
-    { name: 'order', label: 'Order', type: 'text', value: '', placeholder: '33' },
-  ], []);
+    { name: 'name', label: t('filters.name'), type: 'text', value: '', placeholder: 'tackle' },
+    { name: 'order', label: t('filters.order'), type: 'text', value: '', placeholder: '33' },
+  ], [t]);
 
   return usePaginatedList<TPokemonMove, PokemonMoveFilters>({
     endpoint: '/api/pokemon/move',
     initialFilters: INITIAL_FILTERS,
     initialInputFilters,
-    fetchErrorMessage: 'Could not load Pokemon moves.',
+    fetchErrorMessage: t('pokemon.move.list.loadError'),
     normalizeFilters,
   });
 }

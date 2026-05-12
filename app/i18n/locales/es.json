@@ -1,0 +1,313 @@
+{
+  "common": {
+    "yes": "Sí",
+    "no": "No",
+    "unknown": "Desconocido",
+    "recordCount_one": "{{count}} registro",
+    "recordCount_other": "{{count}} registros",
+    "viewMore": "Ver más"
+  },
+  "language": {
+    "label": "Seleccionar idioma",
+    "selector": "Selector de idioma",
+    "changeTo": "Cambiar idioma a {{language}}",
+    "ptBR": "Portugués",
+    "en": "Inglés",
+    "es": "Español"
+  },
+  "navigation": {
+    "title": "Sistema Pokémon",
+    "subtitle": "Portal del Entrenador",
+    "expandSidebar": "Expandir barra lateral",
+    "collapseSidebar": "Contraer barra lateral",
+    "closeSidebar": "Cerrar barra lateral",
+    "pokeballLogo": "Logo de la Pokebola",
+    "sidebar": "Barra lateral",
+    "authenticatedNavigation": "Navegación autenticada",
+    "expandSection": "Expandir {{section}}",
+    "collapseSection": "Contraer {{section}}",
+    "signOut": "Cerrar sesión",
+    "home": "Inicio",
+    "pokemon": "Pokémon",
+    "types": "Tipos",
+    "abilities": "Habilidades",
+    "moves": "Movimientos",
+    "growthRate": "Crecimiento",
+    "encounters": "Encuentros",
+    "pokedex": "Pokédex",
+    "myPokemons": "Mis Pokémons",
+    "battle": "Batalla"
+  },
+  "filters": {
+    "apply": "Aplicar filtros",
+    "clear": "Limpiar filtros",
+    "noOptions": "No se encontraron opciones.",
+    "name": "Nombre",
+    "order": "Orden",
+    "type": "Tipo",
+    "status": "Estado"
+  },
+  "pagination": {
+    "ariaLabel": "Paginación",
+    "goToPage": "Ir a la página {{page}}",
+    "previous": "Ir a la página anterior",
+    "next": "Ir a la página siguiente"
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "subtitle": "¡Bienvenido de nuevo! Ingresa tus credenciales abajo.",
+      "credentialLabel": "Correo o usuario",
+      "credentialPlaceholder": "tu@ejemplo.com o tu_usuario",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "submit": "Iniciar sesión",
+      "submitting": "Ingresando...",
+      "noAccount": "¿No tienes una cuenta?",
+      "signUp": "Regístrate"
+    },
+    "register": {
+      "title": "Crear una cuenta",
+      "subtitle": "Completa los datos a continuación para comenzar.",
+      "successTitle": "¡Cuenta creada!",
+      "successAction": "Ir a iniciar sesión",
+      "fullName": "Nombre completo",
+      "fullNamePlaceholder": "Ash Ketchum",
+      "email": "Correo",
+      "emailPlaceholder": "tu@ejemplo.com",
+      "username": "Usuario",
+      "usernamePlaceholder": "ash_ketchum",
+      "gender": "Género",
+      "genderPlaceholder": "Selecciona el género",
+      "genderMale": "Masculino",
+      "genderFemale": "Femenino",
+      "genderOther": "Otro",
+      "birthDate": "Fecha de nacimiento",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "submit": "Crear cuenta",
+      "submitting": "Creando cuenta...",
+      "haveAccount": "¿Ya tienes una cuenta?",
+      "signIn": "Iniciar sesión"
+    },
+    "messages": {
+      "accountCreated": "¡Cuenta creada! Inicia sesión."
+    },
+    "errors": {
+      "invalidCredential": "Ingresa tu correo o usuario.",
+      "invalidFullName": "Ingresa tu nombre completo.",
+      "invalidBirthDate": "Ingresa tu fecha de nacimiento.",
+      "invalidGender": "Selecciona tu género.",
+      "invalidUsername": "Ingresa un nombre de usuario.",
+      "invalidEmail": "Ingresa una dirección de correo válida.",
+      "passwordConfirmation": "La confirmación de contraseña no coincide.",
+      "passwordRule": "La contraseña debe tener al menos 7 caracteres, una letra mayúscula y un carácter especial.",
+      "defaultLogin": "No se pudo iniciar sesión. Inténtalo de nuevo."
+    }
+  },
+  "home": {
+    "title": "Inicio",
+    "welcome": "Elige una sección en la barra lateral para seguir explorando el catálogo local de Pokémon."
+  },
+  "pokemon": {
+    "status": {
+      "COMPLETE": "COMPLETO",
+      "INCOMPLETE": "INCOMPLETO"
+    },
+    "list": {
+      "title": "Pokémon",
+      "description": "Explora el catálogo local y abre un Pokémon para enriquecer su perfil completo.",
+      "filtersAria": "Filtros de Pokémon",
+      "empty": "No se encontraron Pokémon.",
+      "typesPending": "tipos pendientes",
+      "loadError": "No se pudieron cargar los Pokémon."
+    },
+    "detail": {
+      "loading": "Cargando Pokémon...",
+      "notFound": "Pokémon no encontrado.",
+      "back": "Volver a la lista",
+      "number": "N.º {{value}}",
+      "statistics": "Estadísticas",
+      "abilities": "Habilidades",
+      "growthRate": "Crecimiento",
+      "strengths": "Fortalezas",
+      "weaknesses": "Debilidades",
+      "found": "Encontrado",
+      "labels": {
+        "hp": "HP",
+        "attack": "Ataque",
+        "defense": "Defensa",
+        "speed": "Velocidad",
+        "specialAttack": "Atq. Esp.",
+        "specialDefense": "Def. Esp.",
+        "height": "Altura",
+        "weight": "Peso",
+        "habitat": "Hábitat",
+        "shape": "Forma",
+        "hatchCounter": "Contador de Eclosión",
+        "captureRate": "Tasa de Captura",
+        "baseHappiness": "Felicidad Base",
+        "baseExperience": "Experiencia Base",
+        "isBaby": "Es Bebé",
+        "isMythical": "Es Mítico",
+        "isLegendary": "Es Legendario",
+        "hasGenderDifferences": "Tiene Diferencias de Género"
+      },
+      "loadError": "No se pudo cargar el detalle del Pokémon."
+    },
+    "type": {
+      "names": {
+        "normal": "Normal",
+        "fire": "Fuego",
+        "water": "Agua",
+        "electric": "Eléctrico",
+        "grass": "Planta",
+        "ice": "Hielo",
+        "fighting": "Lucha",
+        "poison": "Veneno",
+        "ground": "Tierra",
+        "flying": "Volador",
+        "psychic": "Psíquico",
+        "bug": "Bicho",
+        "rock": "Roca",
+        "ghost": "Fantasma",
+        "dragon": "Dragón",
+        "dark": "Siniestro",
+        "steel": "Acero",
+        "fairy": "Hada"
+      },
+      "list": {
+        "title": "Tipos de Pokémon",
+        "description": "Explora insignias, colores, fortalezas y debilidades de cada tipo.",
+        "filtersAria": "Filtros de tipos de Pokémon",
+        "empty": "No se encontraron tipos de Pokémon.",
+        "open": "Abrir tipo {{name}}",
+        "strengthCount_one": "{{count}} fortaleza",
+        "strengthCount_other": "{{count}} fortalezas",
+        "weaknessCount_one": "{{count}} debilidad",
+        "weaknessCount_other": "{{count}} debilidades",
+        "fallbackDescription": "Explora relaciones de daño e identidad visual de este tipo.",
+        "loadError": "No se pudieron cargar los tipos de Pokémon."
+      },
+      "detail": {
+        "loading": "Cargando tipo de Pokémon...",
+        "notFound": "Tipo de Pokémon no encontrado.",
+        "back": "Volver a Tipos",
+        "descriptionFallback": "No hay descripción disponible.",
+        "strengths": "Fortalezas",
+        "weaknesses": "Debilidades",
+        "loadError": "No se pudo cargar el detalle del tipo de Pokémon."
+      }
+    },
+    "ability": {
+      "list": {
+        "title": "Habilidades de Pokémon",
+        "description": "Lee efectos, flavor text y metadatos de habilidades ocultas.",
+        "filtersAria": "Filtros de habilidades de Pokémon",
+        "empty": "No se encontraron habilidades de Pokémon.",
+        "open": "Abrir habilidad {{name}}",
+        "hidden": "Oculta",
+        "standard": "Estándar",
+        "slot": "Espacio {{value}}",
+        "effectPending": "Efecto pendiente.",
+        "loadError": "No se pudieron cargar las habilidades de Pokémon."
+      },
+      "detail": {
+        "loading": "Cargando habilidad de Pokémon...",
+        "notFound": "Habilidad de Pokémon no encontrada.",
+        "back": "Volver a Habilidades",
+        "shortEffect": "Efecto Corto",
+        "effect": "Efecto",
+        "flavorText": "Flavor Text",
+        "shortEffectPending": "Efecto corto pendiente.",
+        "effectPending": "Efecto pendiente.",
+        "flavorTextPending": "Flavor text pendiente.",
+        "loadError": "No se pudo cargar el detalle de la habilidad de Pokémon."
+      }
+    },
+    "move": {
+      "list": {
+        "title": "Movimientos de Pokémon",
+        "description": "Explora efectos, metadatos de combate e información del objetivo.",
+        "filtersAria": "Filtros de movimientos de Pokémon",
+        "empty": "No se encontraron movimientos de Pokémon.",
+        "open": "Abrir movimiento {{name}}",
+        "power": "Poder {{value}}",
+        "accuracy": "Precisión {{value}}",
+        "pp": "PP {{value}}",
+        "effectPending": "Efecto pendiente.",
+        "loadError": "No se pudieron cargar los movimientos de Pokémon."
+      },
+      "detail": {
+        "loading": "Cargando movimiento de Pokémon...",
+        "notFound": "Movimiento de Pokémon no encontrado.",
+        "back": "Volver a Movimientos",
+        "shortEffect": "Efecto Corto",
+        "effect": "Efecto",
+        "moveData": "Datos del Movimiento",
+        "shortEffectPending": "Efecto corto pendiente.",
+        "effectPending": "Efecto pendiente.",
+        "power": "Poder",
+        "accuracy": "Precisión",
+        "pp": "PP",
+        "chance": "Probabilidad",
+        "target": "Objetivo",
+        "class": "Clase",
+        "loadError": "No se pudo cargar el detalle del movimiento de Pokémon."
+      }
+    },
+    "growthRate": {
+      "list": {
+        "title": "Crecimiento de Pokémon",
+        "filtersAria": "Filtros de crecimiento de Pokémon",
+        "empty": "No se encontró crecimiento de Pokémon.",
+        "open": "Abrir crecimiento {{name}}",
+        "formulaPending": "Fórmula pendiente.",
+        "loadError": "No se pudieron cargar los crecimientos de Pokémon."
+      },
+      "detail": {
+        "loading": "Cargando crecimiento de Pokémon...",
+        "notFound": "Crecimiento de Pokémon no encontrado.",
+        "back": "Volver a Crecimientos",
+        "formula": "Fórmula",
+        "formulaPending": "Fórmula pendiente.",
+        "tableTitle": "Tabla de Experiencia por Nivel",
+        "level": "Nivel",
+        "experience": "Experiencia",
+        "loadError": "No se pudo cargar el detalle del crecimiento de Pokémon."
+      }
+    },
+    "encounter": {
+      "list": {
+        "title": "Encuentros de Pokémon",
+        "filtersAria": "Filtros de encuentros de Pokémon",
+        "empty": "No se encontró encuentro de Pokémon.",
+        "open": "Abrir encuentro {{name}}",
+        "method": "Método: {{value}}",
+        "pending": "Encuentro pendiente.",
+        "loadError": "No se pudieron cargar los encuentros de Pokémon."
+      },
+      "detail": {
+        "loading": "Cargando encuentro de Pokémon...",
+        "notFound": "Encuentro de Pokémon no encontrado.",
+        "back": "Volver a Encuentros",
+        "chance": "Probabilidad",
+        "minLevel": "Nivel Mínimo",
+        "maxLevel": "Nivel Máximo",
+        "maxChance": "Probabilidad Máxima",
+        "condition": "Condición",
+        "method": "Método",
+        "loadError": "No se pudo cargar el detalle del encuentro de Pokémon."
+      }
+    },
+    "movesExpand": {
+      "title": "Movimientos",
+      "description": "Ataques destacados en lotes progresivos para mantener el ritmo de la página.",
+      "total_one": "{{count}} total",
+      "total_other": "{{count}} total",
+      "priority": "Prioridad",
+      "stats": "Poder {{power}} • Precisión {{accuracy}} • PP {{pp}}",
+      "viewMore": "Ver {{count}} movimientos más"
+    }
+  }
+}

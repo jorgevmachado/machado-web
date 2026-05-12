@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import React, { useMemo } from 'react';
 import { MdChevronLeft, MdChevronRight } from 'react-icons/md';
+import { useAppTranslation } from '@/app/i18n';
 import { PaginationProps } from './types';
 import { joinClass } from '@/app/utils';
 
@@ -42,6 +43,7 @@ const Pagination = ({
   className,
   ariaLabel = 'Pagination',
 }: PaginationProps) => {
+  const { t } = useAppTranslation();
   const normalizedCurrentPage = clampPage(currentPage, Math.max(totalPages, 1));
   const hasPreviousPage = normalizedCurrentPage > 1;
   const hasNextPage = normalizedCurrentPage < totalPages;
@@ -77,7 +79,7 @@ const Pagination = ({
   const renderPageControl = (page: number, isCurrent = false) => {
     const disabled = isCurrent || isLoading;
     const controlClassName = baseButtonClassName(isCurrent, disabled);
-    const pageAriaLabel = `Go to page ${page}`;
+    const pageAriaLabel = t('pagination.goToPage', { page });
 
     if (getPageHref && !disabled) {
       return (
@@ -108,7 +110,7 @@ const Pagination = ({
     disabled: boolean,
   ) => {
     const controlClassName = baseButtonClassName(false, disabled || isLoading);
-    const controlAriaLabel = direction === 'previous' ? 'Go to previous page' : 'Go to next page';
+    const controlAriaLabel = direction === 'previous' ? t('pagination.previous') : t('pagination.next');
 
     return (
       <button
@@ -124,7 +126,7 @@ const Pagination = ({
   };
 
   return (
-    <nav className={joinClass(['flex items-center justify-center', className])} aria-label={ariaLabel}>
+    <nav className={joinClass(['flex items-center justify-center', className])} aria-label={ariaLabel === 'Pagination' ? t('pagination.ariaLabel') : ariaLabel}>
       <div className='inline-flex items-center gap-2 rounded-2xl border border-slate-200 bg-white/90 p-2 shadow-sm'>
         {renderNavigationControl(normalizedCurrentPage - 1, <MdChevronLeft size={18} />, 'previous', !hasPreviousPage)}
 

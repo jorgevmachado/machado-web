@@ -6,6 +6,7 @@ import {
   getAuthenticatedUserBootstrap
 } from '@/app/ui/features/auth/user/server';
 import { AlertProvider ,BreadcrumbProvider ,LoadingProvider } from '@/app/ds';
+import { I18nProvider } from '@/app/i18n';
 import { UserProvider } from '@/app/ui/features/auth';
 import { NavigationFrame } from '@/app/ui';
 
@@ -42,20 +43,22 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className='antialiased'>
-        <AlertProvider>
-          <UserProvider
-            key={session.token || 'guest-session'}
-            initialUser={initialUser}
-            isAuthenticated={isAuthenticated}
-            tokenExpiresAt={isAuthenticated ? tokenExpiresAt : undefined}
-          >
-            <LoadingProvider>
-              <BreadcrumbProvider>
-                <NavigationFrame isAuthenticated={isAuthenticated}>{children}</NavigationFrame>
-              </BreadcrumbProvider>
-            </LoadingProvider>
-          </UserProvider>
-        </AlertProvider>
+        <I18nProvider>
+          <AlertProvider>
+            <UserProvider
+              key={session.token || 'guest-session'}
+              initialUser={initialUser}
+              isAuthenticated={isAuthenticated}
+              tokenExpiresAt={isAuthenticated ? tokenExpiresAt : undefined}
+            >
+              <LoadingProvider>
+                <BreadcrumbProvider>
+                  <NavigationFrame isAuthenticated={isAuthenticated}>{children}</NavigationFrame>
+                </BreadcrumbProvider>
+              </LoadingProvider>
+            </UserProvider>
+          </AlertProvider>
+        </I18nProvider>
       </body>
     </html>
   );

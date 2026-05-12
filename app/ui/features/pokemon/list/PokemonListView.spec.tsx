@@ -61,7 +61,7 @@ describe('PokemonListView', () => {
     expect(screen.getByRole('heading', { name: 'Pokemon' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'bulbasaur' })).toBeInTheDocument();
     expect(screen.getByText('#0001')).toBeInTheDocument();
-    expect(screen.getByText('1 records')).toBeInTheDocument();
+    expect(screen.getByText('1 record')).toBeInTheDocument();
   });
 
   it('renders complete pokemon types and reports load errors', () => {
@@ -86,7 +86,7 @@ describe('PokemonListView', () => {
     render(<PokemonListView />);
 
     expect(screen.getByRole('heading', { name: 'pikachu' })).toBeInTheDocument();
-    expect(screen.getByText('electric')).toBeInTheDocument();
+    expect(screen.getByText('Electric')).toBeInTheDocument();
     expect(screen.getByText('COMPLETE')).toBeInTheDocument();
     expect(showAlertMock).toHaveBeenCalledWith({ type: 'error', message: 'Could not load Pokemon.' });
   });
@@ -136,7 +136,7 @@ describe('PokemonListView', () => {
 
     render(<PokemonListView />);
 
-    expect(screen.getByText('electric')).toHaveStyle({
+    expect(screen.getByText('Electric')).toHaveStyle({
       backgroundColor: '#FDE68A',
       color: '#78350F',
     });

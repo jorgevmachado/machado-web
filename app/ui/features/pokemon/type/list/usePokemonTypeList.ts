@@ -3,6 +3,7 @@
 import { useMemo } from 'react';
 
 import type { FiltersProps } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
 import usePaginatedList from '@/app/ui/hooks/list/usePaginatedList';
 
 import type { PokemonTypeFilters, TPokemonType } from '../types';
@@ -18,16 +19,18 @@ const normalizeFilters = (filters: PokemonTypeFilters): PokemonTypeFilters => ({
 });
 
 export function usePokemonTypeList() {
+  const { t } = useAppTranslation();
+
   const initialInputFilters = useMemo<FiltersProps['filters']>(() => [
-    { name: 'name', label: 'Name', type: 'text', value: '', placeholder: 'fire' },
-    { name: 'order', label: 'Order', type: 'text', value: '', placeholder: '10' },
-  ], []);
+    { name: 'name', label: t('filters.name'), type: 'text', value: '', placeholder: 'fire' },
+    { name: 'order', label: t('filters.order'), type: 'text', value: '', placeholder: '10' },
+  ], [t]);
 
   return usePaginatedList<TPokemonType, PokemonTypeFilters>({
     endpoint: '/api/pokemon/type',
     initialFilters: INITIAL_FILTERS,
     initialInputFilters,
-    fetchErrorMessage: 'Could not load Pokemon types.',
+    fetchErrorMessage: t('pokemon.type.list.loadError'),
     normalizeFilters,
   });
 }

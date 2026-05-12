@@ -88,7 +88,7 @@ describe('pokemon reusable components', () => {
     />);
 
     expect(screen.getAllByLabelText('pikachu')).toHaveLength(4);
-    expect(screen.getByRole('link', { name: 'electric' })).toHaveAttribute('href', '/pokemon/type/electric');
+    expect(screen.getByRole('link', { name: 'Electric' })).toHaveAttribute('href', '/pokemon/type/electric');
   });
 
   it('falls back to an empty primary image when there are no images', () => {
@@ -115,8 +115,8 @@ describe('pokemon reusable components', () => {
       }]}
     />);
 
-    expect(screen.getByRole('link', { name: 'normal' })).toHaveAttribute('href', '/pokemon/type/normal');
-    expect(screen.getByText('normal')).not.toHaveStyle({ color: '' });
+    expect(screen.getByRole('link', { name: 'Normal' })).toHaveAttribute('href', '/pokemon/type/normal');
+    expect(screen.getByText('Normal')).not.toHaveStyle({ color: '' });
   });
 
   it('renders type visual fallback badge when no badge image exists', () => {
@@ -127,7 +127,7 @@ describe('pokemon reusable components', () => {
       text_color: null,
     }} />);
 
-    expect(screen.getByText('shadow')).toHaveStyle({
+    expect(screen.getByText('Shadow')).toHaveStyle({
       backgroundColor: '#E5E7EB',
       color: '#111827',
     });
@@ -150,6 +150,19 @@ describe('pokemon reusable components', () => {
     expect(screen.getByRole('link', { name: 'mew' })).toHaveAttribute('href', '/pokemon/mew');
     expect(screen.getByRole('heading', { name: 'mew' })).toBeInTheDocument();
     expect(screen.getByText('Mythical body')).toBeInTheDocument();
+  });
+
+  it('renders association card eyebrow without title', () => {
+    render(
+      <AssociationCard href="/pokemon/snorlax" eyebrow="#143">
+        <span>Sleeping body</span>
+      </AssociationCard>,
+    );
+
+    expect(screen.getByRole('link')).toHaveAttribute('href', '/pokemon/snorlax');
+    expect(screen.getByText('#143')).toBeInTheDocument();
+    expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+    expect(screen.getByText('Sleeping body')).toBeInTheDocument();
   });
 
   it('expands moves in batches and prefers short effects', () => {
@@ -194,10 +207,10 @@ describe('pokemon reusable components', () => {
     expect(screen.getByRole('heading', { name: 'Quick Attack' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { name: 'Tail Whip' })).not.toBeInTheDocument();
 
-    fireEvent.click(screen.getByRole('button', { name: 'Ver mais 2 movimentos' }));
+    fireEvent.click(screen.getByRole('button', { name: 'View 1 more moves' }));
 
     expect(screen.getByRole('heading', { name: 'Tail Whip' })).toBeInTheDocument();
     expect(screen.getByText('Lowers defense.')).toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: 'Ver mais 2 movimentos' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'View 1 more moves' })).not.toBeInTheDocument();
   });
 });

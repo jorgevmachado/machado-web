@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { GiStumpRegrowth } from 'react-icons/gi';
 
 import { Badge, Card, Filters, Pagination, Text, useAlert } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
 import { AssociationCard } from '../../components/association-card';
 
 import type { PokemonGrowthRateFilters } from '../types';
@@ -23,6 +24,7 @@ export function PokemonGrowthRateListView() {
     clearInputFilters,
   } = usePokemonGrowthRateList();
   const { showAlert } = useAlert();
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (errorMessage) {
@@ -36,35 +38,35 @@ export function PokemonGrowthRateListView() {
         <header className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <Text as="h1" className="text-3xl font-bold text-slate-950 sm:text-4xl">
-              Pokemon Growth Rate
+              {t('pokemon.growthRate.list.title')}
             </Text>
           </div>
           <Badge tone="info" variant="soft" size="lg">
-            {meta.total} records
+            {t('common.recordCount', { count: meta.total })}
           </Badge>
         </header>
 
         <Filters
           filters={inputFilters}
-          ariaLabel="Pokemon growth rate filters"
+          ariaLabel={t('pokemon.growthRate.list.filtersAria')}
           onApply={(filters) => applyInputFilters(filters as PokemonGrowthRateFilters)}
           onClear={clearInputFilters}
         />
 
         {!isLoading && items.length === 0 ? (
           <Card variant="outlined" rounded="lg" className="text-center">
-            <Text className="text-slate-600">No Pokemon growth rate found.</Text>
+            <Text className="text-slate-600">{t('pokemon.growthRate.list.empty')}</Text>
           </Card>
         ) : null}
 
         <section className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {items.map((growth_rate) => (
+          {items.map((growthRate) => (
             <AssociationCard
-              key={growth_rate.id}
-              href={`/pokemon/growth-rate/${growth_rate.name}`}
-              title={growth_rate.name}
-              eyebrow={formatOrder(growth_rate.order)}
-              ariaLabel={`Open ${growth_rate.name} growth_rate`}
+              key={growthRate.id}
+              href={`/pokemon/growth-rate/${growthRate.name}`}
+              title={growthRate.name}
+              eyebrow={formatOrder(growthRate.order)}
+              ariaLabel={t('pokemon.growthRate.list.open', { name: growthRate.name })}
               visual={(
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-700">
                   <GiStumpRegrowth size={30} />
@@ -72,7 +74,7 @@ export function PokemonGrowthRateListView() {
               )}
             >
               <Text className="line-clamp-3 text-sm text-slate-700">
-                {growth_rate.formula || 'Formula pending.'}
+                {growthRate.formula || t('pokemon.growthRate.list.formulaPending')}
               </Text>
             </AssociationCard>
           ))}

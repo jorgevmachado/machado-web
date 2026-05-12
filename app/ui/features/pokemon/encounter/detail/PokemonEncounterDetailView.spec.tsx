@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { PokemonEncounterDetailView } from './PokemonEncounterDetailView';
 
@@ -83,7 +83,7 @@ describe('PokemonEncounterDetailView', () => {
     usePokemonEncounterDetailMock.mockReturnValueOnce({ isLoading: true, data: undefined, errorMessage: undefined });
     const { rerender } = render(<PokemonEncounterDetailView identifier="cerulean-city-area" />);
 
-    expect(screen.getByText('Loading Pokemon Encounter...')).toBeInTheDocument();
+    expect(screen.getByText('Loading Pokemon encounter...')).toBeInTheDocument();
 
     usePokemonEncounterDetailMock.mockReturnValueOnce({ isLoading: false, data: undefined, errorMessage: 'encounter failed.' });
     rerender(<PokemonEncounterDetailView identifier="cerulean-city-area" />);
@@ -101,6 +101,6 @@ describe('PokemonEncounterDetailView', () => {
 
     render(<PokemonEncounterDetailView identifier="missing" />);
 
-    expect(screen.getByText('Pokemon Encounter not found.')).toBeInTheDocument();
+    expect(screen.getByText('Pokemon encounter not found.')).toBeInTheDocument();
   });
 });

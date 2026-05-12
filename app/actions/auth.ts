@@ -4,21 +4,23 @@ import { redirect } from 'next/navigation';
 
 import {
   isStrongPassword,
-  PASSWORD_RULE_MESSAGE,
 } from '@/app/shared/lib/auth';
 import type { AuthActionState } from '@/app/shared/lib/auth/action-state';
 import { clearAuthCookie, setAuthCookie } from '@/app/shared/lib/auth/server';
 import type { ResponseError } from '@/app/shared/services/http';
+import { createI18nMessage } from '@/app/i18n';
 import { authService } from '@/app/ui/features/auth/service';
 import { SignInParams, SignUpParams } from '@/app/ui/features/auth/types';
 
-const INVALID_CREDENTIAL_MESSAGE = 'Please enter your email or username.';
-const INVALID_FULL_NAME_MESSAGE = 'Please enter your full name.';
-const INVALID_BIRTH_DATE_MESSAGE = 'Please provide your birth date.';
-const INVALID_GENDER_MESSAGE = 'Please select your gender.';
-const INVALID_USERNAME_MESSAGE = 'Please enter a username.';
-const PASSWORD_CONFIRMATION_MESSAGE = 'Password confirmation does not match.';
-const DEFAULT_LOGIN_ERROR_MESSAGE = 'Unable to sign in. Please try again.';
+const INVALID_CREDENTIAL_MESSAGE = createI18nMessage('auth.errors.invalidCredential');
+const INVALID_FULL_NAME_MESSAGE = createI18nMessage('auth.errors.invalidFullName');
+const INVALID_BIRTH_DATE_MESSAGE = createI18nMessage('auth.errors.invalidBirthDate');
+const INVALID_GENDER_MESSAGE = createI18nMessage('auth.errors.invalidGender');
+const INVALID_USERNAME_MESSAGE = createI18nMessage('auth.errors.invalidUsername');
+const PASSWORD_CONFIRMATION_MESSAGE = createI18nMessage('auth.errors.passwordConfirmation');
+const DEFAULT_LOGIN_ERROR_MESSAGE = createI18nMessage('auth.errors.defaultLogin');
+const INVALID_EMAIL_MESSAGE = createI18nMessage('auth.errors.invalidEmail');
+const PASSWORD_RULE_MESSAGE = createI18nMessage('auth.errors.passwordRule');
 
 type RegisterUserPayload = {
   email: string;
@@ -88,7 +90,7 @@ const validateRegisterPayload = ({
   }
 
   if (!email?.includes('@')) {
-    return toErrorState('Please enter a valid email address.');
+    return toErrorState(INVALID_EMAIL_MESSAGE);
   }
 
   if (!username || username.length === 0) {
@@ -165,7 +167,7 @@ export async function registerAction(_: AuthActionState, formData: FormData): Pr
 
   return {
     status: 'success',
-    message: 'Account created! Please log in.',
+    message: createI18nMessage('auth.messages.accountCreated'),
   };
 }
 

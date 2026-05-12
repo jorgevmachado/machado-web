@@ -4,11 +4,12 @@ import { useRouter, usePathname } from 'next/navigation';
 import React, { useCallback, useState } from 'react';
 
 import { logoutAction } from '@/app/actions/auth';
+import { useAppTranslation } from '@/app/i18n';
 import { useUser } from '@/app/ui/features/auth';
 
 import { Breadcrumb } from '@/app/ds';
 
-import { AUTHENTICATED_MENU_ITEMS } from './constants';
+import { getAuthenticatedMenuItems } from './constants';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import './navigation.scss';
@@ -23,7 +24,9 @@ const NavigationFrame = ({ isAuthenticated, children }: NavigationFrameProps) =>
   const pathname = usePathname();
   const router = useRouter();
   const { clearUser } = useUser();
+  const { t } = useAppTranslation();
   const isSidebarVisible = isAuthenticated && !isSidebarCollapsed;
+  const authenticatedMenuItems = getAuthenticatedMenuItems(t);
 
   const handleToggleSidebar = useCallback(() => {
     setIsSidebarCollapsed((prev) => !prev);
@@ -39,7 +42,6 @@ const NavigationFrame = ({ isAuthenticated, children }: NavigationFrameProps) =>
   return (
     <div className='app-shell'>
       <Navbar
-        title='Pokemon System'
         isAuthenticated={isAuthenticated}
         isSidebarCollapsed={isSidebarCollapsed}
         onToggleSidebar={handleToggleSidebar}
@@ -48,7 +50,7 @@ const NavigationFrame = ({ isAuthenticated, children }: NavigationFrameProps) =>
       <div className={`${isAuthenticated ? 'app-content' : 'app-content--public'} ${isSidebarVisible ? 'app-content--sidebar-open' : ''}`}>
         {isAuthenticated && (
           <Sidebar
-            items={AUTHENTICATED_MENU_ITEMS}
+            items={authenticatedMenuItems}
             isCollapsed={isSidebarCollapsed}
             pathname={pathname}
             onLogout={handleLogout}
@@ -58,7 +60,7 @@ const NavigationFrame = ({ isAuthenticated, children }: NavigationFrameProps) =>
           <button
             type='button'
             className='app-sidebar-overlay'
-            aria-label='Close sidebar'
+            aria-label={t('navigation.closeSidebar')}
             onClick={handleToggleSidebar}
           />
         )}

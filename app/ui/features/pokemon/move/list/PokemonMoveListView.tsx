@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { GiPunchBlast } from 'react-icons/gi';
 
 import { Badge, Card, Filters, Pagination, Text, useAlert } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
 import { AssociationCard } from '../../components/association-card';
 
 import type { PokemonMoveFilters } from '../types';
@@ -24,6 +25,7 @@ export function PokemonMoveListView() {
     clearInputFilters,
   } = usePokemonMoveList();
   const { showAlert } = useAlert();
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (errorMessage) {
@@ -37,27 +39,27 @@ export function PokemonMoveListView() {
         <header className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <Text as="h1" className="text-3xl font-bold text-slate-950 sm:text-4xl">
-              Pokemon Moves
+              {t('pokemon.move.list.title')}
             </Text>
             <Text className="mt-1 max-w-2xl text-sm text-slate-600 sm:text-base">
-              Browse move effects, combat metadata, and targeting information.
+              {t('pokemon.move.list.description')}
             </Text>
           </div>
           <Badge tone="info" variant="soft" size="lg">
-            {meta.total} records
+            {t('common.recordCount', { count: meta.total })}
           </Badge>
         </header>
 
         <Filters
           filters={inputFilters}
-          ariaLabel="Pokemon move filters"
+          ariaLabel={t('pokemon.move.list.filtersAria')}
           onApply={(filters) => applyInputFilters(filters as PokemonMoveFilters)}
           onClear={clearInputFilters}
         />
 
         {!isLoading && items.length === 0 ? (
           <Card variant="outlined" rounded="lg" className="text-center">
-            <Text className="text-slate-600">No Pokemon moves found.</Text>
+            <Text className="text-slate-600">{t('pokemon.move.list.empty')}</Text>
           </Card>
         ) : null}
 
@@ -68,7 +70,7 @@ export function PokemonMoveListView() {
               href={`/pokemon/move/${move.name}`}
               title={move.name}
               eyebrow={formatOrder(move.order)}
-              ariaLabel={`Open ${move.name} move`}
+              ariaLabel={t('pokemon.move.list.open', { name: move.name })}
               visual={(
                 <div className="flex h-16 w-16 items-center justify-center rounded-full bg-rose-50 text-rose-700">
                   <GiPunchBlast size={30} />
@@ -76,15 +78,15 @@ export function PokemonMoveListView() {
               )}
               footer={(
                 <div className="flex flex-wrap gap-2">
-                  <Badge tone="neutral" variant="soft">Power {formatValue(move.power)}</Badge>
-                  <Badge tone="neutral" variant="soft">Acc {formatValue(move.accuracy)}</Badge>
-                  <Badge tone="neutral" variant="soft">PP {formatValue(move.pp)}</Badge>
-                  <span className="text-sm font-semibold text-blue-700">ver mais</span>
+                  <Badge tone="neutral" variant="soft">{t('pokemon.move.list.power', { value: formatValue(move.power) })}</Badge>
+                  <Badge tone="neutral" variant="soft">{t('pokemon.move.list.accuracy', { value: formatValue(move.accuracy) })}</Badge>
+                  <Badge tone="neutral" variant="soft">{t('pokemon.move.list.pp', { value: formatValue(move.pp) })}</Badge>
+                  <span className="text-sm font-semibold text-blue-700">{t('common.viewMore')}</span>
                 </div>
               )}
             >
               <Text className="line-clamp-3 text-sm text-slate-700">
-                {move.short_effect || move.effect || 'Effect pending.'}
+                {move.short_effect || move.effect || t('pokemon.move.list.effectPending')}
               </Text>
               <div className="flex flex-wrap gap-2">
                 <Badge tone="info" variant="soft">{move.type}</Badge>

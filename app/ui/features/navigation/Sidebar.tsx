@@ -4,6 +4,8 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { MdKeyboardArrowDown, MdLogout } from 'react-icons/md';
 
+import { useAppTranslation } from '@/app/i18n';
+
 import type { MenuItem } from './types';
 
 type SidebarProps = {
@@ -15,6 +17,7 @@ type SidebarProps = {
 
 const Sidebar = ({ items, isCollapsed, pathname, onLogout }: SidebarProps) => {
   const [expandedItems, setExpandedItems] = useState<Record<string, boolean>>({});
+  const { t } = useAppTranslation();
 
   const toggleExpanded = (href: string) => {
     setExpandedItems((previousState) => ({
@@ -26,9 +29,9 @@ const Sidebar = ({ items, isCollapsed, pathname, onLogout }: SidebarProps) => {
   return (
     <aside
       className={`app-sidebar ${isCollapsed ? 'app-sidebar--collapsed' : ''}`}
-      aria-label='sidebar'
+      aria-label={t('navigation.sidebar')}
     >
-      <nav className='app-sidebar__nav' aria-label='authenticated-navigation'>
+      <nav className='app-sidebar__nav' aria-label={t('navigation.authenticatedNavigation')}>
         {items.map(({ href, label, icon: Icon, children }) => {
           const hasChildren = Boolean(children?.length);
           const hasActiveChild = children?.some((child) => pathname === child.href || pathname.startsWith(`${child.href}/`)) ?? false;
@@ -56,7 +59,7 @@ const Sidebar = ({ items, isCollapsed, pathname, onLogout }: SidebarProps) => {
                   <button
                     type='button'
                     className='app-sidebar__group-toggle'
-                    aria-label={isExpanded ? `Collapse ${label}` : `Expand ${label}`}
+                    aria-label={isExpanded ? t('navigation.collapseSection', { section: label }) : t('navigation.expandSection', { section: label })}
                     aria-expanded={isExpanded}
                     onClick={() => toggleExpanded(href)}
                   >
@@ -98,13 +101,13 @@ const Sidebar = ({ items, isCollapsed, pathname, onLogout }: SidebarProps) => {
         type='button'
         className='app-sidebar__logout'
         onClick={onLogout}
-        aria-label='Sign out'
-        title={isCollapsed ? 'Sign out' : undefined}
+        aria-label={t('navigation.signOut')}
+        title={isCollapsed ? t('navigation.signOut') : undefined}
       >
         <span className='app-sidebar__logout-icon' aria-hidden='true'>
           <MdLogout size={20} />
         </span>
-        {!isCollapsed && <span className='app-sidebar__logout-text'>Sign out</span>}
+        {!isCollapsed && <span className='app-sidebar__logout-text'>{t('navigation.signOut')}</span>}
       </button>
     </aside>
   );

@@ -4,60 +4,60 @@ import {
   GiPunchBlast ,
   GiStumpRegrowth,
 } from 'react-icons/gi';
-import { MdAutoAwesome, MdCatchingPokemon, MdCategory, MdHome, MdInventory2 } from 'react-icons/md';
+import { MdAutoAwesome, MdCatchingPokemon, MdCategory, MdHome, MdInventory2, MdOutlineCatchingPokemon } from 'react-icons/md';
 
 import type { MenuItem } from './types';
 
-export const AUTHENTICATED_MENU_ITEMS: MenuItem[] = [
+export const getAuthenticatedMenuItems = (translate: (key: string) => string): MenuItem[] => [
   {
-    label: 'Home',
+    label: translate('navigation.home'),
     href: '/home',
     icon: MdHome,
   },
   {
-    label: 'Pokemon',
+    label: translate('navigation.pokemon'),
     href: '/pokemon',
     icon: MdCatchingPokemon,
     children: [
       {
-        label: 'Types',
+        label: translate('navigation.types'),
         href: '/pokemon/type',
         icon: MdCategory,
       },
       {
-        label: 'Abilities',
+        label: translate('navigation.abilities'),
         href: '/pokemon/ability',
         icon: MdAutoAwesome,
       },
       {
-        label: 'Moves',
+        label: translate('navigation.moves'),
         href: '/pokemon/move',
         icon: GiPunchBlast,
       },
       {
-        label: 'Growth Rate',
+        label: translate('navigation.growthRate'),
         href: '/pokemon/growth-rate',
         icon: GiStumpRegrowth,
       },
       {
-        label: 'Encounter',
+        label: translate('navigation.encounters'),
         href: '/pokemon/encounter',
         icon: GiPositionMarker,
       }
     ],
   },
   {
-    label: 'Pokedex',
+    label: translate('navigation.pokedex'),
     href: '/pokedex',
-    icon: MdCatchingPokemon,
+    icon: MdOutlineCatchingPokemon,
   },
   {
-    label: 'My Pokémons',
+    label: translate('navigation.myPokemons'),
     href: '/my-pokemon',
     icon: MdInventory2,
   },
   {
-    label: 'Battle',
+    label: translate('navigation.battle'),
     href: '/battle',
     icon: GiCrossedSwords,
   },

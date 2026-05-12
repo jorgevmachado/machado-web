@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { GiStumpRegrowth } from 'react-icons/gi';
 
 import { Card, Text } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
 
 import { usePokemonGrowthRateDetail } from './usePokemonGrowthRateDetail';
 
@@ -76,6 +77,7 @@ const calculateExperience = (level: number, formula: string): number | null => {
 
 export function PokemonGrowthRateDetailView({ identifier }: PokemonGrowthRateDetailViewProps) {
   const { data, isLoading, errorMessage } = usePokemonGrowthRateDetail(identifier);
+  const { t } = useAppTranslation();
 
   const experienceTableRows: TExperienceTableRow[] = useMemo(() => (
     Array.from({ length: MAX_LEVEL }, (_, index) => {
@@ -91,7 +93,7 @@ export function PokemonGrowthRateDetailView({ identifier }: PokemonGrowthRateDet
     return (
       <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
         <Card rounded="lg" className="mx-auto max-w-5xl text-center">
-          <Text className="text-slate-600">Loading Pokemon growth rate...</Text>
+          <Text className="text-slate-600">{t('pokemon.growthRate.detail.loading')}</Text>
         </Card>
       </div>
     );
@@ -101,7 +103,7 @@ export function PokemonGrowthRateDetailView({ identifier }: PokemonGrowthRateDet
     return (
       <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
         <Card rounded="lg" className="mx-auto max-w-5xl text-center">
-          <Text className="text-slate-600">{errorMessage || 'Pokemon growth rate not found.'}</Text>
+          <Text className="text-slate-600">{errorMessage || t('pokemon.growthRate.detail.notFound')}</Text>
         </Card>
       </div>
     );
@@ -111,7 +113,7 @@ export function PokemonGrowthRateDetailView({ identifier }: PokemonGrowthRateDet
     <div className="min-h-screen bg-slate-50 px-4 py-6 text-slate-950 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
         <Link href="/pokemon/growth-rate" className="text-sm font-semibold text-blue-700">
-          Back to Growth Rates
+          {t('pokemon.growthRate.detail.back')}
         </Link>
 
         <Card rounded="lg" className="bg-white">
@@ -134,19 +136,19 @@ export function PokemonGrowthRateDetailView({ identifier }: PokemonGrowthRateDet
 
         <section className="flex flex-col gap-6">
           <Card rounded="lg" className="bg-white">
-            <Text as="h2" className="text-xl font-semibold text-slate-950">Formula</Text>
-            <Text className="mt-3 text-slate-700">{data.formula || 'Formula pending.'}</Text>
+            <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.growthRate.detail.formula')}</Text>
+            <Text className="mt-3 text-slate-700">{data.formula || t('pokemon.growthRate.detail.formulaPending')}</Text>
           </Card>
 
           <Card rounded="lg" className="bg-white">
-            <Text as="h2" className="text-xl font-semibold text-slate-950">Level Experience Table</Text>
+            <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.growthRate.detail.tableTitle')}</Text>
 
             <div className="mt-4 overflow-x-auto">
               <table className="min-w-full border-collapse text-left text-sm text-slate-700">
                 <thead>
                   <tr className="border-b border-slate-200">
-                    <th scope="col" className="px-3 py-2 font-semibold text-slate-900">Level</th>
-                    <th scope="col" className="px-3 py-2 font-semibold text-slate-900">Experience</th>
+                    <th scope="col" className="px-3 py-2 font-semibold text-slate-900">{t('pokemon.growthRate.detail.level')}</th>
+                    <th scope="col" className="px-3 py-2 font-semibold text-slate-900">{t('pokemon.growthRate.detail.experience')}</th>
                   </tr>
                 </thead>
 

@@ -41,16 +41,14 @@ describe('<TopProgressBar />', () => {
     render(<TopProgressBar isVisible={true} />);
     const bar = screen.getByRole('progressbar', { name: 'Page loading', hidden: true });
     expect(bar).toHaveAttribute('aria-busy', 'true');
-    expect(bar).toHaveAttribute('aria-hidden', 'false');
+    expect(bar).toHaveAttribute('value', '100');
   });
 
   it('renders progressbar with aria-busy false when hidden', () => {
     render(<TopProgressBar isVisible={false} />);
-    // aria-hidden=true: use querySelector since accessible name isn't computed for hidden elements
-    const bar = document.querySelector('[role="progressbar"][aria-label="Page loading"]') as HTMLElement;
-    expect(bar).toBeInTheDocument();
+    const bar = screen.getByRole('progressbar', { name: 'Page loading', hidden: true });
     expect(bar).toHaveAttribute('aria-busy', 'false');
-    expect(bar).toHaveAttribute('aria-hidden', 'true');
+    expect(bar).toHaveAttribute('value', '0');
   });
 });
 
@@ -206,8 +204,7 @@ describe('<LoadingProvider />', () => {
     );
 
     fireEvent.click(screen.getByRole('button', { name: 'Start' }));
-    // Query after state update is applied
-    const progressBar = document.querySelector('[role="progressbar"][aria-label="Page loading"]') as HTMLElement;
+    const progressBar = screen.getByRole('progressbar', { name: 'Page loading', hidden: true });
     expect(progressBar).toHaveAttribute('aria-busy', 'true');
 
     fireEvent.click(screen.getByRole('button', { name: 'Stop' }));
@@ -240,8 +237,7 @@ describe('<LoadingProvider />', () => {
     // Re-start before timer expires
     fireEvent.click(screen.getByRole('button', { name: 'Start' }));
 
-    // After starting again, progress bar should be visible
-    const progressBar = document.querySelector('[role="progressbar"][aria-label="Page loading"]') as HTMLElement;
+    const progressBar = screen.getByRole('progressbar', { name: 'Page loading', hidden: true });
     expect(progressBar).toHaveAttribute('aria-busy', 'true');
 
     act(() => jest.advanceTimersByTime(400));

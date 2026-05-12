@@ -44,9 +44,9 @@ describe('PokemonTypeDetailView', () => {
   it('renders type detail with linked strengths and weaknesses', () => {
     render(<PokemonTypeDetailView identifier="fire" />);
 
-    expect(screen.getByRole('heading', { name: 'fire' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Open water type' })).toHaveAttribute('href', '/pokemon/type/water');
-    expect(screen.getByRole('link', { name: 'Open grass type' })).toHaveAttribute('href', '/pokemon/type/grass');
+    expect(screen.getByRole('heading', { name: 'Fire' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Open Water type' })).toHaveAttribute('href', '/pokemon/type/water');
+    expect(screen.getByRole('link', { name: 'Open Grass type' })).toHaveAttribute('href', '/pokemon/type/grass');
   });
 
   it('renders fallback order, description and omits empty relation sections', () => {

@@ -61,8 +61,8 @@ describe('PokemonTypeListView', () => {
     render(<PokemonTypeListView />);
 
     expect(screen.getByRole('heading', { name: 'Pokemon Types' })).toBeInTheDocument();
-    expect(screen.getByLabelText('fire badge')).toBeInTheDocument();
-    expect(screen.getByText('1 records')).toBeInTheDocument();
+    expect(screen.getByLabelText('Fire badge')).toBeInTheDocument();
+    expect(screen.getByText('1 record')).toBeInTheDocument();
   });
 
   it('renders existing empty pattern for no results', () => {
@@ -88,7 +88,7 @@ describe('PokemonTypeListView', () => {
 
     render(<PokemonTypeListView />);
 
-    expect(screen.getByText('fire')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Fire' })).toBeInTheDocument();
     expect(screen.getByText('Explore damage relations and visual identity for this type.')).toBeInTheDocument();
     expect(screen.queryByText('No Pokemon types found.')).not.toBeInTheDocument();
   });

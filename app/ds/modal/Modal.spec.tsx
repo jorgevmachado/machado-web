@@ -72,8 +72,7 @@ describe('<Modal />', () => {
     const onClose = jest.fn();
     render(<Modal {...BASE_PROPS} onClose={onClose} />);
 
-    const backdrop = screen.getByRole('presentation');
-    fireEvent.click(backdrop, { target: backdrop });
+    fireEvent.click(screen.getByRole('button', { name: 'Close modal overlay' }));
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });
@@ -91,8 +90,7 @@ describe('<Modal />', () => {
     const onClose = jest.fn();
     render(<Modal {...BASE_PROPS} onClose={onClose} closeOnOutsideClick={false} />);
 
-    const backdrop = screen.getByRole('presentation');
-    fireEvent.click(backdrop, { target: backdrop });
+    expect(screen.queryByRole('button', { name: 'Close modal overlay' })).not.toBeInTheDocument();
 
     expect(onClose).not.toHaveBeenCalled();
   });

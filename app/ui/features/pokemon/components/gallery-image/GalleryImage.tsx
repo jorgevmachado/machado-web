@@ -1,7 +1,8 @@
 import { Badge, Card, Image } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
 import Link from 'next/link';
 import { TPokemonImage } from '@/app/ui/features/pokemon/image';
-import { TPokemonType } from '@/app/ui/features/pokemon/type';
+import { TPokemonType, translatePokemonTypeName } from '@/app/ui/features/pokemon/type';
 import { useMemo } from 'react';
 
 type GalleryImageProps = Readonly<{
@@ -11,6 +12,7 @@ type GalleryImageProps = Readonly<{
   external_image?: string;
 }>;
 export default function GalleryImage({ types, images, pokemon_name, external_image }: GalleryImageProps) {
+  const { t } = useAppTranslation();
 
   const galleryImages = useMemo(() => {
     const imageSet = new Set<string>();
@@ -61,7 +63,7 @@ export default function GalleryImage({ types, images, pokemon_name, external_ima
                   backgroundColor: type.background_color || undefined,
                 }}
               >
-                {type.name}
+                {translatePokemonTypeName(t, type.name)}
               </Badge>
             </Link>
           ))}

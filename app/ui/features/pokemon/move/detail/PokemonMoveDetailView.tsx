@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { GiPunchBlast } from 'react-icons/gi';
 
 import { Badge, Card, Text } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
 
 import { usePokemonMoveDetail } from './usePokemonMoveDetail';
 
@@ -16,12 +17,13 @@ const formatValue = (value: number | null | undefined): string => value === null
 
 export function PokemonMoveDetailView({ identifier }: PokemonMoveDetailViewProps) {
   const { data, isLoading, errorMessage } = usePokemonMoveDetail(identifier);
+  const { t } = useAppTranslation();
 
   if (isLoading && !data) {
     return (
       <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
         <Card rounded="lg" className="mx-auto max-w-5xl text-center">
-          <Text className="text-slate-600">Loading Pokemon move...</Text>
+          <Text className="text-slate-600">{t('pokemon.move.detail.loading')}</Text>
         </Card>
       </div>
     );
@@ -31,7 +33,7 @@ export function PokemonMoveDetailView({ identifier }: PokemonMoveDetailViewProps
     return (
       <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
         <Card rounded="lg" className="mx-auto max-w-5xl text-center">
-          <Text className="text-slate-600">{errorMessage || 'Pokemon move not found.'}</Text>
+          <Text className="text-slate-600">{errorMessage || t('pokemon.move.detail.notFound')}</Text>
         </Card>
       </div>
     );
@@ -41,7 +43,7 @@ export function PokemonMoveDetailView({ identifier }: PokemonMoveDetailViewProps
     <div className="min-h-screen bg-slate-50 px-4 py-6 text-slate-950 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
         <Link href="/pokemon/move" className="text-sm font-semibold text-blue-700">
-          Back to Moves
+          {t('pokemon.move.detail.back')}
         </Link>
 
         <Card rounded="lg" className="bg-white">
@@ -69,26 +71,26 @@ export function PokemonMoveDetailView({ identifier }: PokemonMoveDetailViewProps
         <section className="grid gap-6 lg:grid-cols-[1fr_360px]">
           <div className="flex flex-col gap-6">
             <Card rounded="lg" className="bg-white">
-              <Text as="h2" className="text-xl font-semibold text-slate-950">Short Effect</Text>
-              <Text className="mt-3 text-slate-700">{data.short_effect || 'Short effect pending.'}</Text>
+              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.move.detail.shortEffect')}</Text>
+              <Text className="mt-3 text-slate-700">{data.short_effect || t('pokemon.move.detail.shortEffectPending')}</Text>
             </Card>
 
             <Card rounded="lg" className="bg-white">
-              <Text as="h2" className="text-xl font-semibold text-slate-950">Effect</Text>
-              <Text className="mt-3 whitespace-pre-line text-slate-700">{data.effect || 'Effect pending.'}</Text>
+              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.move.detail.effect')}</Text>
+              <Text className="mt-3 whitespace-pre-line text-slate-700">{data.effect || t('pokemon.move.detail.effectPending')}</Text>
             </Card>
           </div>
 
           <Card rounded="lg" className="bg-white">
-            <Text as="h2" className="text-xl font-semibold text-slate-950">Move Data</Text>
+            <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.move.detail.moveData')}</Text>
             <div className="mt-4 grid grid-cols-2 gap-3">
               {[
-                ['Power', formatValue(data.power)],
-                ['Accuracy', formatValue(data.accuracy)],
-                ['PP', formatValue(data.pp)],
-                ['Chance', formatValue(data.effect_chance)],
-                ['Target', data.target || '-'],
-                ['Class', data.damage_class || '-'],
+                [t('pokemon.move.detail.power'), formatValue(data.power)],
+                [t('pokemon.move.detail.accuracy'), formatValue(data.accuracy)],
+                [t('pokemon.move.detail.pp'), formatValue(data.pp)],
+                [t('pokemon.move.detail.chance'), formatValue(data.effect_chance)],
+                [t('pokemon.move.detail.target'), data.target || '-'],
+                [t('pokemon.move.detail.class'), data.damage_class || '-'],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-lg border border-slate-200 p-3">
                   <Text className="text-xs font-semibold uppercase text-slate-500">{label}</Text>

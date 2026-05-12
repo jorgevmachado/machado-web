@@ -90,6 +90,23 @@ const usePaginatedList = <TItem, TFilters>({
   const requestIdRef = useRef(0);
   const { startContentLoading, stopContentLoading } = useLoading();
 
+  useEffect(() => {
+    setInputFilters((previousState) => {
+      return initialInputFilters.map((nextFilter) => {
+        const previousFilter = previousState.find((filter) => filter.name === nextFilter.name);
+
+        if (!previousFilter) {
+          return nextFilter;
+        }
+
+        return {
+          ...nextFilter,
+          value: previousFilter.value,
+        };
+      });
+    });
+  }, [initialInputFilters]);
+
   const fetchPage = useCallback(async (page: number, activeFilters: TFilters, perPage: number = 12): Promise<void> => {
     const requestId = requestIdRef.current + 1;
     requestIdRef.current = requestId;

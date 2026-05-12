@@ -114,7 +114,7 @@ describe('PokemonDetailView', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'bulbasaur' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Overgrow' })).toHaveAttribute('href', '/pokemon/ability/overgrow');
     expect(screen.getByRole('heading', { name: 'Tackle' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'fire' })).toHaveAttribute('href', '/pokemon/type/fire');
+    expect(screen.getByRole('link', { name: 'Fire' })).toHaveAttribute('href', '/pokemon/type/fire');
     expect(screen.getByRole('link', { name: 'Medium Fast' })).toHaveAttribute('href', '/pokemon/growth-rate/medium-fast');
     expect(screen.getByText('Is Baby')).toBeInTheDocument();
     expect(screen.getAllByText('Yes')).toHaveLength(4);
@@ -186,7 +186,7 @@ describe('PokemonDetailView', () => {
     render(<PokemonDetailView identifier='ivysaur' />);
 
     expect(screen.getByRole('heading', { level: 1, name: 'ivysaur' })).toBeInTheDocument();
-    expect(screen.getAllByText('Unknown')).toHaveLength(9);
+    expect(screen.getAllByText('Unknown')).toHaveLength(10);
     expect(screen.getAllByText('No')).toHaveLength(4);
     expect(screen.getByText('HP: 0')).toBeInTheDocument();
   });

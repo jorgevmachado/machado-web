@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 
+import { useAppTranslation } from '@/app/i18n';
 import { Autocomplete ,Button ,Input ,Text } from '@/app/ds';
 import type { FiltersProps } from './types';
 import { joinClass } from '@/app/utils';
@@ -12,6 +13,7 @@ const Filters = ({
   filterApplyLabel = 'Apply filters',
   filterCleanLabel = 'Clear filters',
 }: FiltersProps) => {
+  const { t } = useAppTranslation();
   const initDraftFilters = (nextFilters: FiltersProps['filters'], reset = false): Record<string, string> => {
     const result = {} as Record<string, string>;
 
@@ -77,7 +79,7 @@ const Filters = ({
                 value={draftFilters[name]}
                 options={options}
                 isLoading={isLoading}
-                noResultsText='No options found.'
+                noResultsText={t('filters.noOptions')}
                 placeholder={placeholder}
                 onValueChange={(nextValue) => {
                   updateDraftValue(name, nextValue);
@@ -105,7 +107,7 @@ const Filters = ({
           onClick={handleClear}
           disabled={!hasActiveFilters}
         >
-          { filterCleanLabel }
+          {filterCleanLabel === 'Clear filters' ? t('filters.clear') : filterCleanLabel}
         </Button>
 
         <Button
@@ -113,7 +115,7 @@ const Filters = ({
           tone="primary"
           onClick={handleApply}
         >
-          { filterApplyLabel }
+          {filterApplyLabel === 'Apply filters' ? t('filters.apply') : filterApplyLabel}
         </Button>
       </div>
 

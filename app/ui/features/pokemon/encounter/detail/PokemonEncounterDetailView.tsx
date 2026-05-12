@@ -4,9 +4,10 @@ import Link from 'next/link';
 import { GiPositionMarker } from 'react-icons/gi';
 
 import { Card, Text } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
+import { formatLabel, formatNumber, normalizedName } from '@/app/utils';
 
 import { usePokemonEncounterDetail } from './usePokemonEncounterDetail';
-import { formatLabel ,formatNumber ,normalizedName } from '@/app/utils';
 
 type PokemonEncounterDetailViewProps = Readonly<{
   identifier: string;
@@ -16,12 +17,13 @@ const formatOrder = (order: number): string => `#${String(order).padStart(3, '0'
 
 export function PokemonEncounterDetailView({ identifier }: PokemonEncounterDetailViewProps) {
   const { data, isLoading, errorMessage } = usePokemonEncounterDetail(identifier);
+  const { t } = useAppTranslation();
 
   if (isLoading && !data) {
     return (
       <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
         <Card rounded="lg" className="mx-auto max-w-5xl text-center">
-          <Text className="text-slate-600">Loading Pokemon Encounter...</Text>
+          <Text className="text-slate-600">{t('pokemon.encounter.detail.loading')}</Text>
         </Card>
       </div>
     );
@@ -31,26 +33,26 @@ export function PokemonEncounterDetailView({ identifier }: PokemonEncounterDetai
     return (
       <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
         <Card rounded="lg" className="mx-auto max-w-5xl text-center">
-          <Text className="text-slate-600">{errorMessage || 'Pokemon Encounter not found.'}</Text>
+          <Text className="text-slate-600">{errorMessage || t('pokemon.encounter.detail.notFound')}</Text>
         </Card>
       </div>
     );
   }
 
   const attributes = [
-    { id: 1, label: 'Chance', value: formatNumber(data.chance) },
-    { id: 2, label: 'Min Level', value: formatNumber(data.min_level) },
-    { id: 3, label: 'Max Level', value: formatNumber(data.max_level) },
-    { id: 4, label: 'Max Chance', value:  formatNumber(data.max_chance) },
-    { id: 5, label: 'Condition', value: data.condition ? formatLabel(data.condition) : 'Unknown' },
-    { id: 6, label: 'Method', value: data.method ? formatLabel(data.method) : 'Unknown' },
+    { id: 1, label: t('pokemon.encounter.detail.chance'), value: formatNumber(data.chance) },
+    { id: 2, label: t('pokemon.encounter.detail.minLevel'), value: formatNumber(data.min_level) },
+    { id: 3, label: t('pokemon.encounter.detail.maxLevel'), value: formatNumber(data.max_level) },
+    { id: 4, label: t('pokemon.encounter.detail.maxChance'), value:  formatNumber(data.max_chance) },
+    { id: 5, label: t('pokemon.encounter.detail.condition'), value: data.condition ? formatLabel(data.condition) : t('common.unknown') },
+    { id: 6, label: t('pokemon.encounter.detail.method'), value: data.method ? formatLabel(data.method) : t('common.unknown') },
   ];
 
   return (
     <div className="min-h-screen bg-slate-50 px-4 py-6 text-slate-950 sm:px-6 lg:px-8">
       <div className="mx-auto flex max-w-6xl flex-col gap-6">
         <Link href="/pokemon/encounter" className="text-sm font-semibold text-blue-700">
-          Back to Encounters
+          {t('pokemon.encounter.detail.back')}
         </Link>
 
         <Card rounded="lg" className="bg-white">
@@ -80,8 +82,7 @@ export function PokemonEncounterDetailView({ identifier }: PokemonEncounterDetai
           <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {attributes.map((item) => (
               <Card key={item.id} variant="tonal" rounded="xl" className="bg-slate-50">
-                <Text as="small" color="text-slate-500" weight="semibold"
-                  className="uppercase tracking-[0.2em]">{item.label}</Text>
+                <Text as="small" color="text-slate-500" weight="semibold" className="uppercase tracking-[0.2em]">{item.label}</Text>
                 <Text as="p" size="xl" weight="bold">{item.value}</Text>
               </Card>
             ))}

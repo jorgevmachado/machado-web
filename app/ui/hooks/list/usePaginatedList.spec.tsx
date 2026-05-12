@@ -97,6 +97,41 @@ const renderUsePaginatedList = () => {
   });
 };
 
+const renderUsePaginatedListWithBuilder = (buildQueryString: (page: number, limit: number, filters: TestFilters) => string) => {
+  return renderHook(() => {
+    return usePaginatedList<TestPokemon, TestFilters>({
+      endpoint: '/api/test-pokemon',
+      initialFilters: INITIAL_FILTERS,
+      initialInputFilters: INITIAL_INPUT_FILTERS,
+      fetchErrorMessage: 'Could not fetch test entries.',
+      normalizeFilters: (nextFilters) => ({
+        name: nextFilters.name?.trim(),
+        order: nextFilters.order?.trim(),
+      }),
+      buildQueryString,
+    });
+  });
+};
+
+const renderUsePaginatedListWithProps = (initialInputFilters: typeof INITIAL_INPUT_FILTERS) => {
+  return renderHook(({ nextInputFilters }) => {
+    return usePaginatedList<TestPokemon, TestFilters>({
+      endpoint: '/api/test-pokemon',
+      initialFilters: INITIAL_FILTERS,
+      initialInputFilters: nextInputFilters,
+      fetchErrorMessage: 'Could not fetch test entries.',
+      normalizeFilters: (nextFilters) => ({
+        name: nextFilters.name?.trim(),
+        order: nextFilters.order?.trim(),
+      }),
+    });
+  }, {
+    initialProps: {
+      nextInputFilters: initialInputFilters,
+    },
+  });
+};
+
 describe('usePaginatedList', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -478,5 +513,115 @@ describe('usePaginatedList', () => {
       { ...INITIAL_INPUT_FILTERS[0], value: 'mew' },
     ]);
     expect(fetchMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('syncs translated input filter metadata without losing entered values', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+
+    fetchMock.mockResolvedValueOnce(createResponse({
+      items: [],
+      meta: createMeta({ total: 0, total_pages: 0 }),
+    }) as Response);
+
+    const { result, rerender } = renderUsePaginatedListWithProps(INITIAL_INPUT_FILTERS);
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    act(() => {
+      result.current.applyInputFilters({
+        name: 'pikachu',
+        order: '25',
+      });
+    });
+
+    const translatedInputFilters = [
+      {
+        ...INITIAL_INPUT_FILTERS[0],
+        label: 'NOMBRE',
+        placeholder: 'Buscar por nombre',
+      },
+      {
+        ...INITIAL_INPUT_FILTERS[1],
+        label: 'ORDEN',
+        placeholder: 'Buscar por orden',
+      },
+    ];
+
+    rerender({
+      nextInputFilters: translatedInputFilters,
+    });
+
+    await waitFor(() => {
+      expect(result.current.inputFilters).toEqual([
+        {
+          ...translatedInputFilters[0],
+          value: 'pikachu',
+        },
+        {
+          ...translatedInputFilters[1],
+          value: '25',
+        },
+      ]);
+    });
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('supports a custom query string builder', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+    const buildQueryString = jest.fn(() => 'custom=true');
+
+    fetchMock.mockResolvedValueOnce(createResponse({
+      items: [{ id: '9', name: 'blastoise' }],
+      meta: createMeta(),
+    }) as Response);
+
+    const { result } = renderUsePaginatedListWithBuilder(buildQueryString);
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(buildQueryString).toHaveBeenCalledWith(1, 12, INITIAL_FILTERS);
+    expect(fetchMock).toHaveBeenCalledWith('/api/test-pokemon?custom=true', {
+      method: 'GET',
+      cache: 'no-store',
+    });
+  });
+
+  it('adds newly introduced input filters when translated metadata changes', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+
+    fetchMock.mockResolvedValueOnce(createResponse({
+      items: [],
+      meta: createMeta({ total: 0, total_pages: 0 }),
+    }) as Response);
+
+    const { result, rerender } = renderUsePaginatedListWithProps(INITIAL_INPUT_FILTERS);
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    const nextInputFilters = [
+      ...INITIAL_INPUT_FILTERS,
+      {
+        label: 'STATUS',
+        type: 'text' as const,
+        name: 'status',
+        value: 'active',
+        placeholder: 'Search by status',
+      },
+    ];
+
+    rerender({
+      nextInputFilters,
+    });
+
+    await waitFor(() => {
+      expect(result.current.inputFilters).toEqual(nextInputFilters);
+    });
   });
 });

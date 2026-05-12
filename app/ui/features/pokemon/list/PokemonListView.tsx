@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 
 import { Badge, Card, Filters, Image, Pagination, Text, useAlert } from '@/app/ds';
+import { useAppTranslation } from '@/app/i18n';
+import { translatePokemonTypeName } from '@/app/ui/features/pokemon/type';
 
-import { usePokemonList } from './usePokemonList';
 import type { PokemonListFilters } from '../types';
+import { usePokemonList } from './usePokemonList';
 
 const formatOrder = (order: number): string => `#${String(order).padStart(4, '0')}`;
 
@@ -22,6 +24,7 @@ export function PokemonListView() {
     clearInputFilters,
   } = usePokemonList();
   const { showAlert } = useAlert();
+  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (errorMessage) {
@@ -35,27 +38,27 @@ export function PokemonListView() {
         <header className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <Text as="h1" className="text-3xl font-bold text-slate-950 sm:text-4xl">
-              Pokemon
+              {t('pokemon.list.title')}
             </Text>
             <Text className="mt-1 max-w-2xl text-sm text-slate-600 sm:text-base">
-              Browse the local catalog and open a Pokemon to enrich its complete profile.
+              {t('pokemon.list.description')}
             </Text>
           </div>
           <Badge tone="info" variant="soft" size="lg">
-            {meta.total} records
+            {t('common.recordCount', { count: meta.total })}
           </Badge>
         </header>
 
         <Filters
           filters={inputFilters}
-          ariaLabel="Pokemon filters"
+          ariaLabel={t('pokemon.list.filtersAria')}
           onApply={(filters) => applyInputFilters(filters as PokemonListFilters)}
           onClear={clearInputFilters}
         />
 
         {!isLoading && items.length === 0 ? (
           <Card variant="outlined" rounded="lg" className="text-center">
-            <Text className="text-slate-600">No Pokemon found.</Text>
+            <Text className="text-slate-600">{t('pokemon.list.empty')}</Text>
           </Card>
         ) : null}
 
@@ -89,7 +92,7 @@ export function PokemonListView() {
                       </Text>
                     </div>
                     <Badge tone={pokemon.status === 'COMPLETE' ? 'success' : 'warning'} variant="soft">
-                      {pokemon.status}
+                      {t(`pokemon.status.${pokemon.status}`)}
                     </Badge>
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -102,10 +105,10 @@ export function PokemonListView() {
                           color: type.text_color || '#111827',
                         }}
                       >
-                        {type.name}
+                        {translatePokemonTypeName(t, type.name)}
                       </span>
                     )) : (
-                      <Badge tone="neutral" variant="soft">types pending</Badge>
+                      <Badge tone="neutral" variant="soft">{t('pokemon.list.typesPending')}</Badge>
                     )}
                   </div>
                 </div>
