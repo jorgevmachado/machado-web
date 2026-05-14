@@ -107,7 +107,40 @@
   },
   "home": {
     "title": "Home",
-    "welcome": "Choose a section from the sidebar to continue exploring the local Pokemon catalog."
+    "welcome": "Choose a section from the sidebar to continue exploring the local Pokemon catalog.",
+    "dashboard": {
+      "loading": "Loading trainer dashboard...",
+      "loadError": "Could not load the trainer dashboard.",
+      "trainerTitle": "Trainer summary",
+      "pokeballs": "Pokeballs: {{value}}",
+      "captureRate": "Capture Rate: {{value}}",
+      "activeEncounter": "Active encounter",
+      "noActiveEncounter": "No active encounter selected.",
+      "chooseEncounter": "Choose a known encounter to start exploring.",
+      "walkTitle": "Exploration",
+      "walkButton": "Take a step",
+      "walking": "Exploring...",
+      "lastEvent": "Latest event",
+      "encountersTitle": "Known encounters",
+      "active": "Active",
+      "encounterSelectError": "Could not change the active encounter.",
+      "latestDiscoveries": "Latest discoveries",
+      "noDiscoveries": "No recent discoveries found.",
+      "noDiscoveryDate": "Discovery date unavailable.",
+      "partyTitle": "Main party",
+      "partyHint": "Select up to six trainer-owned Pokemon for the main party.",
+      "saveParty": "Save party",
+      "savingParty": "Saving party...",
+      "partySaveError": "Could not update the main party.",
+      "inParty": "In party",
+      "walkError": "Could not explore the active encounter.",
+      "foundPokemon": "Pokemon found: {{name}}",
+      "foundPokeballs": "Pokeballs found: {{value}}",
+      "eventType": {
+        "WILD_POKEMON": "Wild Pokemon",
+        "POKEBALLS": "Pokeballs"
+      }
+    }
   },
   "myPokemon": {
     "filters": {

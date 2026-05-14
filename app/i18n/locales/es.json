@@ -107,7 +107,40 @@
   },
   "home": {
     "title": "Inicio",
-    "welcome": "Elige una sección en la barra lateral para seguir explorando el catálogo local de Pokémon."
+    "welcome": "Elige una sección en la barra lateral para seguir explorando el catálogo local de Pokémon.",
+    "dashboard": {
+      "loading": "Cargando panel del entrenador...",
+      "loadError": "No se pudo cargar el panel del entrenador.",
+      "trainerTitle": "Resumen del entrenador",
+      "pokeballs": "Pokébolas: {{value}}",
+      "captureRate": "Capture Rate: {{value}}",
+      "activeEncounter": "Encounter activo",
+      "noActiveEncounter": "No hay un encounter activo seleccionado.",
+      "chooseEncounter": "Elige un encounter conocido para comenzar a explorar.",
+      "walkTitle": "Exploración",
+      "walkButton": "Dar un paso",
+      "walking": "Explorando...",
+      "lastEvent": "Último evento",
+      "encountersTitle": "Encounters conocidos",
+      "active": "Activo",
+      "encounterSelectError": "No se pudo cambiar el encounter activo.",
+      "latestDiscoveries": "Últimos descubrimientos",
+      "noDiscoveries": "No se encontraron descubrimientos recientes.",
+      "noDiscoveryDate": "Fecha de descubrimiento no disponible.",
+      "partyTitle": "Party principal",
+      "partyHint": "Selecciona hasta seis Pokémons del entrenador para la party principal.",
+      "saveParty": "Guardar party",
+      "savingParty": "Guardando party...",
+      "partySaveError": "No se pudo actualizar la party principal.",
+      "inParty": "En la party",
+      "walkError": "No se pudo explorar el encounter activo.",
+      "foundPokemon": "Pokémon encontrado: {{name}}",
+      "foundPokeballs": "Pokébolas encontradas: {{value}}",
+      "eventType": {
+        "WILD_POKEMON": "Pokémon salvaje",
+        "POKEBALLS": "Pokébolas"
+      }
+    }
   },
   "myPokemon": {
     "filters": {

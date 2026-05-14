@@ -16,6 +16,7 @@ jest.mock('@/app/i18n', () => ({
 
 jest.mock('@/app/ui/features/home', () => ({
   HomeOnboarding: () => <div>Onboarding</div>,
+  TrainerDashboard: () => <div>Trainer dashboard</div>,
 }));
 
 jest.mock('@/app/ds', () => ({
@@ -33,7 +34,7 @@ describe('Home page', () => {
     expect(screen.getByText('Onboarding')).toBeInTheDocument();
   });
 
-  it('renders the default welcome view when the trainer exists', () => {
+  it('renders the trainer dashboard when the trainer exists', () => {
     useUserMock.mockReturnValue({
       user: { id: '1', trainer: { id: 'trainer-1' } },
     });
@@ -42,5 +43,6 @@ describe('Home page', () => {
 
     expect(screen.getByRole('heading', { name: 'home.title' })).toBeInTheDocument();
     expect(screen.getByText('home.welcome')).toBeInTheDocument();
+    expect(screen.getByText('Trainer dashboard')).toBeInTheDocument();
   });
 });
