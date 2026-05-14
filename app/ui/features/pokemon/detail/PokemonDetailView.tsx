@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Badge, BarChart, Card, Text } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
 import { translatePokemonTypeName } from '@/app/ui/features/pokemon/type';
-import {formatLabel, formatNumber, normalizedName, uniqueById} from '@/app/utils';
+import { formatLabel, formatNumber, normalizedName, uniqueById } from '@/app/utils';
 import EvolutionTimeline from '../components/evolution-timeline';
 import GalleryImage from '../components/gallery-image';
 import MovesExpand from '../components/moves-expand';

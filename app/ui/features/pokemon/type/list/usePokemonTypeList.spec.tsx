@@ -11,7 +11,9 @@ jest.mock('@/app/i18n', () => ({
 
 jest.mock('@/app/ui/hooks/list/usePaginatedList', () => ({
   __esModule: true,
-  default: (params: unknown) => usePaginatedListMock(params),
+  default: function usePaginatedList(params: unknown) {
+    return usePaginatedListMock(params);
+  },
 }));
 
 describe('usePokemonTypeList', () => {

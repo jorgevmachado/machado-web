@@ -162,6 +162,46 @@
       }
     }
   },
+  "pokedex": {
+    "filters": {
+      "nickname": "Apodo",
+      "basePokemon": "Pokémon base",
+      "discovered": "Descubierto"
+    },
+    "list": {
+      "title": "Pokédex del Entrenador",
+      "description": "Sigue el progreso de descubrimiento de especies de tu entrenador.",
+      "filtersAria": "Filtros de la Pokédex",
+      "empty": "No se encontraron entradas de la Pokédex.",
+      "loadError": "No se pudo cargar la Pokédex.",
+      "basePokemonLabel": "Base: {{name}}",
+      "level": "Nivel {{value}}",
+      "hp": "HP {{current}}/{{max}}",
+      "experience": "XP {{value}}",
+      "discovered": "Descubierto",
+      "undiscovered": "No descubierto",
+      "discoveredAt": "Descubierto el {{value}}",
+      "notDiscoveredAt": "Aún no descubierto"
+    },
+    "detail": {
+      "loading": "Cargando entrada de la Pokédex...",
+      "notFound": "Entrada de la Pokédex no encontrada.",
+      "back": "Volver a Pokédex",
+      "loadError": "No se pudo cargar el detalle de la Pokédex.",
+      "basePokemonNumber": "Pokémon #{{value}}",
+      "basePokemon": "Pokémon base: {{name}}",
+      "discoveredAt": "Descubierto el {{value}}",
+      "discoveredAtLabel": "Fecha de descubrimiento",
+      "notDiscovered": "Aún no descubierto",
+      "experience": "Experiencia",
+      "hp": "HP",
+      "level": "Nivel",
+      "captureRate": "Capture Rate",
+      "pokeballs": "Pokébolas",
+      "status": "Estado",
+      "discovery": "Descubrimiento"
+    }
+  },
   "pokemon": {
     "status": {
       "COMPLETE": "COMPLETO",

@@ -433,7 +433,7 @@ describe('<RouteChangeTracker />', () => {
     render(
       <LoadingProvider>
         <RouteChangeTracker />
-        <a href='/pokedex'>Go to Pokedex</a>
+        <Link href='/pokedex'>Go to Pokedex</Link>
       </LoadingProvider>,
     );
 
@@ -541,3 +541,4 @@ describe('<RouteChangeTracker /> anchor click (real timers)', () => {
     expect(document.body).toBeInTheDocument();
   });
 });
+import Link from 'next/link';

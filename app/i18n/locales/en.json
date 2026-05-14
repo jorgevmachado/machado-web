@@ -162,6 +162,46 @@
       }
     }
   },
+  "pokedex": {
+    "filters": {
+      "nickname": "Nickname",
+      "basePokemon": "Base Pokemon",
+      "discovered": "Discovered"
+    },
+    "list": {
+      "title": "Trainer Pokedex",
+      "description": "Track your trainer's species discovery progress.",
+      "filtersAria": "Pokedex filters",
+      "empty": "No Pokedex entries found.",
+      "loadError": "Could not load the Pokedex.",
+      "basePokemonLabel": "Base: {{name}}",
+      "level": "Level {{value}}",
+      "hp": "HP {{current}}/{{max}}",
+      "experience": "XP {{value}}",
+      "discovered": "Discovered",
+      "undiscovered": "Undiscovered",
+      "discoveredAt": "Discovered on {{value}}",
+      "notDiscoveredAt": "Not discovered yet"
+    },
+    "detail": {
+      "loading": "Loading Pokedex entry...",
+      "notFound": "Pokedex entry not found.",
+      "back": "Back to Pokedex",
+      "loadError": "Could not load the Pokedex detail.",
+      "basePokemonNumber": "Pokemon #{{value}}",
+      "basePokemon": "Base Pokemon: {{name}}",
+      "discoveredAt": "Discovered on {{value}}",
+      "discoveredAtLabel": "Discovery date",
+      "notDiscovered": "Not discovered yet",
+      "experience": "Experience",
+      "hp": "HP",
+      "level": "Level",
+      "captureRate": "Capture Rate",
+      "pokeballs": "Pokeballs",
+      "status": "Status",
+      "discovery": "Discovery"
+    }
+  },
   "pokemon": {
     "status": {
       "COMPLETE": "COMPLETE",

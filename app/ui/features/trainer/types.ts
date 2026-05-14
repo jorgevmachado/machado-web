@@ -1,11 +1,12 @@
-import {TMyPokemon} from "@/app/ui";
+import { TPokedex, TMyPokemon } from '@/app/ui';
 
 export type TTrainer = {
   id: string;
   user_id: string;
   pokeballs: number;
   capture_rate: number;
-  my_pokemons: Array<TMyPokemon>;
+  my_pokemons?: Array<TMyPokemon>;
+  pokedex?: Array<TPokedex>;
   created_at: string;
   updated_at?: string;
   deleted_at?: string;
@@ -21,4 +22,4 @@ export type OnboardingTrainerParams = {
   pokeballs?: number;
   pokemon_name: string;
   capture_rate?: number;
-}
+};

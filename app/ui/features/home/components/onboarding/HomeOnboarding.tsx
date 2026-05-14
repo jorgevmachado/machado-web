@@ -75,7 +75,6 @@ export default function HomeOnboarding({ onCreated }: HomeOnboardingProps) {
     setIsSubmitting(true);
 
     try {
-      console.log('# => handleSubmit')
       const response = await fetch('/api/trainer/onboarding', {
         method: 'POST',
         headers: {

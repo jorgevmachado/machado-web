@@ -162,6 +162,46 @@
       }
     }
   },
+  "pokedex": {
+    "filters": {
+      "nickname": "Nickname",
+      "basePokemon": "Pokémon base",
+      "discovered": "Descoberto"
+    },
+    "list": {
+      "title": "Pokédex do Treinador",
+      "description": "Acompanhe o progresso de descoberta do seu treinador por espécie.",
+      "filtersAria": "Filtros da Pokédex",
+      "empty": "Nenhuma entrada de Pokédex encontrada.",
+      "loadError": "Não foi possível carregar a Pokédex.",
+      "basePokemonLabel": "Base: {{name}}",
+      "level": "Nível {{value}}",
+      "hp": "HP {{current}}/{{max}}",
+      "experience": "XP {{value}}",
+      "discovered": "Descoberto",
+      "undiscovered": "Não descoberto",
+      "discoveredAt": "Descoberto em {{value}}",
+      "notDiscoveredAt": "Ainda não descoberto"
+    },
+    "detail": {
+      "loading": "Carregando entrada da Pokédex...",
+      "notFound": "Entrada da Pokédex não encontrada.",
+      "back": "Voltar para Pokédex",
+      "loadError": "Não foi possível carregar o detalhe da Pokédex.",
+      "basePokemonNumber": "Pokémon #{{value}}",
+      "basePokemon": "Pokémon base: {{name}}",
+      "discoveredAt": "Descoberto em {{value}}",
+      "discoveredAtLabel": "Data da descoberta",
+      "notDiscovered": "Ainda não descoberto",
+      "experience": "Experiência",
+      "hp": "HP",
+      "level": "Nível",
+      "captureRate": "Capture Rate",
+      "pokeballs": "Pokébolas",
+      "status": "Status",
+      "discovery": "Descoberta"
+    }
+  },
   "pokemon": {
     "status": {
       "COMPLETE": "COMPLETO",

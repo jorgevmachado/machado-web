@@ -511,6 +511,7 @@ describe('usePaginatedList', () => {
 
     expect(result.current.inputFilters).toEqual([
       { ...INITIAL_INPUT_FILTERS[0], value: 'mew' },
+      INITIAL_INPUT_FILTERS[1],
     ]);
     expect(fetchMock).toHaveBeenCalledTimes(1);
   });
@@ -621,7 +622,14 @@ describe('usePaginatedList', () => {
     });
 
     await waitFor(() => {
-      expect(result.current.inputFilters).toEqual(nextInputFilters);
+      expect(result.current.inputFilters).toEqual([
+        INITIAL_INPUT_FILTERS[0],
+        INITIAL_INPUT_FILTERS[1],
+        {
+          ...nextInputFilters[2],
+          value: '',
+        },
+      ]);
     });
   });
 });

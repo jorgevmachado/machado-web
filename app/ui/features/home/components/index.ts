@@ -1,1 +1,1 @@
-export { default as HomeOnboarding } from './onboarding'
+export { default as HomeOnboarding } from './onboarding';

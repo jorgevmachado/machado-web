@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { type FiltersProps, type TPaginatedListResponse, type TPaginatedMeta, useLoading } from '@/app/ds';
 
@@ -76,6 +76,12 @@ const defaultBuildQueryString = <TFilters,>(page: number, limit: number, filters
   return params.toString();
 };
 
+const buildInputFilterValueMap = (filters: FiltersProps['filters']): Record<string, string> => {
+  return Object.fromEntries(
+    filters.map((filter) => [filter.name, filter.value]),
+  );
+};
+
 const usePaginatedList = <TItem, TFilters>({
   endpoint,
   initialFilters,
@@ -86,26 +92,16 @@ const usePaginatedList = <TItem, TFilters>({
 }: UsePaginatedListParams<TFilters>): UsePaginatedListResult<TItem, TFilters> => {
   const [state, setState] = useState<PaginatedListState<TItem>>(() => createInitialState<TItem>());
   const [filters, setFilters] = useState<TFilters>(initialFilters);
-  const [inputFilters, setInputFilters] = useState<FiltersProps['filters']>(initialInputFilters);
+  const [inputFilterValues, setInputFilterValues] = useState<Record<string, string>>(() => buildInputFilterValueMap(initialInputFilters));
   const requestIdRef = useRef(0);
   const { startContentLoading, stopContentLoading } = useLoading();
 
-  useEffect(() => {
-    setInputFilters((previousState) => {
-      return initialInputFilters.map((nextFilter) => {
-        const previousFilter = previousState.find((filter) => filter.name === nextFilter.name);
-
-        if (!previousFilter) {
-          return nextFilter;
-        }
-
-        return {
-          ...nextFilter,
-          value: previousFilter.value,
-        };
-      });
-    });
-  }, [initialInputFilters]);
+  const inputFilters = useMemo<FiltersProps['filters']>(() => {
+    return initialInputFilters.map((filter) => ({
+      ...filter,
+      value: inputFilterValues[filter.name] ?? '',
+    }));
+  }, [initialInputFilters, inputFilterValues]);
 
   const fetchPage = useCallback(async (page: number, activeFilters: TFilters, perPage: number = 12): Promise<void> => {
     const requestId = requestIdRef.current + 1;
@@ -203,17 +199,15 @@ const usePaginatedList = <TItem, TFilters>({
   }, [normalizeFilters, requestPage]);
 
   const applyInputFilters = useCallback((nextFilters: TFilters) => {
-    setInputFilters((previousState) => {
-      const filterValues = nextFilters as ListFilterValueMap;
+    const filterValues = nextFilters as ListFilterValueMap;
+    setInputFilterValues((previousState) => {
+      const nextState = { ...previousState };
 
-      return previousState.map((filter) => {
-        const filterValue = filterValues[filter.name];
+      for (const key of Object.keys(nextState)) {
+        nextState[key] = filterValues[key] || '';
+      }
 
-        return {
-          ...filter,
-          value: filterValue || '',
-        };
-      });
+      return nextState;
     });
 
     applyFilters(nextFilters);
@@ -225,18 +219,17 @@ const usePaginatedList = <TItem, TFilters>({
   }, [initialFilters, requestPage]);
 
   const clearInputFilters = useCallback(() => {
-    setInputFilters((previousState) => {
-      return previousState.map((filter) => ({
-        ...filter,
-        value: '',
-      }));
+    setInputFilterValues((previousState) => {
+      return Object.fromEntries(
+        Object.keys(previousState).map((key) => [key, '']),
+      );
     });
 
     clearFilters();
   }, [clearFilters]);
 
   const updateInputFilters = useCallback((nextInputFilters: FiltersProps['filters']) => {
-    setInputFilters(nextInputFilters);
+    setInputFilterValues(buildInputFilterValueMap(nextInputFilters));
   }, []);
 
   const reload = useCallback(() => {
