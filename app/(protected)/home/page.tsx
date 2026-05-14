@@ -1,10 +1,21 @@
 'use client';
 
+import { useUser } from '@/app/ui/features/auth';
 import { Text } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
+import { HomeOnboarding } from '@/app/ui/features/home';
 
 export default function Home() {
   const { t } = useAppTranslation();
+  const { user } = useUser();
+
+  if (user && !user.trainer) {
+    return (
+      <main className='min-h-screen rounded-3xl bg-white/90 px-6 py-10 shadow-sm'>
+        <HomeOnboarding />
+      </main>
+    );
+  }
 
   return (
     <main className='min-h-screen rounded-3xl bg-white/90 px-6 py-10 shadow-sm'>

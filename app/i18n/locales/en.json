@@ -109,6 +109,59 @@
     "title": "Home",
     "welcome": "Choose a section from the sidebar to continue exploring the local Pokemon catalog."
   },
+  "myPokemon": {
+    "filters": {
+      "basePokemon": "Base Pokemon"
+    },
+    "list": {
+      "title": "My Pokemons",
+      "description": "Track the roster already captured by your trainer.",
+      "filtersAria": "My Pokemon filters",
+      "empty": "No trainer-owned Pokemon found.",
+      "loadError": "Could not load your Pokemon.",
+      "basePokemonLabel": "Base: {{name}}",
+      "level": "Level {{value}}",
+      "hp": "HP {{current}}/{{max}}",
+      "experience": "XP {{value}}",
+      "moves": "{{count}} moves",
+      "capturedAt": "Captured at {{value}}"
+    },
+    "detail": {
+      "loading": "Loading trainer-owned Pokemon...",
+      "notFound": "Trainer-owned Pokemon not found.",
+      "back": "Back to My Pokemons",
+      "loadError": "Could not load the trainer-owned Pokemon detail.",
+      "publicName": "Identifier {{value}}",
+      "basePokemon": "Base Pokemon: {{name}}",
+      "capturedAt": "Captured at {{value}}",
+      "experience": "Experience",
+      "hp": "HP",
+      "pokeballs": "Pokeballs",
+      "captureRate": "Capture Rate",
+      "moves": "Moves",
+      "moveMeta": "Type {{type}} • Power {{power}} • Accuracy {{accuracy}}",
+      "movePp": "PP {{current}}/{{max}}"
+    },
+    "onboarding": {
+      "title": "Choose your first Pokemon",
+      "userDescription": "You do not have a trainer yet. Choose one of the three starters to begin your journey.",
+      "adminDescription": "You do not have a trainer yet. As admin, you can choose any Pokemon and adjust the trainer initial parameters.",
+      "nicknameLabel": "Nickname",
+      "nicknamePlaceholder": "Optional",
+      "pokeballsLabel": "Initial pokeballs",
+      "captureRateLabel": "Initial capture rate",
+      "selectPokemonLabel": "Pokemon",
+      "selectPokemonPlaceholder": "Type to search a Pokemon",
+      "loadOptionsError": "Could not load the Pokemon list for onboarding.",
+      "submit": "Create trainer",
+      "submitting": "Creating trainer...",
+      "submitError": "Could not finish onboarding.",
+      "success": "Trainer and first Pokemon created successfully.",
+      "validation": {
+        "selectPokemon": "Select a Pokemon to continue."
+      }
+    }
+  },
   "pokemon": {
     "status": {
       "COMPLETE": "COMPLETE",

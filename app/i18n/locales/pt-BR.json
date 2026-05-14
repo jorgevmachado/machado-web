@@ -109,6 +109,59 @@
     "title": "Início",
     "welcome": "Escolha uma seção na barra lateral para continuar explorando o catálogo local de Pokémon."
   },
+  "myPokemon": {
+    "filters": {
+      "basePokemon": "Pokémon base"
+    },
+    "list": {
+      "title": "Meus Pokémons",
+      "description": "Acompanhe o elenco já capturado pelo seu treinador.",
+      "filtersAria": "Filtros de meus Pokémons",
+      "empty": "Nenhum Pokémon do treinador encontrado.",
+      "loadError": "Não foi possível carregar seus Pokémons.",
+      "basePokemonLabel": "Base: {{name}}",
+      "level": "Nível {{value}}",
+      "hp": "HP {{current}}/{{max}}",
+      "experience": "XP {{value}}",
+      "moves": "{{count}} movimentos",
+      "capturedAt": "Capturado em {{value}}"
+    },
+    "detail": {
+      "loading": "Carregando Pokémon do treinador...",
+      "notFound": "Pokémon do treinador não encontrado.",
+      "back": "Voltar para Meus Pokémons",
+      "loadError": "Não foi possível carregar o detalhe do Pokémon do treinador.",
+      "publicName": "Identificador {{value}}",
+      "basePokemon": "Pokémon base: {{name}}",
+      "capturedAt": "Capturado em {{value}}",
+      "experience": "Experiência",
+      "hp": "HP",
+      "pokeballs": "Pokébolas",
+      "captureRate": "Capture Rate",
+      "moves": "Movimentos",
+      "moveMeta": "Tipo {{type}} • Poder {{power}} • Precisão {{accuracy}}",
+      "movePp": "PP {{current}}/{{max}}"
+    },
+    "onboarding": {
+      "title": "Escolha seu primeiro Pokémon",
+      "userDescription": "Você ainda não possui um treinador. Escolha um dos três iniciais para começar sua jornada.",
+      "adminDescription": "Você ainda não possui um treinador. Como admin, pode escolher qualquer Pokémon e ajustar os parâmetros iniciais do treinador.",
+      "nicknameLabel": "Nickname",
+      "nicknamePlaceholder": "Opcional",
+      "pokeballsLabel": "Pokébolas iniciais",
+      "captureRateLabel": "Capture Rate inicial",
+      "selectPokemonLabel": "Pokémon",
+      "selectPokemonPlaceholder": "Digite para buscar um Pokémon",
+      "loadOptionsError": "Não foi possível carregar a lista de Pokémon para o onboarding.",
+      "submit": "Criar treinador",
+      "submitting": "Criando treinador...",
+      "submitError": "Não foi possível concluir o onboarding.",
+      "success": "Treinador e primeiro Pokémon criados com sucesso.",
+      "validation": {
+        "selectPokemon": "Selecione um Pokémon para continuar."
+      }
+    }
+  },
   "pokemon": {
     "status": {
       "COMPLETE": "COMPLETO",

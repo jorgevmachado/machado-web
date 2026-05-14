@@ -1,6 +1,8 @@
+import type { TTrainer } from '@/app/ui/features/trainer';
 import React from 'react';
 
 export type StatusEnum = 'ACTIVE' | 'INACTIVE';
+export type RoleEnum = 'USER' | 'ADMIN';
 
 export type TUser = {
   id: string;
@@ -8,6 +10,8 @@ export type TUser = {
   email: string;
   username: string;
   status: StatusEnum;
+  role: RoleEnum;
+  trainer?: TTrainer;
   created_at: string;
   updated_at?: string;
   deleted_at?: string;
