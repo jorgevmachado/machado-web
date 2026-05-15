@@ -1,4 +1,4 @@
-import { MyPokemonDetailView } from '@/app/ui/features/my_pokemon';
+import { MyPokemonDetailView } from '../../../ui/features/trainer/my_pokemon';
 
 type MyPokemonDetailPageProps = Readonly<{
   params: Promise<{ name: string }>;

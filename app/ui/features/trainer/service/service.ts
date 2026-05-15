@@ -23,31 +23,31 @@ export class TrainerService extends BaseServiceAbstract {
   }
 
   public async home(): Promise<TTrainerHome> {
-    return await this.get<TTrainerHome>(`${this.pathUrl}/home`);
+    return await this.get<TTrainerHome>(`${this.pathUrl}/exploration/home`);
   }
 
   public async encounters(): Promise<Array<TTrainerEncounter>> {
-    return await this.get<Array<TTrainerEncounter>>(`${this.pathUrl}/encounters`);
+    return await this.get<Array<TTrainerEncounter>>(`${this.pathUrl}/exploration/encounters`);
   }
 
   public async selectActiveEncounter(
     payload: SelectTrainerEncounterParams,
   ): Promise<TTrainerEncounter> {
     return await this.path<SelectTrainerEncounterParams, TTrainerEncounter>(
-      `${this.pathUrl}/encounters/active`,
+      `${this.pathUrl}/exploration/encounters/active`,
       { body: payload },
     );
   }
 
   public async walk(): Promise<TExplorationEvent> {
-    return await this.post<undefined, TExplorationEvent>(`${this.pathUrl}/walk`);
+    return await this.post<undefined, TExplorationEvent>(`${this.pathUrl}/exploration/walk`);
   }
 
   public async updateParty(
     payload: UpdateTrainerPartyParams,
   ): Promise<Array<TTrainerPartyMember>> {
     return await this.path<UpdateTrainerPartyParams, Array<TTrainerPartyMember>>(
-      `${this.pathUrl}/party`,
+      `${this.pathUrl}/exploration/party`,
       { body: payload },
     );
   }

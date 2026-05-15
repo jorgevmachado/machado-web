@@ -1,4 +1,4 @@
-import { MyPokemonListView } from '@/app/ui/features/my_pokemon';
+import { MyPokemonListView } from '../../ui/features/trainer/my_pokemon';
 
 export default function MyPokemonPage() {
   return <MyPokemonListView />;

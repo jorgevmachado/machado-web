@@ -1,4 +1,4 @@
-import { PokedexDetailView } from '@/app/ui/features/pokedex';
+import { PokedexDetailView } from '../../../ui/features/trainer/pokedex';
 
 type PokedexDetailPageProps = Readonly<{
   params: Promise<{ name: string }>;

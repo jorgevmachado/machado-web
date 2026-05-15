@@ -51,7 +51,7 @@ export function useTrainerHome() {
       const [homeResponse, encountersResponse, rosterResponse] = await Promise.all([
         fetch('/api/trainer/home', { method: 'GET', cache: 'no-store' }),
         fetch('/api/trainer/encounters', { method: 'GET', cache: 'no-store' }),
-        fetch('/api/my-pokemon?page=1&limit=100', { method: 'GET', cache: 'no-store' }),
+        fetch('/api/trainer/my-pokemon?page=1&limit=100', { method: 'GET', cache: 'no-store' }),
       ]);
 
       const homeJson = await homeResponse.json() as TTrainerHome | { message?: string };

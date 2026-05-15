@@ -149,7 +149,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
     }) as never;
 
     const { result } = renderHook(() => useTrainerHome());
@@ -173,7 +173,7 @@ describe('useTrainerHome', () => {
         active_encounter: undefined,
       }),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
     }) as never;
 
     const { result } = renderHook(() => useTrainerHome());
@@ -189,7 +189,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
     }) as never;
 
     const { result } = renderHook(() => useTrainerHome());
@@ -210,7 +210,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/encounters/active': jsonResponse({
         ...encounters[1],
         is_active: true,
@@ -239,7 +239,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/walk': jsonResponse({
         id: 'event-1',
         event_type: 'POKEBALLS',
@@ -270,7 +270,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/walk': jsonResponse({
         id: 'event-2',
         event_type: 'WILD_POKEMON',
@@ -313,7 +313,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(largeRoster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(largeRoster),
       '/api/trainer/party': jsonResponse([
         {
           ...trainerHome.party[0],
@@ -361,7 +361,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse({ message: 'broken' }, false),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
     }) as never;
 
     const { result } = renderHook(() => useTrainerHome());
@@ -377,7 +377,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse({}),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
     }) as never;
 
     const { result } = renderHook(() => useTrainerHome());
@@ -393,7 +393,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse({ message: 'encounters failed' }, false),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
     }) as never;
 
     const encounterError = renderHook(() => useTrainerHome());
@@ -408,7 +408,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse({ message: 'roster failed' }, false),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse({ message: 'roster failed' }, false),
     }) as never;
 
     const rosterError = renderHook(() => useTrainerHome());
@@ -452,7 +452,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/encounters/active': () => jsonResponse({ message: 'cannot select' }, false),
     }) as never;
 
@@ -473,7 +473,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/encounters/active': () => {
         throw new Error('select exploded');
       },
@@ -492,7 +492,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/encounters/active': jsonResponse({}, false),
     }) as never;
 
@@ -513,7 +513,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/encounters/active': () => {
         throw undefined;
       },
@@ -532,7 +532,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/walk': jsonResponse({ message: 'cannot walk' }, false),
     }) as never;
 
@@ -553,7 +553,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/walk': () => {
         throw new Error('walk exploded');
       },
@@ -572,7 +572,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/walk': jsonResponse({}, false),
     }) as never;
 
@@ -593,7 +593,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/walk': () => {
         throw undefined;
       },
@@ -612,7 +612,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
     }) as never;
 
     const { result } = renderHook(() => useTrainerHome());
@@ -653,7 +653,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/party': jsonResponse({ message: 'cannot save' }, false),
     }) as never;
 
@@ -674,7 +674,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/party': () => {
         throw new Error('save exploded');
       },
@@ -693,7 +693,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/party': jsonResponse({}, false),
     }) as never;
 
@@ -714,7 +714,7 @@ describe('useTrainerHome', () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
       '/api/trainer/encounters': jsonResponse(encounters),
-      '/api/my-pokemon?page=1&limit=100': jsonResponse(roster),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
       '/api/trainer/party': () => {
         throw undefined;
       },

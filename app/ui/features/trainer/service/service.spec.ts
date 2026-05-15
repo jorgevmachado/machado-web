@@ -27,19 +27,19 @@ describe('TrainerService', () => {
     expect(fetchMock).toHaveBeenNthCalledWith(1, 'https://api.example.com/trainer/onboarding', expect.objectContaining({
       method: 'POST',
     }));
-    expect(fetchMock).toHaveBeenNthCalledWith(2, 'https://api.example.com/trainer/home', expect.objectContaining({
+    expect(fetchMock).toHaveBeenNthCalledWith(2, 'https://api.example.com/trainer/exploration/home', expect.objectContaining({
       method: 'GET',
     }));
-    expect(fetchMock).toHaveBeenNthCalledWith(3, 'https://api.example.com/trainer/encounters', expect.objectContaining({
+    expect(fetchMock).toHaveBeenNthCalledWith(3, 'https://api.example.com/trainer/exploration/encounters', expect.objectContaining({
       method: 'GET',
     }));
-    expect(fetchMock).toHaveBeenNthCalledWith(4, 'https://api.example.com/trainer/encounters/active', expect.objectContaining({
+    expect(fetchMock).toHaveBeenNthCalledWith(4, 'https://api.example.com/trainer/exploration/encounters/active', expect.objectContaining({
       method: 'PUT',
     }));
-    expect(fetchMock).toHaveBeenNthCalledWith(5, 'https://api.example.com/trainer/walk', expect.objectContaining({
+    expect(fetchMock).toHaveBeenNthCalledWith(5, 'https://api.example.com/trainer/exploration/walk', expect.objectContaining({
       method: 'POST',
     }));
-    expect(fetchMock).toHaveBeenNthCalledWith(6, 'https://api.example.com/trainer/party', expect.objectContaining({
+    expect(fetchMock).toHaveBeenNthCalledWith(6, 'https://api.example.com/trainer/exploration/party', expect.objectContaining({
       method: 'PUT',
     }));
   });
