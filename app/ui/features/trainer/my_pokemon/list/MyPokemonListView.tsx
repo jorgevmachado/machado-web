@@ -1,16 +1,33 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import { Badge, Card, Filters, Image, Pagination, Text, useAlert } from '@/app/ds';
+import { type FiltersProps, Badge, Card, Filters, Image, Pagination, Text, useAlert } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
+import usePaginatedList from '@/app/ui/hooks/list/usePaginatedList';
 import { translatePokemonTypeName } from '@/app/ui/features/pokemon/type';
+import { myPokemonBffService } from '@/app/ui/features/trainer/my_pokemon/services/bff-service';
 import { displayDate } from '@/app/utils';
 
-import { useMyPokemonList } from './useMyPokemonList';
+import type { MyPokemonListFilters, TMyPokemon } from '../types';
+
+const INITIAL_FILTERS: MyPokemonListFilters = {
+  name: undefined,
+  pokemon_name: undefined,
+};
+
+const normalizeFilters = (filters: MyPokemonListFilters): MyPokemonListFilters => ({
+  name: filters.name?.trim() || undefined,
+  pokemon_name: filters.pokemon_name?.trim() || undefined,
+});
 
 export function MyPokemonListView() {
+  const { t } = useAppTranslation();
+  const initialInputFilters = useMemo<FiltersProps['filters']>(() => [
+    { name: 'name', label: t('filters.name'), type: 'text', value: '', placeholder: 'charizard-2' },
+    { name: 'pokemon_name', label: t('myPokemon.filters.basePokemon'), type: 'text', value: '', placeholder: 'charizard' },
+  ], [t]);
   const {
     items,
     meta,
@@ -20,9 +37,14 @@ export function MyPokemonListView() {
     goToPage,
     applyInputFilters,
     clearInputFilters,
-  } = useMyPokemonList();
+  } = usePaginatedList<TMyPokemon, MyPokemonListFilters>({
+    fetchList: myPokemonBffService.fetchAll,
+    initialFilters: INITIAL_FILTERS,
+    initialInputFilters,
+    fetchErrorMessage: t('myPokemon.list.loadError'),
+    normalizeFilters,
+  });
   const { showAlert } = useAlert();
-  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (errorMessage) {

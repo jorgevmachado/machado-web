@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 
 import { PokemonDetailView } from './PokemonDetailView';
 
-const usePokemonDetailMock = jest.fn();
+const useDetailMock = jest.fn();
 
 jest.mock('@/app/ds', () => {
   const React = jest.requireActual('react');
@@ -25,14 +25,14 @@ jest.mock('@/app/ds', () => {
   };
 });
 
-jest.mock('./usePokemonDetail', () => ({
-  usePokemonDetail: () => usePokemonDetailMock(),
+jest.mock('@/app/ui/hooks/detail', () => ({
+  useDetail: () => useDetailMock(),
 }));
 
 describe('PokemonDetailView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    usePokemonDetailMock.mockReturnValue({
+    useDetailMock.mockReturnValue({
       isLoading: false,
       errorMessage: undefined,
       data: {
@@ -121,24 +121,24 @@ describe('PokemonDetailView', () => {
   });
 
   it('renders loading, explicit error, and default not found states', () => {
-    usePokemonDetailMock.mockReturnValueOnce({ isLoading: true, data: undefined, errorMessage: undefined });
+    useDetailMock.mockReturnValueOnce({ isLoading: true, data: undefined, errorMessage: undefined });
     const { rerender } = render(<PokemonDetailView identifier='bulbasaur' />);
 
     expect(screen.getByText('Loading Pokemon...')).toBeInTheDocument();
 
-    usePokemonDetailMock.mockReturnValueOnce({ isLoading: false, data: undefined, errorMessage: 'Pokemon failed.' });
+    useDetailMock.mockReturnValueOnce({ isLoading: false, data: undefined, errorMessage: 'Pokemon failed.' });
     rerender(<PokemonDetailView identifier='bulbasaur' />);
 
     expect(screen.getByText('Pokemon failed.')).toBeInTheDocument();
 
-    usePokemonDetailMock.mockReturnValueOnce({ isLoading: false, data: undefined, errorMessage: undefined });
+    useDetailMock.mockReturnValueOnce({ isLoading: false, data: undefined, errorMessage: undefined });
     rerender(<PokemonDetailView identifier='missing' />);
 
     expect(screen.getByText('Pokemon not found.')).toBeInTheDocument();
   });
 
   it('renders fallback values for optional pokemon attributes', () => {
-    usePokemonDetailMock.mockReturnValueOnce({
+    useDetailMock.mockReturnValueOnce({
       isLoading: false,
       errorMessage: undefined,
       data: {

@@ -1,4 +1,4 @@
-import { Pagination } from './pagination';
+import { clampPage, Pagination } from './pagination';
 
 describe('Pagination', () => {
   it('parses positive integers', () => {
@@ -36,5 +36,10 @@ describe('Pagination', () => {
         hasPreviousPage: true,
       },
     });
+  });
+
+  it('clamps page numbers within valid bounds', () => {
+    expect(clampPage(-2, 0)).toBe(1);
+    expect(clampPage(5, 2)).toBe(2);
   });
 });

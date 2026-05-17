@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { myPokemonService } from '@/app/ui';
 import { getServerSession } from '@/app/shared/lib/auth/server';
+import { myPokemonService } from '@/app/ui/features/trainer/my_pokemon';
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const session = await getServerSession();

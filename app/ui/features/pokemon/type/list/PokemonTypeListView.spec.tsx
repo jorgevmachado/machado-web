@@ -3,10 +3,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { PokemonTypeListView } from './PokemonTypeListView';
 
 const showAlertMock = jest.fn();
-const usePokemonTypeListMock = jest.fn();
+const paginatedListMock = jest.fn();
 
-jest.mock('./usePokemonTypeList', () => ({
-  usePokemonTypeList: () => usePokemonTypeListMock(),
+jest.mock('@/app/ui/hooks/list/usePaginatedList', () => ({
+  __esModule: true,
+  default: (...args: unknown[]) => paginatedListMock(...args),
 }));
 
 jest.mock('@/app/ds', () => {
@@ -54,7 +55,7 @@ const defaultHookValue = {
 describe('PokemonTypeListView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    usePokemonTypeListMock.mockReturnValue(defaultHookValue);
+    paginatedListMock.mockReturnValue(defaultHookValue);
   });
 
   it('renders type cards with badge image', () => {
@@ -66,7 +67,7 @@ describe('PokemonTypeListView', () => {
   });
 
   it('renders existing empty pattern for no results', () => {
-    usePokemonTypeListMock.mockReturnValue({ ...defaultHookValue, items: [], meta: { total: 0, current_page: 1, total_pages: 0 } });
+    paginatedListMock.mockReturnValue({ ...defaultHookValue, items: [], meta: { total: 0, current_page: 1, total_pages: 0 } });
 
     render(<PokemonTypeListView />);
 
@@ -74,7 +75,7 @@ describe('PokemonTypeListView', () => {
   });
 
   it('renders fallback description and keeps empty state hidden while loading', () => {
-    usePokemonTypeListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       isLoading: true,
       items: [{
@@ -104,11 +105,28 @@ describe('PokemonTypeListView', () => {
   });
 
   it('shows alert for errors only', () => {
-    usePokemonTypeListMock.mockReturnValue({ ...defaultHookValue, errorMessage: 'Could not load Pokemon types.' });
+    paginatedListMock.mockReturnValue({ ...defaultHookValue, errorMessage: 'Could not load Pokemon types.' });
 
     render(<PokemonTypeListView />);
 
     expect(showAlertMock).toHaveBeenCalledWith({ type: 'error', message: 'Could not load Pokemon types.' });
     expect(screen.queryByRole('button', { name: /retry/i })).not.toBeInTheDocument();
+  });
+
+  it('configures direct list normalization for the shared hook', () => {
+    render(<PokemonTypeListView />);
+
+    const config = paginatedListMock.mock.calls[0][0] as {
+      normalizeFilters: (filters: { name?: string; order?: string }) => unknown;
+    };
+
+    expect(config.normalizeFilters({ name: ' fire ', order: ' 10 ' })).toEqual({
+      name: 'fire',
+      order: '10',
+    });
+    expect(config.normalizeFilters({ name: '', order: '' })).toEqual({
+      name: undefined,
+      order: undefined,
+    });
   });
 });

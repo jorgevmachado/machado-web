@@ -5,9 +5,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { Autocomplete, Badge, Button, Card, Input, Text, useAlert } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
 import { useUser } from '@/app/ui/features/auth';
-import type { PokemonListItem } from '@/app/ui/features/pokemon';
 import { translatePokemonTypeName } from '@/app/ui/features/pokemon/type';
 import { formatLabel } from '@/app/utils';
+import usePokemon from '@/app/ui/features/pokemon/usePokemon';
+import { TPokemon } from '@/app/ui/features/pokemon/types';
+import useTrainer from '@/app/ui/features/trainer/useTrainer';
 
 const STARTERS = ['bulbasaur', 'charmander', 'squirtle'] as const;
 
@@ -19,8 +21,11 @@ export default function HomeOnboarding({ onCreated }: HomeOnboardingProps) {
   const { user, refreshUser } = useUser();
   const { showAlert } = useAlert();
   const { t } = useAppTranslation();
-  const [pokemonOptions, setPokemonOptions] = useState<PokemonListItem[]>([]);
-  const [isLoadingOptions, setIsLoadingOptions] = useState(true);
+
+  const { fetchOne, fetchList, isContentLoading } = usePokemon();
+  const { onboarding } = useTrainer();
+
+  const [pokemonOptions, setPokemonOptions] = useState<TPokemon[]>([]);
   const [selectedPokemonName, setSelectedPokemonName] = useState('');
   const [nickname, setNickname] = useState('');
   const [pokeballs, setPokeballs] = useState('1');
@@ -33,31 +38,12 @@ export default function HomeOnboarding({ onCreated }: HomeOnboardingProps) {
 
   useEffect(() => {
     const loadPokemon = async () => {
-      setIsLoadingOptions(true);
-      try {
-        const response = await fetch('/api/pokemon?page=1&limit=151', {
-          method: 'GET',
-          cache: 'no-store',
-        });
-        const json = await response.json() as PokemonListItem[] | { items?: PokemonListItem[]; message?: string };
-        const items = Array.isArray(json) ? json : json.items;
-
-        if (!response.ok || !items) {
-          const message = Array.isArray(json) ? undefined : json.message;
-          throw new Error(message || t('myPokemon.onboarding.loadOptionsError'));
-        }
-
-        setPokemonOptions(items);
-      } catch (error) {
-        const message = error instanceof Error ? error.message : t('myPokemon.onboarding.loadOptionsError');
-        showAlert({ type: 'error', message });
-      } finally {
-        setIsLoadingOptions(false);
-      }
+      const response = await fetchList({}, 151, 'myPokemon.onboarding.loadOptionsError');
+      setPokemonOptions(response);
     };
 
     void loadPokemon();
-  }, [showAlert, t]);
+  }, [fetchList]);
 
   const autocompleteOptions = useMemo(() => pokemonOptions.map((item) => ({
     key: item.id,
@@ -66,6 +52,21 @@ export default function HomeOnboarding({ onCreated }: HomeOnboardingProps) {
     description: `#${String(item.order).padStart(4, '0')}`,
   })), [pokemonOptions]);
 
+  const selectPokemon = async (pokemon: TPokemon) => {
+    if (pokemon.status === 'INCOMPLETE') {
+      const completedPokemon = await fetchOne(pokemon.name);
+      if (completedPokemon) {
+        const currentPokemonOptions = [...pokemonOptions];
+        const completedPokemonIndex = currentPokemonOptions.findIndex((p) => p.name === completedPokemon.name);
+        currentPokemonOptions[completedPokemonIndex] = completedPokemon;
+        setPokemonOptions(currentPokemonOptions);
+        setSelectedPokemonName(completedPokemon.name);
+      }
+      return;
+    }
+    setSelectedPokemonName(pokemon.name);
+  };
+
   const handleSubmit = async () => {
     if (!selectedPokemonName) {
       showAlert({ type: 'error', message: t('myPokemon.onboarding.validation.selectPokemon') });
@@ -73,42 +74,24 @@ export default function HomeOnboarding({ onCreated }: HomeOnboardingProps) {
     }
 
     setIsSubmitting(true);
-
-    try {
-      const response = await fetch('/api/trainer/onboarding', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({
-          pokemon_name: selectedPokemonName,
-          nickname,
-          ...(isAdmin ? {
-            pokeballs: Number(pokeballs),
-            capture_rate: Number(captureRate),
-          } : {}),
-        }),
-      });
-      const json = await response.json() as { id?: string; message?: string };
-
-      if (!response.ok || !json.id) {
-        throw new Error(json.message || t('myPokemon.onboarding.submitError'));
-      }
-
+    const params = {
+      nickname,
+      is_admin: isAdmin,
+      pokeballs: Number(pokeballs),
+      capture_rate: Number(captureRate),
+      pokemon_name: selectedPokemonName,
+    };
+    const response = await onboarding(params);
+    if (response) {
       await refreshUser();
       onCreated?.();
-      showAlert({ type: 'success', message: t('myPokemon.onboarding.success') });
-    } catch (error) {
-      const message = error instanceof Error ? error.message : t('myPokemon.onboarding.submitError');
-      showAlert({ type: 'error', message });
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   return (
     <section className='mx-auto flex max-w-5xl flex-col gap-6'>
-      <Card variant='elevated' rounded='2xl' className='border border-amber-200 bg-[linear-gradient(135deg,#fff8e1_0%,#ffffff_48%,#e0f2fe_100%)] shadow-xl shadow-amber-100/60'>
+      <Card variant='elevated' rounded='2xl'
+        className='border border-amber-200 bg-[linear-gradient(135deg,#fff8e1_0%,#ffffff_48%,#e0f2fe_100%)] shadow-xl shadow-amber-100/60'>
         <div className='flex flex-col gap-4'>
           <div>
             <Text as='h2' className='text-2xl font-bold text-slate-950'>
@@ -172,7 +155,7 @@ export default function HomeOnboarding({ onCreated }: HomeOnboardingProps) {
                   name='starter-admin'
                   value={selectedPokemonName}
                   options={autocompleteOptions}
-                  isLoading={isLoadingOptions}
+                  isLoading={isContentLoading}
                   placeholder={t('myPokemon.onboarding.selectPokemonPlaceholder')}
                   noResultsText={t('filters.noOptions')}
                   onValueChange={setSelectedPokemonName}
@@ -189,18 +172,23 @@ export default function HomeOnboarding({ onCreated }: HomeOnboardingProps) {
                     key={pokemon.id}
                     type='button'
                     className={`rounded-2xl border p-4 text-left transition ${isActive ? 'border-blue-500 bg-blue-50 shadow-lg shadow-blue-100' : 'border-slate-200 bg-white hover:border-slate-300'}`}
-                    onClick={() => setSelectedPokemonName(pokemon.name)}
+                    onClick={() => selectPokemon(pokemon)}
                   >
-                    <div className='flex min-h-40 items-center justify-center rounded-xl bg-slate-100'>
+                    <div
+                      className='flex min-h-40 items-center justify-center rounded-xl bg-slate-100'>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={pokemon.external_image} alt={pokemon.name} className='max-h-36 object-contain p-3' />
+                      <img src={pokemon.external_image} alt={pokemon.name}
+                        className='max-h-36 object-contain p-3'/>
                     </div>
                     <Text as='h3' className='mt-4 text-lg font-semibold capitalize text-slate-950'>
                       {pokemon.name}
                     </Text>
                     <div className='mt-3 flex flex-wrap gap-2'>
                       {pokemon.types.map((type) => (
-                        <Badge key={type.id} style={{ backgroundColor: type.background_color || undefined, color: type.text_color || undefined }}>
+                        <Badge key={type.id} style={{
+                          backgroundColor: type.background_color || undefined,
+                          color: type.text_color || undefined
+                        }}>
                           {translatePokemonTypeName(t, type.name)}
                         </Badge>
                       ))}
@@ -216,18 +204,22 @@ export default function HomeOnboarding({ onCreated }: HomeOnboardingProps) {
               <div className='flex flex-col gap-4 sm:flex-row sm:items-center'>
                 <div className='flex h-28 w-28 items-center justify-center rounded-xl bg-slate-100'>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={selectedPokemon.external_image} alt={selectedPokemon.name} className='max-h-24 object-contain p-2' />
+                  <img src={selectedPokemon.external_image} alt={selectedPokemon.name}
+                    className='max-h-24 object-contain p-2'/>
                 </div>
                 <div className='flex-1'>
                   <Text as='h3' className='text-xl font-semibold capitalize text-slate-950'>
                     {formatLabel(selectedPokemon.name)}
                   </Text>
                   <Text className='text-sm text-slate-500'>
-                    #{String(selectedPokemon.order).padStart(4, '0')}
+                                        #{String(selectedPokemon.order).padStart(4, '0')}
                   </Text>
                   <div className='mt-3 flex flex-wrap gap-2'>
                     {selectedPokemon.types.map((type) => (
-                      <Badge key={type.id} style={{ backgroundColor: type.background_color || undefined, color: type.text_color || undefined }}>
+                      <Badge key={type.id} style={{
+                        backgroundColor: type.background_color || undefined,
+                        color: type.text_color || undefined
+                      }}>
                         {translatePokemonTypeName(t, type.name)}
                       </Badge>
                     ))}
@@ -238,7 +230,8 @@ export default function HomeOnboarding({ onCreated }: HomeOnboardingProps) {
           ) : null}
 
           <div className='flex justify-end'>
-            <Button onClick={handleSubmit} isLoading={isSubmitting} loadingText={t('myPokemon.onboarding.submitting')}>
+            <Button onClick={handleSubmit} isLoading={isSubmitting}
+              loadingText={t('myPokemon.onboarding.submitting')}>
               {t('myPokemon.onboarding.submit')}
             </Button>
           </div>

@@ -3,10 +3,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { PokemonEncounterListView } from './PokemonEncounterListView';
 
 const showAlertMock = jest.fn();
-const usePokemonEncounterListMock = jest.fn();
+const paginatedListMock = jest.fn();
 
-jest.mock('./usePokemonEncounterList', () => ({
-  usePokemonEncounterList: () => usePokemonEncounterListMock(),
+jest.mock('@/app/ui/hooks/list/usePaginatedList', () => ({
+  __esModule: true,
+  default: (...args: unknown[]) => paginatedListMock(...args),
 }));
 
 jest.mock('@/app/ds', () => {
@@ -57,7 +58,7 @@ const defaultHookValue = {
 describe('PokemonEncounterListView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    usePokemonEncounterListMock.mockReturnValue(defaultHookValue);
+    paginatedListMock.mockReturnValue(defaultHookValue);
   });
 
   it('renders encounters cards prioritizing name', () => {
@@ -68,7 +69,7 @@ describe('PokemonEncounterListView', () => {
   });
 
   it('renders empty and alert-only error states', () => {
-    usePokemonEncounterListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       items: [],
       errorMessage: 'Could not load Pokemon encounters.',
@@ -85,7 +86,7 @@ describe('PokemonEncounterListView', () => {
   });
 
   it('renders fallback copy and forwards filter actions', () => {
-    usePokemonEncounterListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       items: [{
         ...defaultHookValue.items[0],
@@ -103,5 +104,22 @@ describe('PokemonEncounterListView', () => {
 
     expect(defaultHookValue.applyInputFilters).toHaveBeenCalledWith({ name: 'medium' });
     expect(defaultHookValue.clearInputFilters).toHaveBeenCalledTimes(1);
+  });
+
+  it('configures direct list normalization for the shared hook', () => {
+    render(<PokemonEncounterListView />);
+
+    const config = paginatedListMock.mock.calls[0][0] as {
+      normalizeFilters: (filters: { name?: string; order?: string }) => unknown;
+    };
+
+    expect(config.normalizeFilters({ name: ' route-1 ', order: ' 10 ' })).toEqual({
+      name: 'route-1',
+      order: '10',
+    });
+    expect(config.normalizeFilters({ name: '', order: '' })).toEqual({
+      name: undefined,
+      order: undefined,
+    });
   });
 });

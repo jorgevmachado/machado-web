@@ -8,15 +8,12 @@ import { AssociationCard } from '../../components/association-card';
 
 import PokemonTypeVisual from '../components/pokemon-type-visual';
 import { translatePokemonTypeName } from '../translatePokemonTypeName';
+import { formatOrder } from '@/app/utils';
 import { usePokemonTypeDetail } from './usePokemonTypeDetail';
 
 type PokemonTypeDetailViewProps = Readonly<{
-  identifier: string;
+    identifier: string;
 }>;
-
-const formatOrder = (order: number | null | undefined): string => (
-  order === null || order === undefined ? '#---' : `#${String(order).padStart(3, '0')}`
-);
 
 export function PokemonTypeDetailView({ identifier }: PokemonTypeDetailViewProps) {
   const { data, isLoading, errorMessage } = usePokemonTypeDetail(identifier);
@@ -64,7 +61,8 @@ export function PokemonTypeDetailView({ identifier }: PokemonTypeDetailViewProps
         </Card>
         {data.strengths.length > 0 && (
           <Card rounded="lg" className="bg-white">
-            <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.type.detail.strengths')}</Text>
+            <Text as="h2"
+              className="text-xl font-semibold text-slate-950">{t('pokemon.type.detail.strengths')}</Text>
             <section className="grid grid-cols-1 gap-4 mt-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {data.strengths.map((type) => {
                 const translatedRelatedTypeName = translatePokemonTypeName(t, type.name);
@@ -90,7 +88,8 @@ export function PokemonTypeDetailView({ identifier }: PokemonTypeDetailViewProps
 
         {data.weaknesses.length > 0 && (
           <Card rounded="lg" className="bg-white">
-            <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.type.detail.weaknesses')}</Text>
+            <Text as="h2"
+              className="text-xl font-semibold text-slate-950">{t('pokemon.type.detail.weaknesses')}</Text>
             <section className="grid grid-cols-1 gap-4 mt-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {data.weaknesses.map((type) => {
                 const translatedRelatedTypeName = translatePokemonTypeName(t, type.name);

@@ -3,10 +3,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { PokemonGrowthRateListView } from './PokemonGrowthRateListView';
 
 const showAlertMock = jest.fn();
-const usePokemonGrowthRateListMock = jest.fn();
+const paginatedListMock = jest.fn();
 
-jest.mock('./usePokemonGrowthRateList', () => ({
-  usePokemonGrowthRateList: () => usePokemonGrowthRateListMock(),
+jest.mock('@/app/ui/hooks/list/usePaginatedList', () => ({
+  __esModule: true,
+  default: (...args: unknown[]) => paginatedListMock(...args),
 }));
 
 jest.mock('@/app/ds', () => {
@@ -50,7 +51,7 @@ const defaultHookValue = {
 describe('PokemonGrowthRateListView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    usePokemonGrowthRateListMock.mockReturnValue(defaultHookValue);
+    paginatedListMock.mockReturnValue(defaultHookValue);
   });
 
   it('renders growth rate cards prioritizing formulas', () => {
@@ -62,7 +63,7 @@ describe('PokemonGrowthRateListView', () => {
   });
 
   it('renders empty and alert-only error states', () => {
-    usePokemonGrowthRateListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       items: [],
       errorMessage: 'Could not load Pokemon growth rates.',
@@ -79,7 +80,7 @@ describe('PokemonGrowthRateListView', () => {
   });
 
   it('renders fallback copy and forwards filter actions', () => {
-    usePokemonGrowthRateListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       items: [{
         ...defaultHookValue.items[0],
@@ -97,5 +98,22 @@ describe('PokemonGrowthRateListView', () => {
 
     expect(defaultHookValue.applyInputFilters).toHaveBeenCalledWith({ name: 'medium' });
     expect(defaultHookValue.clearInputFilters).toHaveBeenCalledTimes(1);
+  });
+
+  it('configures direct list normalization for the shared hook', () => {
+    render(<PokemonGrowthRateListView />);
+
+    const config = paginatedListMock.mock.calls[0][0] as {
+      normalizeFilters: (filters: { name?: string; order?: string }) => unknown;
+    };
+
+    expect(config.normalizeFilters({ name: ' medium ', order: ' 3 ' })).toEqual({
+      name: 'medium',
+      order: '3',
+    });
+    expect(config.normalizeFilters({ name: '', order: '' })).toEqual({
+      name: undefined,
+      order: undefined,
+    });
   });
 });

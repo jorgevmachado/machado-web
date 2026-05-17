@@ -1,18 +1,34 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { GiStumpRegrowth } from 'react-icons/gi';
 
-import { Badge, Card, Filters, Pagination, Text, useAlert } from '@/app/ds';
+import { type FiltersProps, Badge, Card, Filters, Pagination, Text, useAlert } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
+import usePaginatedList from '@/app/ui/hooks/list/usePaginatedList';
 import { AssociationCard } from '../../components/association-card';
 
-import type { PokemonGrowthRateFilters } from '../types';
-import { usePokemonGrowthRateList } from './usePokemonGrowthRateList';
+import { pokemonGrowthRateBffService } from '../services';
+import type { PokemonGrowthRateFilters, TPokemonGrowthRate } from '../types';
 
 const formatOrder = (order: number): string => `#${String(order).padStart(3, '0')}`;
 
+const INITIAL_FILTERS: PokemonGrowthRateFilters = {
+  name: undefined,
+  order: undefined,
+};
+
+const normalizeFilters = (filters: PokemonGrowthRateFilters): PokemonGrowthRateFilters => ({
+  name: filters.name?.trim() || undefined,
+  order: filters.order?.trim() || undefined,
+});
+
 export function PokemonGrowthRateListView() {
+  const { t } = useAppTranslation();
+  const initialInputFilters = useMemo<FiltersProps['filters']>(() => [
+    { name: 'name', label: t('filters.name'), type: 'text', value: '', placeholder: 'tackle' },
+    { name: 'order', label: t('filters.order'), type: 'text', value: '', placeholder: '33' },
+  ], [t]);
   const {
     items,
     meta,
@@ -22,9 +38,14 @@ export function PokemonGrowthRateListView() {
     goToPage,
     applyInputFilters,
     clearInputFilters,
-  } = usePokemonGrowthRateList();
+  } = usePaginatedList<TPokemonGrowthRate, PokemonGrowthRateFilters>({
+    fetchList: pokemonGrowthRateBffService.fetchAll,
+    initialFilters: INITIAL_FILTERS,
+    initialInputFilters,
+    fetchErrorMessage: t('pokemon.growthRate.list.loadError'),
+    normalizeFilters,
+  });
   const { showAlert } = useAlert();
-  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (errorMessage) {

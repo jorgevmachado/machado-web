@@ -6,30 +6,20 @@ import { GiStumpRegrowth } from 'react-icons/gi';
 
 import { Card, Text } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
-
+import { formatOrder, formatValue, replaceFractions } from '@/app/utils';
 import { usePokemonGrowthRateDetail } from './usePokemonGrowthRateDetail';
 
 type PokemonGrowthRateDetailViewProps = Readonly<{
-  identifier: string;
+    identifier: string;
 }>;
 
 type TExperienceTableRow = {
-  level: number;
-  experience: number | null;
+    level: number;
+    experience?: number;
 };
 
 const MIN_LEVEL = 1;
 const MAX_LEVEL = 100;
-
-const formatOrder = (order: number): string => `#${String(order).padStart(3, '0')}`;
-const formatValue = (value: number | null | undefined): string => value === null || value === undefined ? '-' : String(value);
-
-const FRACTION_REGEX = /\\frac\{([^{}]+)\}\{([^{}]+)\}/g;
-
-const replaceFractions = (expression: string): string => {
-  const nextExpression = expression.replaceAll(FRACTION_REGEX, '(($1)/($2))');
-  return nextExpression === expression ? expression : replaceFractions(nextExpression);
-};
 
 const normalizeFormulaExpression = (formula: string, level: number): string | null => {
   const normalizedFormula = formula.replaceAll(/\s+/g, '').toLowerCase();
@@ -61,18 +51,18 @@ const evaluateFormulaExpression = (expression: string): number | null => {
   }
 };
 
-const calculateExperience = (level: number, formula: string): number | null => {
+const calculateExperience = (level: number, formula: string): number | undefined => {
   if (level === MIN_LEVEL) {
     return 0;
   }
 
   const expression = normalizeFormulaExpression(formula, level);
   if (!expression) {
-    return null;
+    return undefined;
   }
 
   const result = evaluateFormulaExpression(expression);
-  return result !== null && Number.isFinite(result) ? Math.floor(result) : null;
+  return result && Number.isFinite(result) ? Math.floor(result) : undefined;
 };
 
 export function PokemonGrowthRateDetailView({ identifier }: PokemonGrowthRateDetailViewProps) {
@@ -119,8 +109,9 @@ export function PokemonGrowthRateDetailView({ identifier }: PokemonGrowthRateDet
         <Card rounded="lg" className="bg-white">
           <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
             <div className="flex gap-4">
-              <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-rose-50 text-rose-700">
-                <GiStumpRegrowth size={34} />
+              <div
+                className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-rose-50 text-rose-700">
+                <GiStumpRegrowth size={34}/>
               </div>
               <div>
                 <Text as="h1" className="text-3xl font-bold capitalize text-slate-950 sm:text-5xl">
@@ -136,19 +127,24 @@ export function PokemonGrowthRateDetailView({ identifier }: PokemonGrowthRateDet
 
         <section className="flex flex-col gap-6">
           <Card rounded="lg" className="bg-white">
-            <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.growthRate.detail.formula')}</Text>
-            <Text className="mt-3 text-slate-700">{data.formula || t('pokemon.growthRate.detail.formulaPending')}</Text>
+            <Text as="h2"
+              className="text-xl font-semibold text-slate-950">{t('pokemon.growthRate.detail.formula')}</Text>
+            <Text
+              className="mt-3 text-slate-700">{data.formula || t('pokemon.growthRate.detail.formulaPending')}</Text>
           </Card>
 
           <Card rounded="lg" className="bg-white">
-            <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.growthRate.detail.tableTitle')}</Text>
+            <Text as="h2"
+              className="text-xl font-semibold text-slate-950">{t('pokemon.growthRate.detail.tableTitle')}</Text>
 
             <div className="mt-4 overflow-x-auto">
               <table className="min-w-full border-collapse text-left text-sm text-slate-700">
                 <thead>
                   <tr className="border-b border-slate-200">
-                    <th scope="col" className="px-3 py-2 font-semibold text-slate-900">{t('pokemon.growthRate.detail.level')}</th>
-                    <th scope="col" className="px-3 py-2 font-semibold text-slate-900">{t('pokemon.growthRate.detail.experience')}</th>
+                    <th scope="col"
+                      className="px-3 py-2 font-semibold text-slate-900">{t('pokemon.growthRate.detail.level')}</th>
+                    <th scope="col"
+                      className="px-3 py-2 font-semibold text-slate-900">{t('pokemon.growthRate.detail.experience')}</th>
                   </tr>
                 </thead>
 

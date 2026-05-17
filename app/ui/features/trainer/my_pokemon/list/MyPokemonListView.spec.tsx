@@ -3,11 +3,12 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { MyPokemonListView } from './MyPokemonListView';
 
 const showAlertMock = jest.fn();
-const useMyPokemonListMock = jest.fn();
+const paginatedListMock = jest.fn();
 let hookValue: ReturnType<typeof buildHookValue>;
 
-jest.mock('./useMyPokemonList', () => ({
-  useMyPokemonList: () => useMyPokemonListMock(),
+jest.mock('@/app/ui/hooks/list/usePaginatedList', () => ({
+  __esModule: true,
+  default: (...args: unknown[]) => paginatedListMock(...args),
 }));
 
 jest.mock('machado-web/app/i18n', () => ({
@@ -58,7 +59,7 @@ describe('MyPokemonListView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     hookValue = buildHookValue();
-    useMyPokemonListMock.mockReturnValue(hookValue);
+    paginatedListMock.mockReturnValue(hookValue);
   });
 
   it('renders roster cards and forwards filter actions', () => {
@@ -78,7 +79,7 @@ describe('MyPokemonListView', () => {
   });
 
   it('shows the empty state and error alert when needed', () => {
-    useMyPokemonListMock.mockReturnValueOnce({
+    paginatedListMock.mockReturnValueOnce({
       items: [],
       meta: { total: 0, current_page: 1, total_pages: 0 },
       isLoading: false,
@@ -93,6 +94,23 @@ describe('MyPokemonListView', () => {
 
     expect(screen.getByText('myPokemon.list.empty')).toBeInTheDocument();
     expect(showAlertMock).toHaveBeenCalledWith({ type: 'error', message: 'Could not load your Pokemon.' });
+  });
+
+  it('configures direct list normalization for the shared hook', () => {
+    render(<MyPokemonListView />);
+
+    const config = paginatedListMock.mock.calls[0][0] as {
+      normalizeFilters: (filters: { name?: string; pokemon_name?: string }) => unknown;
+    };
+
+    expect(config.normalizeFilters({ name: ' leaf ', pokemon_name: ' bulbasaur ' })).toEqual({
+      name: 'leaf',
+      pokemon_name: 'bulbasaur',
+    });
+    expect(config.normalizeFilters({ name: '', pokemon_name: '' })).toEqual({
+      name: undefined,
+      pokemon_name: undefined,
+    });
   });
 });
 

@@ -1,4 +1,5 @@
-import { TPokedex, TMyPokemon } from '@/app/ui';
+import { TMyPokemon } from '@/app/ui/features/trainer/my_pokemon/types';
+import { TPokedex } from '@/app/ui/features/trainer/pokedex/types';
 
 export type TTrainerEncounterPokemon = {
   id: string;

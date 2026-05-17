@@ -5,17 +5,17 @@ import { MdAutoAwesome } from 'react-icons/md';
 
 import { Badge, Card, Text } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
-
-import { usePokemonAbilityDetail } from './usePokemonAbilityDetail';
+import { pokemonAbilityBffService } from '../services';
+import { formatOrder } from '@/app/utils';
+import { useDetail } from '@/app/ui/hooks/detail';
 
 type PokemonAbilityDetailViewProps = Readonly<{
   identifier: string;
 }>;
 
-const formatOrder = (order: number): string => `#${String(order).padStart(3, '0')}`;
 
 export function PokemonAbilityDetailView({ identifier }: PokemonAbilityDetailViewProps) {
-  const { data, isLoading, errorMessage } = usePokemonAbilityDetail(identifier);
+  const { data, isLoading, errorMessage } = useDetail({ identifier, fetchDetail: pokemonAbilityBffService.fetchOne });
   const { t } = useAppTranslation();
 
   if (isLoading && !data) {

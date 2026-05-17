@@ -3,10 +3,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { PokemonListView } from './PokemonListView';
 
 const showAlertMock = jest.fn();
-const usePokemonListMock = jest.fn();
+const paginatedListMock = jest.fn();
 
-jest.mock('./usePokemonList', () => ({
-  usePokemonList: () => usePokemonListMock(),
+jest.mock('@/app/ui/hooks/list/usePaginatedList', () => ({
+  __esModule: true,
+  default: (...args: unknown[]) => paginatedListMock(...args),
 }));
 
 const defaultHookValue = {
@@ -52,7 +53,7 @@ jest.mock('@/app/ds', () => {
 describe('PokemonListView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    usePokemonListMock.mockReturnValue(defaultHookValue);
+    paginatedListMock.mockReturnValue(defaultHookValue);
   });
 
   it('renders pokemon cards and pagination summary data', () => {
@@ -65,7 +66,7 @@ describe('PokemonListView', () => {
   });
 
   it('renders complete pokemon types and reports load errors', () => {
-    usePokemonListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       errorMessage: 'Could not load Pokemon.',
       items: [{
@@ -92,7 +93,7 @@ describe('PokemonListView', () => {
   });
 
   it('renders the empty state after loading finishes', () => {
-    usePokemonListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       items: [],
       meta: { total: 0, current_page: 1, total_pages: 0 },
@@ -105,7 +106,7 @@ describe('PokemonListView', () => {
   });
 
   it('does not render the empty state while loading', () => {
-    usePokemonListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       items: [],
       isLoading: true,
@@ -117,7 +118,7 @@ describe('PokemonListView', () => {
   });
 
   it('renders configured pokemon type colors when available', () => {
-    usePokemonListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       items: [{
         id: '2',
@@ -150,5 +151,28 @@ describe('PokemonListView', () => {
 
     expect(defaultHookValue.applyInputFilters).toHaveBeenCalledWith({ name: 'bulbasaur' });
     expect(defaultHookValue.clearInputFilters).toHaveBeenCalledTimes(1);
+  });
+
+  it('configures direct list normalization for the shared hook', () => {
+    render(<PokemonListView />);
+
+    const config = paginatedListMock.mock.calls[0][0] as {
+      normalizeFilters: (filters: { name?: string; order?: string; status?: string; type?: string }) => unknown;
+      fetchErrorMessage: string;
+    };
+
+    expect(config.fetchErrorMessage).toBe('Could not load Pokemon.');
+    expect(config.normalizeFilters({ name: ' pikachu ', order: ' 25 ', status: ' COMPLETE ', type: ' electric ' })).toEqual({
+      name: 'pikachu',
+      order: '25',
+      status: 'COMPLETE',
+      type: 'electric',
+    });
+    expect(config.normalizeFilters({ name: '', order: '', status: '', type: '' })).toEqual({
+      name: undefined,
+      order: undefined,
+      status: undefined,
+      type: undefined,
+    });
   });
 });

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import { getServerSession } from '@/app/shared/lib/auth/server';
-import { pokedexService } from '@/app/ui';
+import { pokedexService } from '@/app/ui/features/trainer/pokedex';
 
 export async function GET(request: NextRequest): Promise<NextResponse> {
   const session = await getServerSession();

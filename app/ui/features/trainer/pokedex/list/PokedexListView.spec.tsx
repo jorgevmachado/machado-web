@@ -3,10 +3,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { PokedexListView } from './PokedexListView';
 
 const showAlertMock = jest.fn();
-const usePokedexListMock = jest.fn();
+const paginatedListMock = jest.fn();
 
-jest.mock('./usePokedexList', () => ({
-  usePokedexList: () => usePokedexListMock(),
+jest.mock('@/app/ui/hooks/list/usePaginatedList', () => ({
+  __esModule: true,
+  default: (...args: unknown[]) => paginatedListMock(...args),
 }));
 
 jest.mock('next/link', () => ({
@@ -123,7 +124,7 @@ const defaultHookValue = {
 describe('PokedexListView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    usePokedexListMock.mockReturnValue(defaultHookValue);
+    paginatedListMock.mockReturnValue(defaultHookValue);
   });
 
   it('renders discovered entries as navigable cards with details', () => {
@@ -137,7 +138,7 @@ describe('PokedexListView', () => {
   });
 
   it('falls back to the base pokemon name in the image alt and shows missing discovered date text', () => {
-    usePokedexListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       items: [{
         ...defaultHookValue.items[0],
@@ -153,7 +154,7 @@ describe('PokedexListView', () => {
   });
 
   it('renders undiscovered entries with pokeball placeholder and no detail link', () => {
-    usePokedexListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       items: [{
         ...defaultHookValue.items[0],
@@ -179,7 +180,7 @@ describe('PokedexListView', () => {
   });
 
   it('shows an alert when the list hook returns an error message', () => {
-    usePokedexListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       errorMessage: 'Could not load Pokedex.',
     });
@@ -193,7 +194,7 @@ describe('PokedexListView', () => {
   });
 
   it('renders the empty state when there are no entries and loading is finished', () => {
-    usePokedexListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       items: [],
       meta: { total: 0, current_page: 1, total_pages: 0 },
@@ -213,5 +214,24 @@ describe('PokedexListView', () => {
 
     expect(defaultHookValue.applyInputFilters).toHaveBeenCalledWith({ nickname: 'leaf' });
     expect(defaultHookValue.clearInputFilters).toHaveBeenCalledTimes(1);
+  });
+
+  it('configures direct list normalization for the shared hook', () => {
+    render(<PokedexListView />);
+
+    const config = paginatedListMock.mock.calls[0][0] as {
+      normalizeFilters: (filters: { nickname?: string; pokemon_name?: string; discovered?: string }) => unknown;
+    };
+
+    expect(config.normalizeFilters({ nickname: ' Leaf ', pokemon_name: ' bulbasaur ', discovered: ' TRUE ' })).toEqual({
+      nickname: 'Leaf',
+      pokemon_name: 'bulbasaur',
+      discovered: 'true',
+    });
+    expect(config.normalizeFilters({ nickname: '', pokemon_name: '', discovered: '' })).toEqual({
+      nickname: undefined,
+      pokemon_name: undefined,
+      discovered: undefined,
+    });
   });
 });

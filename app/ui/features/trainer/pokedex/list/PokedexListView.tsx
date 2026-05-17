@@ -1,17 +1,36 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import { Badge, Card, Filters, Image, Pagination, Text, useAlert } from '@/app/ds';
+import { type FiltersProps, Badge, Card, Filters, Image, Pagination, Text, useAlert } from '@/app/ds';
 import Pokeball from '@/app/ds/loading/spinner/pokeball';
 import { useAppTranslation } from '@/app/i18n';
+import usePaginatedList from '@/app/ui/hooks/list/usePaginatedList';
 import { translatePokemonTypeName } from '@/app/ui/features/pokemon/type';
 import { displayDate, formatLabel } from '@/app/utils';
 
-import { usePokedexList } from './usePokedexList';
+import type { PokedexListFilters, TPokedex } from '../types';
+
+const INITIAL_FILTERS: PokedexListFilters = {
+  nickname: undefined,
+  pokemon_name: undefined,
+  discovered: undefined,
+};
+
+const normalizeFilters = (filters: PokedexListFilters): PokedexListFilters => ({
+  nickname: filters.nickname?.trim() || undefined,
+  pokemon_name: filters.pokemon_name?.trim() || undefined,
+  discovered: filters.discovered?.trim().toLowerCase() || undefined,
+});
 
 export function PokedexListView() {
+  const { t } = useAppTranslation();
+  const initialInputFilters = useMemo<FiltersProps['filters']>(() => [
+    { name: 'nickname', label: t('pokedex.filters.nickname'), type: 'text', value: '', placeholder: 'Leaf' },
+    { name: 'pokemon_name', label: t('pokedex.filters.basePokemon'), type: 'text', value: '', placeholder: 'bulbasaur' },
+    { name: 'discovered', label: t('pokedex.filters.discovered'), type: 'text', value: '', placeholder: 'true / false' },
+  ], [t]);
   const {
     items,
     meta,
@@ -21,9 +40,14 @@ export function PokedexListView() {
     goToPage,
     applyInputFilters,
     clearInputFilters,
-  } = usePokedexList();
+  } = usePaginatedList<TPokedex, PokedexListFilters>({
+    endpoint: '/api/trainer/pokedex',
+    initialFilters: INITIAL_FILTERS,
+    initialInputFilters,
+    fetchErrorMessage: t('pokedex.list.loadError'),
+    normalizeFilters,
+  });
   const { showAlert } = useAlert();
-  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (errorMessage) {

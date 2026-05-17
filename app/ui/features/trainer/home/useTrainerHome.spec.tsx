@@ -185,6 +185,44 @@ describe('useTrainerHome', () => {
     expect(result.current.activeEncounter?.id).toBe('encounter-1');
   });
 
+  it('returns no active encounter when neither home nor the encounter list exposes one', async () => {
+    global.fetch = fetchByUrl({
+      '/api/trainer/home': jsonResponse({
+        ...trainerHome,
+        active_encounter: undefined,
+      }),
+      '/api/trainer/encounters': jsonResponse(encounters.map((encounter) => ({
+        ...encounter,
+        is_active: false,
+      }))),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse(roster),
+    }) as never;
+
+    const { result } = renderHook(() => useTrainerHome());
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(result.current.activeEncounter).toBeUndefined();
+  });
+
+  it('falls back to an empty roster when the payload omits items', async () => {
+    global.fetch = fetchByUrl({
+      '/api/trainer/home': jsonResponse(trainerHome),
+      '/api/trainer/encounters': jsonResponse(encounters),
+      '/api/trainer/my-pokemon?page=1&limit=100': jsonResponse({}),
+    }) as never;
+
+    const { result } = renderHook(() => useTrainerHome());
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(result.current.roster).toEqual([]);
+  });
+
   it('supports manual reloads through the returned load function', async () => {
     global.fetch = fetchByUrl({
       '/api/trainer/home': jsonResponse(trainerHome),
@@ -345,6 +383,17 @@ describe('useTrainerHome', () => {
 
     expect(result.current.partySelection).toHaveLength(6);
     expect(result.current.partySelection).not.toContain('my-pokemon-7');
+
+    await waitFor(() => {
+      expect(result.current.partySelection).toEqual([
+        'my-pokemon-1',
+        'my-pokemon-2',
+        'my-pokemon-3',
+        'my-pokemon-4',
+        'my-pokemon-5',
+        'my-pokemon-6',
+      ]);
+    });
 
     await act(async () => {
       await result.current.saveParty();
@@ -727,5 +776,48 @@ describe('useTrainerHome', () => {
     await waitFor(() => {
       expect(result.current.errorMessage).toBe('home.dashboard.partySaveError');
     });
+  });
+
+  it('keeps data undefined when saving party before the initial load resolves', async () => {
+    const pendingLoad = new Promise<ReturnType<typeof jsonResponse>>(() => {});
+    global.fetch = jest.fn(async (input: RequestInfo | URL) => {
+      const url = String(input);
+
+      if (url === '/api/trainer/party') {
+        return jsonResponse([
+          {
+            ...trainerHome.party[0],
+            my_pokemon: {
+              ...trainerHome.party[0].my_pokemon,
+              id: 'my-pokemon-9',
+            },
+          },
+        ]);
+      }
+
+      if (
+        url === '/api/trainer/home'
+        || url === '/api/trainer/encounters'
+        || url === '/api/trainer/my-pokemon?page=1&limit=100'
+      ) {
+        return await pendingLoad;
+      }
+
+      return undefined;
+    }) as never;
+
+    const { result, unmount } = renderHook(() => useTrainerHome());
+
+    expect(result.current.data).toBeUndefined();
+
+    await act(async () => {
+      await result.current.saveParty();
+    });
+
+    expect(result.current.isSavingParty).toBe(false);
+    expect(result.current.data).toBeUndefined();
+    expect(result.current.partySelection).toEqual(['my-pokemon-9']);
+
+    unmount();
   });
 });

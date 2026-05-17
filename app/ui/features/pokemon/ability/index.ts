@@ -1,8 +1,6 @@
 export { PokemonAbilityDetailView } from './detail/PokemonAbilityDetailView';
-export { usePokemonAbilityDetail } from './detail/usePokemonAbilityDetail';
 export { PokemonAbilityListView } from './list/PokemonAbilityListView';
-export { usePokemonAbilityList } from './list/usePokemonAbilityList';
-export { pokemonAbilityService } from './service';
+export * from './services';
 export type {
   PokemonAbilityFilters,
   PokemonAbilityListResponse,

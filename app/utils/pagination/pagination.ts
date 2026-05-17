@@ -34,3 +34,7 @@ export class Pagination<T> {
     };
   }
 }
+
+export const clampPage = (page: number, totalPages: number): number => {
+  return Math.min(Math.max(page, 1), Math.max(totalPages, 1));
+};

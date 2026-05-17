@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { getServerSession } from '@/app/shared/lib/auth/server';
-import { pokedexService } from '@/app/ui';
+import { pokedexService } from '@/app/ui/features/trainer/pokedex';
 
 type Params = Promise<{ name: string }>;
 

@@ -14,14 +14,26 @@ jest.mock('@/app/i18n', () => ({
   }),
 }));
 
-jest.mock('@/app/ui/features/home', () => ({
-  HomeOnboarding: () => <div>Onboarding</div>,
-  TrainerDashboard: () => <div>Trainer dashboard</div>,
+jest.mock('@/app/ui/features/home/components/onboarding', () => ({
+  __esModule: true,
+  default: function MockHomeOnboarding() {
+    return <div>Onboarding</div>;
+  },
 }));
 
-jest.mock('@/app/ds', () => ({
-  Text: ({ as: Component = 'p', children }: { as?: string; children: React.ReactNode }) => <Component>{children}</Component>,
+jest.mock('@/app/ui/features/home/components/dashboard', () => ({
+  __esModule: true,
+  default: function MockTrainerDashboard() {
+    return <div>Trainer dashboard</div>;
+  },
 }));
+
+jest.mock('@/app/ds', () => {
+  const React = jest.requireActual('react');
+  return {
+    Text: ({ as: Component = 'p', children }: { as?: string; children: React.ReactNode }) => React.createElement(Component, {}, children),
+  };
+});
 
 describe('Home page', () => {
   it('renders the onboarding flow when the user has no trainer', () => {

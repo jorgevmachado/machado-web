@@ -1,18 +1,34 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { MdAutoAwesome } from 'react-icons/md';
 
-import { Badge, Card, Filters, Pagination, Text, useAlert } from '@/app/ds';
+import { type FiltersProps, Badge, Card, Filters, Pagination, Text, useAlert } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
+import usePaginatedList from '@/app/ui/hooks/list/usePaginatedList';
 import { AssociationCard } from '../../components/association-card';
 
-import type { PokemonAbilityFilters } from '../types';
-import { usePokemonAbilityList } from './usePokemonAbilityList';
+import { pokemonAbilityBffService } from '../services';
+import type { PokemonAbilityFilters, TPokemonAbility } from '../types';
 
 const formatOrder = (order: number): string => `#${String(order).padStart(3, '0')}`;
 
+const INITIAL_FILTERS: PokemonAbilityFilters = {
+  name: undefined,
+  order: undefined,
+};
+
+const normalizeFilters = (filters: PokemonAbilityFilters): PokemonAbilityFilters => ({
+  name: filters.name?.trim() || undefined,
+  order: filters.order?.trim() || undefined,
+});
+
 export function PokemonAbilityListView() {
+  const { t } = useAppTranslation();
+  const initialInputFilters = useMemo<FiltersProps['filters']>(() => [
+    { name: 'name', label: t('filters.name'), type: 'text', value: '', placeholder: 'overgrow' },
+    { name: 'order', label: t('filters.order'), type: 'text', value: '', placeholder: '65' },
+  ], [t]);
   const {
     items,
     meta,
@@ -22,9 +38,14 @@ export function PokemonAbilityListView() {
     goToPage,
     applyInputFilters,
     clearInputFilters,
-  } = usePokemonAbilityList();
+  } = usePaginatedList<TPokemonAbility, PokemonAbilityFilters>({
+    fetchList: pokemonAbilityBffService.fetchAll,
+    initialFilters: INITIAL_FILTERS,
+    initialInputFilters,
+    fetchErrorMessage: t('pokemon.ability.list.loadError'),
+    normalizeFilters,
+  });
   const { showAlert } = useAlert();
-  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (errorMessage) {

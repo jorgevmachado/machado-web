@@ -5,6 +5,8 @@ import HomeOnboarding from './HomeOnboarding';
 
 const showAlertMock = jest.fn();
 const refreshUserMock = jest.fn().mockResolvedValue(undefined);
+const startContentLoadingMock = jest.fn();
+const stopContentLoadingMock = jest.fn();
 const onCreatedMock = jest.fn();
 let currentUserRole = 'USER';
 const translateMock = (key: string, params?: Record<string, string | number>) => {
@@ -109,6 +111,11 @@ jest.mock('machado-web/app/ds', () => ({
   useAlert: () => ({
     showAlert: showAlertMock,
   }),
+  useLoading: () => ({
+    isContentLoading: false,
+    startContentLoading: startContentLoadingMock,
+    stopContentLoading: stopContentLoadingMock,
+  }),
 }));
 
 describe('HomeOnboarding', () => {
@@ -148,7 +155,6 @@ describe('HomeOnboarding', () => {
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith('/api/pokemon?page=1&limit=151', expect.objectContaining({
         method: 'GET',
-        cache: 'no-store',
       }));
       expect(global.fetch).toHaveBeenCalledWith('/api/trainer/onboarding', expect.objectContaining({
         method: 'POST',
@@ -205,7 +211,7 @@ describe('HomeOnboarding', () => {
     await waitFor(() => {
       expect(showAlertMock).toHaveBeenCalledWith({
         type: 'error',
-        message: 'Could not load options',
+        message: 'myPokemon.onboarding.loadOptionsError',
       });
     });
   });
@@ -284,18 +290,18 @@ describe('HomeOnboarding', () => {
     fireEvent.click(screen.getByRole('button', { name: 'myPokemon.onboarding.submit' }));
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith(
-        '/api/trainer/onboarding',
-        expect.objectContaining({
-          method: 'POST',
-          body: JSON.stringify({
-            pokemon_name: 'bulbasaur',
-            nickname: 'Leaf',
-            pokeballs: 8,
-            capture_rate: 120,
-          }),
-        }),
-      );
+      const postCall = (global.fetch as jest.Mock).mock.calls.find(([url]) => url === '/api/trainer/onboarding');
+
+      expect(postCall).toBeDefined();
+      expect(postCall?.[1]).toEqual(expect.objectContaining({
+        method: 'POST',
+      }));
+      expect(JSON.parse((postCall?.[1] as RequestInit).body as string)).toEqual({
+        nickname: 'Leaf',
+        pokemon_name: 'bulbasaur',
+        pokeballs: 8,
+        capture_rate: 120,
+      });
     });
 
     expect(screen.getByRole('heading', { name: 'Bulbasaur' })).toBeInTheDocument();
@@ -326,7 +332,7 @@ describe('HomeOnboarding', () => {
     await waitFor(() => {
       expect(showAlertMock).toHaveBeenCalledWith({
         type: 'error',
-        message: 'Could not create trainer',
+        message: 'myPokemon.onboarding.submitError',
       });
     });
   });
@@ -405,6 +411,102 @@ describe('HomeOnboarding', () => {
         type: 'error',
         message: 'myPokemon.onboarding.submitError',
       });
+    });
+  });
+
+  it('loads full pokemon detail when selecting an incomplete starter option', async () => {
+    const incompleteOptions = buildPokemonOptions().map((pokemon) => {
+      if (pokemon.name !== 'bulbasaur') {
+        return pokemon;
+      }
+
+      return {
+        ...pokemon,
+        status: 'INCOMPLETE',
+      };
+    });
+
+    mockFetchByUrl({
+      '/api/pokemon?page=1&limit=151': {
+        ok: true,
+        json: async () => ({ items: incompleteOptions }),
+      },
+      '/api/pokemon/bulbasaur': {
+        ok: true,
+        json: async () => ({
+          ...incompleteOptions[0],
+          status: 'COMPLETE',
+          types: [
+            { id: 'grass', name: 'grass', background_color: '#78C850', text_color: '#111827' },
+            { id: 'poison', name: 'poison', background_color: '#A040A0', text_color: '#FFFFFF' },
+          ],
+        }),
+      },
+    });
+
+    render(<HomeOnboarding />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /bulbasaur/i })).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /bulbasaur/i }));
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith('/api/pokemon/bulbasaur', expect.objectContaining({
+        method: 'GET',
+      }));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { name: 'Bulbasaur' })).toBeInTheDocument();
+    });
+
+    expect(screen.getAllByText('pokemon.type.names.poison').length).toBeGreaterThan(0);
+  });
+
+  it('keeps starter unselected when incomplete pokemon detail cannot be loaded', async () => {
+    const incompleteOptions = buildPokemonOptions().map((pokemon) => {
+      if (pokemon.name !== 'bulbasaur') {
+        return pokemon;
+      }
+
+      return {
+        ...pokemon,
+        status: 'INCOMPLETE',
+      };
+    });
+
+    mockFetchByUrl({
+      '/api/pokemon?page=1&limit=151': {
+        ok: true,
+        json: async () => ({ items: incompleteOptions }),
+      },
+      '/api/pokemon/bulbasaur': {
+        ok: false,
+        json: async () => ({ message: 'detail failed' }),
+      },
+    });
+
+    render(<HomeOnboarding />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /bulbasaur/i })).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: /bulbasaur/i }));
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith('/api/pokemon/bulbasaur', expect.objectContaining({
+        method: 'GET',
+      }));
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'myPokemon.onboarding.submit' }));
+
+    expect(showAlertMock).toHaveBeenCalledWith({
+      type: 'error',
+      message: 'myPokemon.onboarding.validation.selectPokemon',
     });
   });
 });

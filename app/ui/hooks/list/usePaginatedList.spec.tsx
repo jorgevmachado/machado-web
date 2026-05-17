@@ -4,11 +4,18 @@ import usePaginatedList from './usePaginatedList';
 
 const startContentLoadingMock = jest.fn();
 const stopContentLoadingMock = jest.fn();
+const translateMock = (key: string) => key === 'missing.translation' ? undefined : 'Unknown';
 
 jest.mock('@/app/ds', () => ({
   useLoading: () => ({
     startContentLoading: startContentLoadingMock,
     stopContentLoading: stopContentLoadingMock,
+  }),
+}));
+
+jest.mock('@/app/i18n', () => ({
+  useAppTranslation: () => ({
+    t: translateMock,
   }),
 }));
 
@@ -132,6 +139,21 @@ const renderUsePaginatedListWithProps = (initialInputFilters: typeof INITIAL_INP
   });
 };
 
+const renderUsePaginatedListWithFetchList = (fetchList: jest.Mock) => {
+  return renderHook(() => {
+    return usePaginatedList<TestPokemon, TestFilters>({
+      fetchList,
+      initialFilters: INITIAL_FILTERS,
+      initialInputFilters: INITIAL_INPUT_FILTERS,
+      fetchErrorMessage: 'Could not fetch test entries.',
+      normalizeFilters: (nextFilters) => ({
+        name: nextFilters.name?.trim(),
+        order: nextFilters.order?.trim(),
+      }),
+    });
+  });
+};
+
 describe('usePaginatedList', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -160,6 +182,110 @@ describe('usePaginatedList', () => {
     expect(result.current.meta.current_page).toBe(1);
     expect(startContentLoadingMock).toHaveBeenCalledTimes(1);
     expect(stopContentLoadingMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('supports the fetchList mode without hitting fetch', async () => {
+    const fetchList = jest.fn().mockResolvedValueOnce({
+      error: false,
+      status: 200,
+      message: 'OK',
+      i18nMessage: 'common.unknown',
+      data: {
+        items: [{ id: '1', name: 'pikachu' }],
+        meta: createMeta(),
+      },
+    });
+
+    const { result } = renderUsePaginatedListWithFetchList(fetchList);
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(fetchList).toHaveBeenCalledWith(INITIAL_FILTERS, 1, 12);
+    expect(global.fetch).not.toHaveBeenCalled();
+    expect(result.current.items).toEqual([{ id: '1', name: 'pikachu' }]);
+  });
+
+  it('surfaces a configuration error when neither fetchList nor endpoint is provided', async () => {
+    const { result } = renderHook(() => usePaginatedList<TestPokemon, TestFilters>({
+      initialFilters: INITIAL_FILTERS,
+      initialInputFilters: INITIAL_INPUT_FILTERS,
+      fetchErrorMessage: 'Could not fetch test entries.',
+      normalizeFilters: (nextFilters) => nextFilters,
+    }));
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    expect(result.current.errorMessage).toBe('usePaginatedList requires either fetchList or endpoint.');
+  });
+
+  it('uses the endpoint without a query string and translates fetchList-mode errors with empty messages', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+    const fetchList = jest.fn()
+      .mockResolvedValueOnce({
+        error: true,
+        status: 500,
+        message: '',
+        i18nMessage: 'common.unknown',
+      })
+      .mockResolvedValueOnce({
+        error: false,
+        status: 200,
+        message: 'OK',
+        i18nMessage: 'common.unknown',
+        data: {
+          items: [],
+          meta: createMeta({ total: 0, total_pages: 0 }),
+        },
+      });
+
+    fetchMock.mockResolvedValueOnce(createResponse({
+      items: [],
+      meta: createMeta({ total: 0, total_pages: 0 }),
+    }) as Response);
+
+    renderUsePaginatedListWithBuilder(() => '');
+
+    await waitFor(() => {
+      expect(fetchMock).toHaveBeenCalledWith('/api/test-pokemon', {
+        method: 'GET',
+        cache: 'no-store',
+      });
+    });
+
+    const hook = renderUsePaginatedListWithFetchList(fetchList);
+
+    await waitFor(() => {
+      expect(hook.result.current.isLoading).toBe(false);
+    });
+
+    expect(hook.result.current.errorMessage).toBe('Unknown');
+  });
+
+  it('falls back to the configured fetch error message when translation is unavailable', async () => {
+    const fetchList = jest.fn().mockResolvedValueOnce({
+      error: true,
+      status: 500,
+      message: '',
+      i18nMessage: 'missing.translation',
+    });
+
+    const hook = renderHook(() => usePaginatedList<TestPokemon, TestFilters>({
+      fetchList,
+      initialFilters: INITIAL_FILTERS,
+      initialInputFilters: INITIAL_INPUT_FILTERS,
+      fetchErrorMessage: 'Could not fetch test entries.',
+      normalizeFilters: (nextFilters) => nextFilters,
+    }));
+
+    await waitFor(() => {
+      expect(hook.result.current.isLoading).toBe(false);
+    });
+
+    expect(hook.result.current.errorMessage).toBe('Could not fetch test entries.');
   });
 
   it('syncs input filters and refetches with normalized filter values', async () => {

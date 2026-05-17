@@ -17,7 +17,7 @@ jest.mock('@/app/shared/lib/auth/server', () => ({
   getServerSession: jest.fn(async () => ({ isAuthenticated: true, token: 'token' })),
 }));
 
-jest.mock('@/app/ui', () => ({
+jest.mock('@/app/ui/features/trainer/pokedex', () => ({
   pokedexService: jest.fn(() => ({ detail: detailMock })),
 }));
 

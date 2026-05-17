@@ -3,10 +3,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { PokemonMoveListView } from './PokemonMoveListView';
 
 const showAlertMock = jest.fn();
-const usePokemonMoveListMock = jest.fn();
+const paginatedListMock = jest.fn();
 
-jest.mock('./usePokemonMoveList', () => ({
-  usePokemonMoveList: () => usePokemonMoveListMock(),
+jest.mock('@/app/ui/hooks/list/usePaginatedList', () => ({
+  __esModule: true,
+  default: (...args: unknown[]) => paginatedListMock(...args),
 }));
 
 jest.mock('@/app/ds', () => {
@@ -56,7 +57,7 @@ const defaultHookValue = {
 describe('PokemonMoveListView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    usePokemonMoveListMock.mockReturnValue(defaultHookValue);
+    paginatedListMock.mockReturnValue(defaultHookValue);
   });
 
   it('renders move cards prioritizing effects', () => {
@@ -68,7 +69,7 @@ describe('PokemonMoveListView', () => {
   });
 
   it('renders null combat values and effect fallback without empty state while loading', () => {
-    usePokemonMoveListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       isLoading: true,
       items: [{
@@ -101,12 +102,29 @@ describe('PokemonMoveListView', () => {
   });
 
   it('renders empty and alert-only error states', () => {
-    usePokemonMoveListMock.mockReturnValue({ ...defaultHookValue, items: [], errorMessage: 'Could not load Pokemon moves.' });
+    paginatedListMock.mockReturnValue({ ...defaultHookValue, items: [], errorMessage: 'Could not load Pokemon moves.' });
 
     render(<PokemonMoveListView />);
 
     expect(screen.getByText('No Pokemon moves found.')).toBeInTheDocument();
     expect(showAlertMock).toHaveBeenCalledWith({ type: 'error', message: 'Could not load Pokemon moves.' });
     expect(screen.queryByRole('button', { name: /retry/i })).not.toBeInTheDocument();
+  });
+
+  it('configures direct list normalization for the shared hook', () => {
+    render(<PokemonMoveListView />);
+
+    const config = paginatedListMock.mock.calls[0][0] as {
+      normalizeFilters: (filters: { name?: string; order?: string }) => unknown;
+    };
+
+    expect(config.normalizeFilters({ name: ' tackle ', order: ' 33 ' })).toEqual({
+      name: 'tackle',
+      order: '33',
+    });
+    expect(config.normalizeFilters({ name: '', order: '' })).toEqual({
+      name: undefined,
+      order: undefined,
+    });
   });
 });

@@ -1,18 +1,40 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
-import { Badge, Card, Filters, Image, Pagination, Text, useAlert } from '@/app/ds';
+import { type FiltersProps, Badge, Card, Filters, Image, Pagination, Text, useAlert } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
+import usePaginatedList from '@/app/ui/hooks/list/usePaginatedList';
 import { translatePokemonTypeName } from '@/app/ui/features/pokemon/type';
 
-import type { PokemonListFilters } from '../types';
-import { usePokemonList } from './usePokemonList';
+import { pokemonBffService } from '../services';
+import type { PokemonListFilters, TPokemon } from '../types';
 
 const formatOrder = (order: number): string => `#${String(order).padStart(4, '0')}`;
 
+const INITIAL_FILTERS: PokemonListFilters = {
+  name: undefined,
+  order: undefined,
+  status: undefined,
+  type: undefined,
+};
+
+const normalizeFilters = (filters: PokemonListFilters): PokemonListFilters => ({
+  name: filters.name?.trim() || undefined,
+  order: filters.order?.trim() || undefined,
+  status: filters.status?.trim() || undefined,
+  type: filters.type?.trim() || undefined,
+});
+
 export function PokemonListView() {
+  const { t } = useAppTranslation();
+  const initialInputFilters = useMemo<FiltersProps['filters']>(() => [
+    { name: 'name', label: t('filters.name'), type: 'text', value: '', placeholder: 'Pikachu' },
+    { name: 'order', label: t('filters.order'), type: 'text', value: '', placeholder: '25' },
+    { name: 'type', label: t('filters.type'), type: 'text', value: '', placeholder: 'electric' },
+    { name: 'status', label: t('filters.status'), type: 'text', value: '', placeholder: 'COMPLETE' },
+  ], [t]);
   const {
     items,
     meta,
@@ -22,9 +44,14 @@ export function PokemonListView() {
     goToPage,
     applyInputFilters,
     clearInputFilters,
-  } = usePokemonList();
+  } = usePaginatedList<TPokemon, PokemonListFilters>({
+    fetchList: pokemonBffService.fetchAll,
+    initialFilters: INITIAL_FILTERS,
+    initialInputFilters,
+    fetchErrorMessage: t('pokemon.list.loadError'),
+    normalizeFilters,
+  });
   const { showAlert } = useAlert();
-  const { t } = useAppTranslation();
 
   useEffect(() => {
     if (errorMessage) {

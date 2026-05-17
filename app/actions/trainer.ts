@@ -3,7 +3,7 @@
 import type { AuthActionState } from '@/app/shared/lib/auth/action-state';
 import { getServerSession } from '@/app/shared/lib/auth/server';
 import type { ResponseError } from '@/app/shared/services/http';
-import { trainerService } from '@/app/ui/features/trainer/service';
+import { trainerService } from '../ui/features/trainer/services/service';
 
 const toErrorState = (message: string): AuthActionState => ({ status: 'error', message });
 

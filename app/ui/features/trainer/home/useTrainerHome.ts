@@ -1,10 +1,10 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useLoading } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
-import type { TMyPokemon } from '@/app/ui';
+import type { TMyPokemon } from '@/app/ui/features/trainer/my_pokemon/types';
 
 import type {
   TExplorationEvent,
@@ -23,6 +23,33 @@ type TrainerHomeState = {
   isWalking: boolean;
   isUpdatingEncounter: boolean;
   errorMessage?: string;
+};
+
+const resolveActiveEncounter = (
+  data: TTrainerHome | undefined,
+  encounters: Array<TTrainerEncounter>,
+): TTrainerEncounter | undefined => {
+  if (data?.active_encounter) {
+    return data.active_encounter;
+  }
+
+  for (const encounter of encounters) {
+    if (encounter.is_active) {
+      return encounter;
+    }
+  }
+
+  return undefined;
+};
+
+const buildPartySelection = (party: TTrainerHome['party']): Array<string> => {
+  const selection: Array<string> = [];
+
+  for (const item of party) {
+    selection.push(item.my_pokemon.id);
+  }
+
+  return selection;
 };
 
 const initialState: TrainerHomeState = {
@@ -78,7 +105,7 @@ export function useTrainerHome() {
         data: homeJson,
         encounters: encountersJson,
         roster: rosterJson.items,
-        partySelection: homeJson.party.map((member) => member.my_pokemon.id),
+        partySelection: buildPartySelection(homeJson.party),
         lastEvent: previous.lastEvent,
         isLoading: false,
         isSavingParty: false,
@@ -157,10 +184,10 @@ export function useTrainerHome() {
       setState((previous) => ({
         ...previous,
         data: {
-          ...previous.data,
+          ...previous.data!,
           trainer: {
-            ...previous.data.trainer,
-            pokeballs: json.trainer_pokeballs ?? previous.data.trainer.pokeballs,
+            ...previous.data!.trainer,
+            pokeballs: json.trainer_pokeballs ?? previous.data!.trainer.pokeballs,
           },
         },
         lastEvent: json,
@@ -210,22 +237,20 @@ export function useTrainerHome() {
         return;
       }
 
-      setState((previous) => ({
-        ...previous,
-        data: { ...previous.data!, party: json },
-        partySelection: json.map((item) => item.my_pokemon.id),
+      setState({
+        ...state,
+        data: state.data ? { ...state.data, party: json } : state.data,
+        partySelection: buildPartySelection(json),
         isSavingParty: false,
         errorMessage: undefined,
-      }));
+      });
     } catch (error) {
       const message = error instanceof Error && error.message ? error.message : t('home.dashboard.partySaveError');
       setState((previous) => ({ ...previous, isSavingParty: false, errorMessage: message }));
     }
-  }, [state.partySelection, t]);
+  }, [state, t]);
 
-  const activeEncounter = useMemo(() => {
-    return state.data?.active_encounter ?? state.encounters.find((encounter) => encounter.is_active);
-  }, [state.data?.active_encounter, state.encounters]);
+  const activeEncounter = resolveActiveEncounter(state.data, state.encounters);
 
   return {
     ...state,

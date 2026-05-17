@@ -1,19 +1,36 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { GiPositionMarker } from 'react-icons/gi';
 
-import { Badge, Card, Filters, Pagination, Text, useAlert } from '@/app/ds';
+import { type FiltersProps, Badge, Card, Filters, Pagination, Text, useAlert } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
+import usePaginatedList from '@/app/ui/hooks/list/usePaginatedList';
 import { normalizedName } from '@/app/utils';
 import { AssociationCard } from '../../components/association-card';
 
-import type { PokemonEncounterFilters } from '../types';
-import { usePokemonEncounterList } from './usePokemonEncounterList';
+import { pokemonEncounterBffService } from '../services';
+import type { PokemonEncounterFilters, TPokemonEncounter } from '../types';
 
 const formatOrder = (order: number): string => `#${String(order).padStart(3, '0')}`;
 
+const INITIAL_FILTERS: PokemonEncounterFilters = {
+  name: undefined,
+  order: undefined,
+};
+
+const normalizeFilters = (filters: PokemonEncounterFilters): PokemonEncounterFilters => ({
+  name: filters.name?.trim() || undefined,
+  order: filters.order?.trim() || undefined,
+});
+
 export function PokemonEncounterListView() {
+  const { showAlert } = useAlert();
+  const { t } = useAppTranslation();
+  const initialInputFilters = useMemo<FiltersProps['filters']>(() => [
+    { name: 'name', label: t('filters.name'), type: 'text', value: '', placeholder: 'tackle' },
+    { name: 'order', label: t('filters.order'), type: 'text', value: '', placeholder: '33' },
+  ], [t]);
   const {
     items,
     meta,
@@ -23,9 +40,13 @@ export function PokemonEncounterListView() {
     goToPage,
     applyInputFilters,
     clearInputFilters,
-  } = usePokemonEncounterList();
-  const { showAlert } = useAlert();
-  const { t } = useAppTranslation();
+  } = usePaginatedList<TPokemonEncounter, PokemonEncounterFilters>({
+    fetchList: pokemonEncounterBffService.fetchAll,
+    initialFilters: INITIAL_FILTERS,
+    initialInputFilters,
+    fetchErrorMessage: t('pokemon.encounter.list.loadError'),
+    normalizeFilters,
+  });
 
   useEffect(() => {
     if (errorMessage) {

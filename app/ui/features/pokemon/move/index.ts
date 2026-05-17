@@ -1,8 +1,6 @@
 export { PokemonMoveDetailView } from './detail/PokemonMoveDetailView';
-export { usePokemonMoveDetail } from './detail/usePokemonMoveDetail';
 export { PokemonMoveListView } from './list/PokemonMoveListView';
-export { usePokemonMoveList } from './list/usePokemonMoveList';
-export { pokemonMoveService } from './service';
+export * from './services';
 export type {
   PokemonMoveFilters,
   PokemonMoveListResponse,

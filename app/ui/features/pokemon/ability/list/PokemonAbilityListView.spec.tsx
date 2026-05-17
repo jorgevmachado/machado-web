@@ -3,10 +3,11 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { PokemonAbilityListView } from './PokemonAbilityListView';
 
 const showAlertMock = jest.fn();
-const usePokemonAbilityListMock = jest.fn();
+const paginatedListMock = jest.fn();
 
-jest.mock('./usePokemonAbilityList', () => ({
-  usePokemonAbilityList: () => usePokemonAbilityListMock(),
+jest.mock('@/app/ui/hooks/list/usePaginatedList', () => ({
+  __esModule: true,
+  default: (...args: unknown[]) => paginatedListMock(...args),
 }));
 
 jest.mock('@/app/ds', () => {
@@ -53,7 +54,7 @@ const defaultHookValue = {
 describe('PokemonAbilityListView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    usePokemonAbilityListMock.mockReturnValue(defaultHookValue);
+    paginatedListMock.mockReturnValue(defaultHookValue);
   });
 
   it('renders ability cards prioritizing effects', () => {
@@ -65,7 +66,7 @@ describe('PokemonAbilityListView', () => {
   });
 
   it('renders hidden ability fallback copy without the empty state while loading', () => {
-    usePokemonAbilityListMock.mockReturnValue({
+    paginatedListMock.mockReturnValue({
       ...defaultHookValue,
       isLoading: true,
       items: [{
@@ -95,12 +96,29 @@ describe('PokemonAbilityListView', () => {
   });
 
   it('renders empty and alert-only error states', () => {
-    usePokemonAbilityListMock.mockReturnValue({ ...defaultHookValue, items: [], errorMessage: 'Could not load Pokemon abilities.' });
+    paginatedListMock.mockReturnValue({ ...defaultHookValue, items: [], errorMessage: 'Could not load Pokemon abilities.' });
 
     render(<PokemonAbilityListView />);
 
     expect(screen.getByText('No Pokemon abilities found.')).toBeInTheDocument();
     expect(showAlertMock).toHaveBeenCalledWith({ type: 'error', message: 'Could not load Pokemon abilities.' });
     expect(screen.queryByRole('button', { name: /retry/i })).not.toBeInTheDocument();
+  });
+
+  it('configures direct list normalization for the shared hook', () => {
+    render(<PokemonAbilityListView />);
+
+    const config = paginatedListMock.mock.calls[0][0] as {
+      normalizeFilters: (filters: { name?: string; order?: string }) => unknown;
+    };
+
+    expect(config.normalizeFilters({ name: ' overgrow ', order: ' 65 ' })).toEqual({
+      name: 'overgrow',
+      order: '65',
+    });
+    expect(config.normalizeFilters({ name: '', order: '' })).toEqual({
+      name: undefined,
+      order: undefined,
+    });
   });
 });

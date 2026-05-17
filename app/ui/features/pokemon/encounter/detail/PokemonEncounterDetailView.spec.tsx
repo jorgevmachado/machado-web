@@ -2,10 +2,10 @@ import { render, screen } from '@testing-library/react';
 
 import { PokemonEncounterDetailView } from './PokemonEncounterDetailView';
 
-const usePokemonEncounterDetailMock = jest.fn();
+const useDetailMock = jest.fn();
 
-jest.mock('./usePokemonEncounterDetail', () => ({
-  usePokemonEncounterDetail: () => usePokemonEncounterDetailMock(),
+jest.mock('@/app/ui/hooks/detail', () => ({
+  useDetail: () => useDetailMock(),
 }));
 
 jest.mock('@/app/ds', () => {
@@ -39,7 +39,7 @@ const defaultMockData = {
 describe('PokemonEncounterDetailView', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    usePokemonEncounterDetailMock.mockReturnValue({
+    useDetailMock.mockReturnValue({
       isLoading: false,
       errorMessage: undefined,
       data: defaultMockData,
@@ -59,7 +59,7 @@ describe('PokemonEncounterDetailView', () => {
   });
 
   it('renders encounter detail and attributes with condition and without method', () => {
-    usePokemonEncounterDetailMock.mockReturnValueOnce({
+    useDetailMock.mockReturnValueOnce({
       data: {
         ...defaultMockData,
         method: undefined,
@@ -80,12 +80,12 @@ describe('PokemonEncounterDetailView', () => {
   });
 
   it('renders loading and alert-only error states', () => {
-    usePokemonEncounterDetailMock.mockReturnValueOnce({ isLoading: true, data: undefined, errorMessage: undefined });
+    useDetailMock.mockReturnValueOnce({ isLoading: true, data: undefined, errorMessage: undefined });
     const { rerender } = render(<PokemonEncounterDetailView identifier="cerulean-city-area" />);
 
     expect(screen.getByText('Loading Pokemon encounter...')).toBeInTheDocument();
 
-    usePokemonEncounterDetailMock.mockReturnValueOnce({ isLoading: false, data: undefined, errorMessage: 'encounter failed.' });
+    useDetailMock.mockReturnValueOnce({ isLoading: false, data: undefined, errorMessage: 'encounter failed.' });
     rerender(<PokemonEncounterDetailView identifier="cerulean-city-area" />);
 
     expect(screen.getByText('encounter failed.')).toBeInTheDocument();
@@ -93,7 +93,7 @@ describe('PokemonEncounterDetailView', () => {
   });
 
   it('renders the default not found message when loading finishes without data', () => {
-    usePokemonEncounterDetailMock.mockReturnValueOnce({
+    useDetailMock.mockReturnValueOnce({
       isLoading: false,
       data: undefined,
       errorMessage: undefined,

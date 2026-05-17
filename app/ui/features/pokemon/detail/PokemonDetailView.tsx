@@ -9,15 +9,17 @@ import { formatLabel, formatNumber, normalizedName, uniqueById } from '@/app/uti
 import EvolutionTimeline from '../components/evolution-timeline';
 import GalleryImage from '../components/gallery-image';
 import MovesExpand from '../components/moves-expand';
-import { usePokemonDetail } from './usePokemonDetail';
+import { useDetail } from '@/app/ui/hooks/detail';
+import { TPokemon } from '@/app/ui/features/pokemon/types';
+import { pokemonBffService } from '@/app/ui/features/pokemon/services';
 
 type PokemonDetailViewProps = Readonly<{
   identifier: string;
 }>;
 
 export function PokemonDetailView({ identifier }: PokemonDetailViewProps) {
-  const { data, isLoading, errorMessage } = usePokemonDetail(identifier);
   const { t } = useAppTranslation();
+  const { data, isLoading, errorMessage } = useDetail<TPokemon>({ identifier, fetchDetail: pokemonBffService.fetchOne });
 
   if (isLoading && !data) {
     return (
