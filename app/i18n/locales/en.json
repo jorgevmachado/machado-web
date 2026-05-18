@@ -435,5 +435,13 @@
       "stats": "Power {{power}} • Accuracy {{accuracy}} • PP {{pp}}",
       "viewMore": "View {{count}} more moves"
     }
+  },
+  "trainer": {
+    "home": {
+     "loadError": "Could not load trainer info."
+    },
+    "encounter": {
+      "loadError": "Could not load trainer encounters."
+    }
   }
 }

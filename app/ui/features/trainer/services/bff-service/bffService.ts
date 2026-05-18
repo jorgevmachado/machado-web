@@ -1,6 +1,6 @@
 import { BffBaseServiceAbstract, BffResponse } from '@/app/shared/services/bff-service';
 import { OnboardingTrainerBffParams } from '@/app/ui/features/trainer/services/bff-service/types';
-import { OnboardingTrainerParams, TTrainer } from '@/app/ui/features/trainer/types';
+import {OnboardingTrainerParams, TTrainer, TTrainerEncounter, TTrainerHome} from '@/app/ui/features/trainer/types';
 
 export class TrainerBffService extends BffBaseServiceAbstract<TTrainer> {
   constructor(baseUrl: string) {
@@ -32,6 +32,52 @@ export class TrainerBffService extends BffBaseServiceAbstract<TTrainer> {
     const response = await this.post<OnboardingTrainerParams, TTrainer>(`${this.pathUrl}/onboarding`, {
       body: payload,
     });
+
+    if (this.isResponseError(response)) {
+      resultResponse.status = response.statusCode;
+      resultResponse.message = response.message;
+      return resultResponse;
+    }
+
+    resultResponse.data = response;
+    resultResponse.error = false;
+    resultResponse.status = 200;
+    resultResponse.message = 'OK';
+    return resultResponse;
+  }
+
+  public async home(): Promise<BffResponse<TTrainerHome>> {
+    const resultResponse: BffResponse<TTrainerHome> = {
+      error: true,
+      status: 500,
+      message: 'Internal Server Error',
+      i18nMessage: 'trainer.home.loadError',
+    };
+
+    const response = await this.get<TTrainerHome>(`${this.pathUrl}/home`);
+
+    if (this.isResponseError(response)) {
+      resultResponse.status = response.statusCode;
+      resultResponse.message = response.message;
+      return resultResponse;
+    }
+
+    resultResponse.data = response;
+    resultResponse.error = false;
+    resultResponse.status = 200;
+    resultResponse.message = 'OK';
+    return resultResponse;
+  }
+
+  public async encounters(): Promise<BffResponse<TTrainerEncounter>> {
+    const resultResponse: BffResponse<TTrainerEncounter> = {
+      error: true,
+      status: 500,
+      message: 'Internal Server Error',
+      i18nMessage: 'trainer.encounter.loadError',
+    };
+
+    const response = await this.get<TTrainerEncounter>(`${this.pathUrl}/encounters`);
 
     if (this.isResponseError(response)) {
       resultResponse.status = response.statusCode;

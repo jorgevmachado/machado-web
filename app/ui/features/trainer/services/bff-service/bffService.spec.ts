@@ -62,4 +62,80 @@ describe('TrainerBffService', () => {
       },
     });
   });
+
+  it('returns home data on successful responses', async () => {
+    const service = new TrainerBffService('https://api.example.com');
+    const getSpy = jest.spyOn(service, 'get').mockResolvedValueOnce({
+      trainer: {
+        id: 'trainer-1',
+      },
+    } as never);
+
+    await expect(service.home()).resolves.toEqual({
+      error: false,
+      status: 200,
+      message: 'OK',
+      i18nMessage: 'trainer.home.loadError',
+      data: {
+        trainer: {
+          id: 'trainer-1',
+        },
+      },
+    });
+
+    expect(getSpy).toHaveBeenCalledWith('https://api.example.com/home');
+  });
+
+  it('maps home errors from the BFF response shape', async () => {
+    const service = new TrainerBffService('https://api.example.com');
+    const getSpy = jest.spyOn(service, 'get').mockResolvedValueOnce({
+      statusCode: 503,
+      message: 'Service unavailable',
+    } as never);
+
+    await expect(service.home()).resolves.toEqual({
+      error: true,
+      status: 503,
+      message: 'Service unavailable',
+      i18nMessage: 'trainer.home.loadError',
+    });
+
+    expect(getSpy).toHaveBeenCalledWith('https://api.example.com/home');
+  });
+
+  it('returns encounters data on successful responses', async () => {
+    const service = new TrainerBffService('https://api.example.com');
+    const getSpy = jest.spyOn(service, 'get').mockResolvedValueOnce({
+      encounter_count: 5,
+    } as never);
+
+    await expect(service.encounters()).resolves.toEqual({
+      error: false,
+      status: 200,
+      message: 'OK',
+      i18nMessage: 'trainer.encounter.loadError',
+      data: {
+        encounter_count: 5,
+      },
+    });
+
+    expect(getSpy).toHaveBeenCalledWith('https://api.example.com/encounters');
+  });
+
+  it('maps encounters errors from the BFF response shape', async () => {
+    const service = new TrainerBffService('https://api.example.com');
+    const getSpy = jest.spyOn(service, 'get').mockResolvedValueOnce({
+      statusCode: 401,
+      message: 'Unauthorized',
+    } as never);
+
+    await expect(service.encounters()).resolves.toEqual({
+      error: true,
+      status: 401,
+      message: 'Unauthorized',
+      i18nMessage: 'trainer.encounter.loadError',
+    });
+
+    expect(getSpy).toHaveBeenCalledWith('https://api.example.com/encounters');
+  });
 });

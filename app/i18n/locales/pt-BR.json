@@ -435,5 +435,13 @@
       "stats": "Poder {{power}} • Precisão {{accuracy}} • PP {{pp}}",
       "viewMore": "Ver mais {{count}} movimentos"
     }
+  },
+  "trainer": {
+    "home": {
+     "loadError": "Não foi possível carregar as informações do treinador."
+    },
+    "encounter": {
+      "loadError": "Não foi possível carregar os encontros com o treinador."
+    }
   }
 }
