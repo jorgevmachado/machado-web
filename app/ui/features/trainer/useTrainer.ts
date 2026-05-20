@@ -2,7 +2,7 @@ import { useAlert, useLoading } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
 import { useCallback } from 'react';
 import { trainerBffService } from '@/app/ui/features/trainer/services';
-import {TTrainer, TTrainerEncounter, TTrainerHome} from '@/app/ui/features/trainer/types';
+import { TTrainer, TTrainerEncounter, TTrainerHome } from '@/app/ui/features/trainer/types';
 import { OnboardingTrainerBffParams } from '@/app/ui/features/trainer/services/bff-service/types';
 
 type UseTrainerResult = {

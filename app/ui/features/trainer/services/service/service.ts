@@ -30,7 +30,7 @@ export class TrainerService extends BaseServiceAbstract {
   }
 
   public async home(): Promise<TTrainerHome> {
-    return await this.get<TTrainerHome>(`${this.pathUrl}/exploration/home`);
+    return await this.get<TTrainerHome>(`${this.pathUrl}/home`);
   }
 
   public async encounters(): Promise<Array<TTrainerEncounter>> {
@@ -54,7 +54,7 @@ export class TrainerService extends BaseServiceAbstract {
     payload: UpdateTrainerPartyParams,
   ): Promise<Array<TTrainerPartyMember>> {
     return await this.path<UpdateTrainerPartyParams, Array<TTrainerPartyMember>>(
-      `${this.pathUrl}/exploration/party`,
+      `${this.pathUrl}/party`,
       { body: payload },
     );
   }

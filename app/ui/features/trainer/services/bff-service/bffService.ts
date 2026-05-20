@@ -1,6 +1,11 @@
 import { BffBaseServiceAbstract, BffResponse } from '@/app/shared/services/bff-service';
 import { OnboardingTrainerBffParams } from '@/app/ui/features/trainer/services/bff-service/types';
-import {OnboardingTrainerParams, TTrainer, TTrainerEncounter, TTrainerHome} from '@/app/ui/features/trainer/types';
+import {
+  OnboardingTrainerParams,
+  TTrainer,
+  TTrainerEncounter,
+  TTrainerHome,
+} from '@/app/ui/features/trainer/types';
 
 export class TrainerBffService extends BffBaseServiceAbstract<TTrainer> {
   constructor(baseUrl: string) {
