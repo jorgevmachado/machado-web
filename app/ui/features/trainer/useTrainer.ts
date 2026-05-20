@@ -2,10 +2,12 @@ import { useAlert, useLoading } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
 import { useCallback } from 'react';
 import { trainerBffService } from '@/app/ui/features/trainer/services';
-import { TTrainer } from '@/app/ui/features/trainer/types';
+import {TTrainer, TTrainerEncounter, TTrainerHome} from '@/app/ui/features/trainer/types';
 import { OnboardingTrainerBffParams } from '@/app/ui/features/trainer/services/bff-service/types';
 
 type UseTrainerResult = {
+  home: () => Promise<TTrainerHome | undefined>;
+  encounters: () => Promise<TTrainerEncounter | undefined>;
   onboarding: (params: Omit<OnboardingTrainerBffParams, 'fetchErrorMessage'>, fetchErrorMessage?: string) => Promise<TTrainer | undefined>;
 };
 
@@ -34,7 +36,45 @@ const useTrainer = (): UseTrainerResult => {
     }
   }, [showAlert, startContentLoading, stopContentLoading, t]);
 
+  const home = useCallback(async (): Promise<TTrainerHome | undefined> => {
+    startContentLoading();
+    try {
+      const response = await trainerBffService.home();
+      if (response.error && !response?.data) {
+        const message = t(response.i18nMessage);
+        showAlert({ type: 'error', message });
+        return;
+      }
+      showAlert({ type: 'success', message: t('trainer.home.success') });
+      return response.data;
+    } catch (error) {
+      showAlert({ type: 'error', message: error?.message ?? '' });
+    } finally {
+      stopContentLoading();
+    }
+  }, [showAlert, startContentLoading, stopContentLoading, t]);
+
+  const encounters = useCallback(async (): Promise<TTrainerEncounter | undefined> => {
+    startContentLoading();
+    try {
+      const response = await trainerBffService.encounters();
+      if (response.error && !response?.data) {
+        const message = t(response.i18nMessage);
+        showAlert({ type: 'error', message });
+        return;
+      }
+      showAlert({ type: 'success', message: t('trainer.encounters.success') });
+      return response.data;
+    } catch (error) {
+      showAlert({ type: 'error', message: error?.message ?? '' });
+    } finally {
+      stopContentLoading();
+    }
+  }, [showAlert, startContentLoading, stopContentLoading, t]);
+
   return {
+    home,
+    encounters,
     onboarding
   };
 };
