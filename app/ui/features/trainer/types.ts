@@ -45,6 +45,64 @@ export type TExplorationEvent = {
   encounter?: TTrainerEncounterPokemon;
   pokeballs_found?: number;
   trainer_pokeballs?: number;
+  battle_session_id?: string | null;
+  battle_status?: 'ACTIVE' | 'WON' | 'LOST' | 'FLED' | null;
+  has_active_battle?: boolean;
+};
+
+export type TBattleMove = {
+  id: string;
+  pokemon_move_id?: string | null;
+  name: string;
+  type: string;
+  power: number;
+  accuracy: number;
+  pp: number;
+  max_pp: number;
+};
+
+export type TBattleSide = {
+  my_pokemon_id?: string | null;
+  pokemon_id?: string | null;
+  name: string;
+  nickname?: string | null;
+  level: number;
+  current_hp: number;
+  max_hp: number;
+  attack: number;
+  defense: number;
+  special_attack: number;
+  special_defense: number;
+  speed: number;
+  moves: Array<TBattleMove>;
+};
+
+export type TBattleLog = {
+  id: string;
+  turn_number?: number | null;
+  actor?: 'TRAINER' | 'WILD' | null;
+  log_type: 'SESSION_STARTED' | 'MOVE_USED' | 'DAMAGE_DEALT' | 'SWITCHED' | 'FLED' | 'SESSION_FINISHED';
+  message: string;
+  reference?: string | null;
+  payload: Record<string, unknown>;
+  created_at: string;
+};
+
+export type TWildPokemonBattleSession = {
+  id: string;
+  trainer_id: string;
+  exploration_event_id: string;
+  trainer_active_my_pokemon_id?: string | null;
+  wild_pokemon_id: string;
+  wild_pokemon_name: string;
+  wild_pokemon_level: number;
+  turn_number: number;
+  status: 'ACTIVE' | 'WON' | 'LOST' | 'FLED';
+  trainer_side: TBattleSide;
+  wild_side: TBattleSide;
+  party: Array<TBattleSide>;
+  created_at: string;
+  updated_at?: string | null;
 };
 
 export type TTrainerHome = {
@@ -85,4 +143,12 @@ export type SelectTrainerEncounterParams = {
 
 export type UpdateTrainerPartyParams = {
   my_pokemon_ids: Array<string>;
+};
+
+export type UseBattleMoveParams = {
+  move_id: string;
+};
+
+export type SwitchBattlePokemonParams = {
+  my_pokemon_id: string;
 };

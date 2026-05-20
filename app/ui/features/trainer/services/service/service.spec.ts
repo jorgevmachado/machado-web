@@ -15,7 +15,12 @@ describe('TrainerService', () => {
       .mockResolvedValueOnce({ ok: true, json: async () => ([{ id: 'encounter-1' }]) })
       .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'encounter-2' }) })
       .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'event-1' }) })
-      .mockResolvedValueOnce({ ok: true, json: async () => ([{ id: 'party-1' }]) });
+      .mockResolvedValueOnce({ ok: true, json: async () => ([{ id: 'party-1' }]) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'battle-1' }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'battle-2' }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'battle-3' }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'battle-4' }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ([{ id: 'log-1' }]) });
 
     const service = new TrainerService('https://api.example.com', 'token');
     await service.initialize({ nickname: 'Leaf', pokemon_name: 'bulbasaur' });
@@ -25,6 +30,11 @@ describe('TrainerService', () => {
     await service.selectActiveEncounter({ encounter_id: 'encounter-2' });
     await service.walk();
     await service.updateParty({ my_pokemon_ids: ['pokemon-1'] });
+    await service.activeBattle();
+    await service.useBattleMove({ move_id: 'move-1' });
+    await service.switchBattlePokemon({ my_pokemon_id: 'pokemon-2' });
+    await service.fleeBattle();
+    await service.battleLogs();
 
     expect(fetchMock).toHaveBeenNthCalledWith(1, 'https://api.example.com/trainer/initialize', expect.objectContaining({
       method: 'POST',
@@ -46,6 +56,21 @@ describe('TrainerService', () => {
     }));
     expect(fetchMock).toHaveBeenNthCalledWith(7, 'https://api.example.com/trainer/party', expect.objectContaining({
       method: 'PUT',
+    }));
+    expect(fetchMock).toHaveBeenNthCalledWith(8, 'https://api.example.com/trainer/battle/active', expect.objectContaining({
+      method: 'GET',
+    }));
+    expect(fetchMock).toHaveBeenNthCalledWith(9, 'https://api.example.com/trainer/battle/move', expect.objectContaining({
+      method: 'POST',
+    }));
+    expect(fetchMock).toHaveBeenNthCalledWith(10, 'https://api.example.com/trainer/battle/switch', expect.objectContaining({
+      method: 'POST',
+    }));
+    expect(fetchMock).toHaveBeenNthCalledWith(11, 'https://api.example.com/trainer/battle/flee', expect.objectContaining({
+      method: 'POST',
+    }));
+    expect(fetchMock).toHaveBeenNthCalledWith(12, 'https://api.example.com/trainer/battle/logs', expect.objectContaining({
+      method: 'GET',
     }));
   });
 });

@@ -2,9 +2,11 @@ import { BffBaseServiceAbstract, BffResponse } from '@/app/shared/services/bff-s
 import { OnboardingTrainerBffParams } from '@/app/ui/features/trainer/services/bff-service/types';
 import {
   OnboardingTrainerParams,
+  TBattleLog,
   TTrainer,
   TTrainerEncounter,
   TTrainerHome,
+  TWildPokemonBattleSession,
 } from '@/app/ui/features/trainer/types';
 
 export class TrainerBffService extends BffBaseServiceAbstract<TTrainer> {
@@ -83,6 +85,52 @@ export class TrainerBffService extends BffBaseServiceAbstract<TTrainer> {
     };
 
     const response = await this.get<TTrainerEncounter>(`${this.pathUrl}/encounters`);
+
+    if (this.isResponseError(response)) {
+      resultResponse.status = response.statusCode;
+      resultResponse.message = response.message;
+      return resultResponse;
+    }
+
+    resultResponse.data = response;
+    resultResponse.error = false;
+    resultResponse.status = 200;
+    resultResponse.message = 'OK';
+    return resultResponse;
+  }
+
+  public async activeBattle(): Promise<BffResponse<TWildPokemonBattleSession>> {
+    const resultResponse: BffResponse<TWildPokemonBattleSession> = {
+      error: true,
+      status: 500,
+      message: 'Internal Server Error',
+      i18nMessage: 'trainer.battle.loadError',
+    };
+
+    const response = await this.get<TWildPokemonBattleSession>(`${this.pathUrl}/battle/active`);
+
+    if (this.isResponseError(response)) {
+      resultResponse.status = response.statusCode;
+      resultResponse.message = response.message;
+      return resultResponse;
+    }
+
+    resultResponse.data = response;
+    resultResponse.error = false;
+    resultResponse.status = 200;
+    resultResponse.message = 'OK';
+    return resultResponse;
+  }
+
+  public async battleLogs(): Promise<BffResponse<Array<TBattleLog>>> {
+    const resultResponse: BffResponse<Array<TBattleLog>> = {
+      error: true,
+      status: 500,
+      message: 'Internal Server Error',
+      i18nMessage: 'trainer.battle.logsError',
+    };
+
+    const response = await this.get<Array<TBattleLog>>(`${this.pathUrl}/battle/logs`);
 
     if (this.isResponseError(response)) {
       resultResponse.status = response.statusCode;

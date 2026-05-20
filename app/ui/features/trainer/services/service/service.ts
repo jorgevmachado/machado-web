@@ -5,11 +5,15 @@ import type {
   OnboardingTrainerParams,
   SelectTrainerEncounterParams,
   TExplorationEvent,
+  TBattleLog,
   TTrainer,
   TTrainerEncounter,
   TTrainerHome,
   TTrainerPartyMember,
+  TWildPokemonBattleSession,
+  SwitchBattlePokemonParams,
   UpdateTrainerPartyParams,
+  UseBattleMoveParams,
 } from '../../types';
 
 export class TrainerService extends BaseServiceAbstract {
@@ -57,5 +61,37 @@ export class TrainerService extends BaseServiceAbstract {
       `${this.pathUrl}/party`,
       { body: payload },
     );
+  }
+
+  public async activeBattle(): Promise<TWildPokemonBattleSession> {
+    return await this.get<TWildPokemonBattleSession>(`${this.pathUrl}/battle/active`);
+  }
+
+  public async useBattleMove(
+    payload: UseBattleMoveParams,
+  ): Promise<TWildPokemonBattleSession> {
+    return await this.post<UseBattleMoveParams, TWildPokemonBattleSession>(
+      `${this.pathUrl}/battle/move`,
+      { body: payload },
+    );
+  }
+
+  public async switchBattlePokemon(
+    payload: SwitchBattlePokemonParams,
+  ): Promise<TWildPokemonBattleSession> {
+    return await this.post<SwitchBattlePokemonParams, TWildPokemonBattleSession>(
+      `${this.pathUrl}/battle/switch`,
+      { body: payload },
+    );
+  }
+
+  public async fleeBattle(): Promise<TWildPokemonBattleSession> {
+    return await this.post<undefined, TWildPokemonBattleSession>(
+      `${this.pathUrl}/battle/flee`,
+    );
+  }
+
+  public async battleLogs(): Promise<Array<TBattleLog>> {
+    return await this.get<Array<TBattleLog>>(`${this.pathUrl}/battle/logs`);
   }
 }

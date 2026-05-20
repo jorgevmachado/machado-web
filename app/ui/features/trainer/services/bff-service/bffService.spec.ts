@@ -138,4 +138,78 @@ describe('TrainerBffService', () => {
 
     expect(getSpy).toHaveBeenCalledWith('https://api.example.com/encounters');
   });
+
+  it('returns active battle data on successful responses', async () => {
+    const service = new TrainerBffService('https://api.example.com');
+    const getSpy = jest.spyOn(service, 'get').mockResolvedValueOnce({
+      id: 'battle-1',
+      status: 'ACTIVE',
+    } as never);
+
+    await expect(service.activeBattle()).resolves.toEqual({
+      error: false,
+      status: 200,
+      message: 'OK',
+      i18nMessage: 'trainer.battle.loadError',
+      data: {
+        id: 'battle-1',
+        status: 'ACTIVE',
+      },
+    });
+
+    expect(getSpy).toHaveBeenCalledWith('https://api.example.com/battle/active');
+  });
+
+  it('maps active battle errors from the BFF response shape', async () => {
+    const service = new TrainerBffService('https://api.example.com');
+    const getSpy = jest.spyOn(service, 'get').mockResolvedValueOnce({
+      statusCode: 404,
+      message: 'No active battle',
+    } as never);
+
+    await expect(service.activeBattle()).resolves.toEqual({
+      error: true,
+      status: 404,
+      message: 'No active battle',
+      i18nMessage: 'trainer.battle.loadError',
+    });
+
+    expect(getSpy).toHaveBeenCalledWith('https://api.example.com/battle/active');
+  });
+
+  it('returns battle logs on successful responses', async () => {
+    const service = new TrainerBffService('https://api.example.com');
+    const getSpy = jest.spyOn(service, 'get').mockResolvedValueOnce([
+      { id: 'log-1', message: 'started' },
+    ] as never);
+
+    await expect(service.battleLogs()).resolves.toEqual({
+      error: false,
+      status: 200,
+      message: 'OK',
+      i18nMessage: 'trainer.battle.logsError',
+      data: [
+        { id: 'log-1', message: 'started' },
+      ],
+    });
+
+    expect(getSpy).toHaveBeenCalledWith('https://api.example.com/battle/logs');
+  });
+
+  it('maps battle log errors from the BFF response shape', async () => {
+    const service = new TrainerBffService('https://api.example.com');
+    const getSpy = jest.spyOn(service, 'get').mockResolvedValueOnce({
+      statusCode: 500,
+      message: 'Logs unavailable',
+    } as never);
+
+    await expect(service.battleLogs()).resolves.toEqual({
+      error: true,
+      status: 500,
+      message: 'Logs unavailable',
+      i18nMessage: 'trainer.battle.logsError',
+    });
+
+    expect(getSpy).toHaveBeenCalledWith('https://api.example.com/battle/logs');
+  });
 });
