@@ -133,14 +133,15 @@
       "savingParty": "Guardando party...",
       "partySaveError": "No se pudo actualizar la party principal.",
       "inParty": "En la party",
-      "walkError": "No se pudo explorar el encounter activo.",
-      "foundPokemon": "Pokémon encontrado: {{name}}",
-      "foundPokeballs": "Pokébolas encontradas: {{value}}",
-      "eventType": {
-        "WILD_POKEMON": "Pokémon salvaje",
-        "POKEBALLS": "Pokébolas"
+        "walkError": "No se pudo explorar el encounter activo.",
+        "foundPokemon": "Pokémon encontrado: {{name}}",
+        "foundPokeballs": "Pokébolas encontradas: {{value}}",
+        "openBattle": "Abrir batalla",
+        "eventType": {
+          "WILD_POKEMON": "Pokémon salvaje",
+          "POKEBALLS": "Pokébolas"
+        }
       }
-    }
   },
   "myPokemon": {
     "filters": {
@@ -442,6 +443,32 @@
     },
     "encounter": {
       "loadError": "No se pudieron cargar los encuentros del entrenador."
+    },
+    "battle": {
+      "title": "Sesión de batalla",
+      "turn": "Turno {{value}}",
+      "loading": "Cargando batalla activa...",
+      "empty": "No se encontró una sesión de batalla activa.",
+      "retry": "Reintentar",
+      "backToHome": "Volver a Inicio",
+      "moves": "Movimientos",
+      "moveMeta": "Tipo {{type}} • Poder {{power}} • Precisión {{accuracy}}",
+      "switchTitle": "Cambiar Pokémon",
+      "noSwitchTargets": "No hay miembro del equipo disponible para cambiar ahora.",
+      "flee": "Huir de la batalla",
+      "logs": "Logs de la batalla",
+      "noLogs": "No hay logs disponibles para esta batalla.",
+      "refresh": "Actualizar",
+      "loadError": "No se pudo cargar la batalla activa.",
+      "logsError": "No se pudieron cargar los logs de la batalla.",
+      "actionError": "No se pudo ejecutar la acción de batalla.",
+      "finished": "Esta batalla terminó. Las acciones están bloqueadas.",
+      "status": {
+        "ACTIVE": "Activa",
+        "WON": "Victoria",
+        "LOST": "Derrota",
+        "FLED": "Huyó"
+      }
     }
   }
 }

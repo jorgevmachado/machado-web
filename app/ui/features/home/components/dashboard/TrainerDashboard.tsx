@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { Badge, Button, Card, Text, useAlert } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
@@ -27,6 +28,14 @@ export default function TrainerDashboard() {
   } = useTrainerHome();
   const { t } = useAppTranslation();
   const { showAlert } = useAlert();
+  const router = useRouter();
+
+  const handleWalk = async () => {
+    const event = await walk();
+    if (event?.has_active_battle && event.battle_session_id) {
+      router.push(`/battle?session=${event.battle_session_id}`);
+    }
+  };
 
   useEffect(() => {
     if (errorMessage) {
@@ -59,7 +68,7 @@ export default function TrainerDashboard() {
         </Card>
         <Card rounded='lg' variant='elevated'>
           <Text as='h2' className='text-lg font-semibold'>{t('home.dashboard.walkTitle')}</Text>
-          <Button onClick={() => void walk()} disabled={isWalking || !activeEncounter}>
+          <Button onClick={() => void handleWalk()} disabled={isWalking || !activeEncounter}>
             {isWalking ? t('home.dashboard.walking') : t('home.dashboard.walkButton')}
           </Button>
         </Card>
@@ -76,6 +85,17 @@ export default function TrainerDashboard() {
           ) : null}
           {lastEvent.pokeballs_found ? (
             <Text>{t('home.dashboard.foundPokeballs', { value: lastEvent.pokeballs_found })}</Text>
+          ) : null}
+          {lastEvent.has_active_battle && lastEvent.battle_session_id ? (
+            <div className='mt-3'>
+              <Button
+                onClick={() => router.push(`/battle?session=${lastEvent.battle_session_id}`)}
+                appearance='outline'
+                tone='primary'
+              >
+                {t('home.dashboard.openBattle')}
+              </Button>
+            </div>
           ) : null}
         </Card>
       ) : null}

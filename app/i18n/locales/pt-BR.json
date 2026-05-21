@@ -133,14 +133,15 @@
       "savingParty": "Salvando party...",
       "partySaveError": "Não foi possível atualizar a party principal.",
       "inParty": "Na party",
-      "walkError": "Não foi possível explorar o encounter ativo.",
-      "foundPokemon": "Pokémon encontrado: {{name}}",
-      "foundPokeballs": "Pokébolas encontradas: {{value}}",
-      "eventType": {
-        "WILD_POKEMON": "Pokémon selvagem",
-        "POKEBALLS": "Pokébolas"
+        "walkError": "Não foi possível explorar o encounter ativo.",
+        "foundPokemon": "Pokémon encontrado: {{name}}",
+        "foundPokeballs": "Pokébolas encontradas: {{value}}",
+        "openBattle": "Abrir batalha",
+        "eventType": {
+          "WILD_POKEMON": "Pokémon selvagem",
+          "POKEBALLS": "Pokébolas"
+        }
       }
-    }
   },
   "myPokemon": {
     "filters": {
@@ -442,6 +443,32 @@
     },
     "encounter": {
       "loadError": "Não foi possível carregar os encontros com o treinador."
+    },
+    "battle": {
+      "title": "Sessão de batalha",
+      "turn": "Turno {{value}}",
+      "loading": "Carregando batalha ativa...",
+      "empty": "Nenhuma sessão de batalha ativa encontrada.",
+      "retry": "Tentar novamente",
+      "backToHome": "Voltar para Início",
+      "moves": "Movimentos",
+      "moveMeta": "Tipo {{type}} • Poder {{power}} • Precisão {{accuracy}}",
+      "switchTitle": "Trocar Pokémon",
+      "noSwitchTargets": "Nenhum membro disponível para troca neste momento.",
+      "flee": "Fugir da batalha",
+      "logs": "Logs da batalha",
+      "noLogs": "Nenhum log disponível para esta batalha.",
+      "refresh": "Atualizar",
+      "loadError": "Não foi possível carregar a batalha ativa.",
+      "logsError": "Não foi possível carregar os logs da batalha.",
+      "actionError": "Não foi possível executar a ação da batalha.",
+      "finished": "Esta batalha foi encerrada. As ações estão bloqueadas.",
+      "status": {
+        "ACTIVE": "Ativa",
+        "WON": "Vitória",
+        "LOST": "Derrota",
+        "FLED": "Fugiu"
+      }
     }
   }
 }

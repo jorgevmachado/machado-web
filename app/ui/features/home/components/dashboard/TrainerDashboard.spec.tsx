@@ -7,6 +7,13 @@ const selectEncounterMock = jest.fn();
 const walkMock = jest.fn();
 const togglePartySelectionMock = jest.fn();
 const savePartyMock = jest.fn();
+const pushMock = jest.fn();
+
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({
+    push: pushMock,
+  }),
+}));
 
 jest.mock('@/app/ds', () => ({
   Badge: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
@@ -141,6 +148,8 @@ describe('TrainerDashboard', () => {
         id: 'event-1',
         event_type: 'WILD_POKEMON',
         pokemon: { name: 'pikachu' },
+        has_active_battle: true,
+        battle_session_id: 'battle-1',
       },
       isLoading: false,
       isSavingParty: false,
@@ -172,11 +181,13 @@ describe('TrainerDashboard', () => {
     fireEvent.click(screen.getByText('home.dashboard.walkButton'));
     fireEvent.click(screen.getByText('Leaf'));
     fireEvent.click(screen.getByText('home.dashboard.saveParty'));
+    fireEvent.click(screen.getByText('home.dashboard.openBattle'));
 
     expect(selectEncounterMock).toHaveBeenCalledWith('encounter-1');
     expect(walkMock).toHaveBeenCalledWith();
     expect(togglePartySelectionMock).toHaveBeenCalledWith('my-pokemon-1');
     expect(savePartyMock).toHaveBeenCalledWith();
+    expect(pushMock).toHaveBeenCalledWith('/battle?session=battle-1');
     expect(showAlertMock).toHaveBeenCalledWith({ type: 'error', message: 'Walk failed' });
   });
 
