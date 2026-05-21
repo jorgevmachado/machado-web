@@ -45,13 +45,13 @@ describe('TrainerService', () => {
     expect(fetchMock).toHaveBeenNthCalledWith(3, 'https://api.example.com/trainer/home', expect.objectContaining({
       method: 'GET',
     }));
-    expect(fetchMock).toHaveBeenNthCalledWith(4, 'https://api.example.com/trainer/exploration/encounters', expect.objectContaining({
+    expect(fetchMock).toHaveBeenNthCalledWith(4, 'https://api.example.com/trainer/encounter', expect.objectContaining({
       method: 'GET',
     }));
-    expect(fetchMock).toHaveBeenNthCalledWith(5, 'https://api.example.com/trainer/exploration/encounters/active', expect.objectContaining({
+    expect(fetchMock).toHaveBeenNthCalledWith(5, 'https://api.example.com/trainer/encounter/active', expect.objectContaining({
       method: 'PUT',
     }));
-    expect(fetchMock).toHaveBeenNthCalledWith(6, 'https://api.example.com/trainer/exploration/walk', expect.objectContaining({
+    expect(fetchMock).toHaveBeenNthCalledWith(6, 'https://api.example.com/trainer/encounter/walk', expect.objectContaining({
       method: 'POST',
     }));
     expect(fetchMock).toHaveBeenNthCalledWith(7, 'https://api.example.com/trainer/party', expect.objectContaining({

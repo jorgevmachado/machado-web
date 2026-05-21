@@ -46,7 +46,7 @@ export type TExplorationEvent = {
   pokeballs_found?: number;
   trainer_pokeballs?: number;
   battle_session_id?: string | null;
-  battle_status?: 'ACTIVE' | 'WON' | 'LOST' | 'FLED' | null;
+  battle_status?: 'ACTIVE' | 'ESCAPED' | 'WILD_POKEMON_DEFEATED' | 'TRAINER_DEFEATED' | null;
   has_active_battle?: boolean;
 };
 
@@ -81,14 +81,14 @@ export type TBattleLog = {
   id: string;
   turn_number?: number | null;
   actor?: 'TRAINER' | 'WILD' | null;
-  log_type: 'SESSION_STARTED' | 'MOVE_USED' | 'DAMAGE_DEALT' | 'SWITCHED' | 'FLED' | 'SESSION_FINISHED';
+  log_type: 'SESSION_STARTED' | 'MOVE_USED' | 'DAMAGE_DEALT' | 'SWITCHED' | 'ESCAPED' | 'SESSION_FINISHED';
   message: string;
   reference?: string | null;
   payload: Record<string, unknown>;
   created_at: string;
 };
 
-export type TWildPokemonBattleSession = {
+export type TBattleSession = {
   id: string;
   trainer_id: string;
   exploration_event_id: string;
@@ -97,7 +97,7 @@ export type TWildPokemonBattleSession = {
   wild_pokemon_name: string;
   wild_pokemon_level: number;
   turn_number: number;
-  status: 'ACTIVE' | 'WON' | 'LOST' | 'FLED';
+  status: 'ACTIVE' | 'ESCAPED' | 'WILD_POKEMON_DEFEATED' | 'TRAINER_DEFEATED';
   trainer_side: TBattleSide;
   wild_side: TBattleSide;
   party: Array<TBattleSide>;
@@ -105,11 +105,22 @@ export type TWildPokemonBattleSession = {
   updated_at?: string | null;
 };
 
+export type TActiveBattleSummary = {
+  battle_session_id: string;
+  status: TBattleSession['status'];
+  turn_number: number;
+  wild_pokemon_name: string;
+  wild_pokemon_level: number;
+  trainer_active_my_pokemon_id?: string | null;
+  has_active_battle: boolean;
+};
+
 export type TTrainerHome = {
   trainer: TTrainer;
   active_encounter?: TTrainerEncounter | null;
   party: Array<TTrainerPartyMember>;
   latest_discoveries: Array<TPokedex>;
+  active_battle?: TActiveBattleSummary | null;
 };
 
 export type TTrainer = {

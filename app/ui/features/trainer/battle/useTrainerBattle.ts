@@ -7,11 +7,11 @@ import { useAppTranslation } from '@/app/i18n';
 
 import type {
   TBattleLog,
-  TWildPokemonBattleSession,
+  TBattleSession,
 } from '../types';
 
 type TrainerBattleState = {
-  data?: TWildPokemonBattleSession;
+  data?: TBattleSession;
   logs: Array<TBattleLog>;
   isLoading: boolean;
   isActing: boolean;
@@ -40,7 +40,7 @@ export function useTrainerBattle() {
         fetch('/api/trainer/battle/active', { method: 'GET', cache: 'no-store' }),
         fetch('/api/trainer/battle/logs', { method: 'GET', cache: 'no-store' }),
       ]);
-      const battleJson = await battleResponse.json() as TWildPokemonBattleSession | { message?: string };
+      const battleJson = await battleResponse.json() as TBattleSession | { message?: string };
       const logsJson = await logsResponse.json() as Array<TBattleLog> | { message?: string };
 
       if (
@@ -94,7 +94,7 @@ export function useTrainerBattle() {
         headers: payload ? { 'content-type': 'application/json; charset=UTF-8' } : undefined,
         body: payload ? JSON.stringify(payload) : undefined,
       });
-      const json = await response.json() as TWildPokemonBattleSession | { message?: string };
+      const json = await response.json() as TBattleSession | { message?: string };
 
       if (!response.ok || !('id' in json)) {
         const message = 'message' in json && json.message ? json.message : t('trainer.battle.actionError');

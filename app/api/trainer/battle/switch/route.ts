@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { getServerSession } from '@/app/shared/lib/auth/server';
 import { trainerService } from '@/app/ui/features/trainer';
+import { resolveTrainerBattleRouteError } from '../route-error';
 
 export async function POST(request: Request): Promise<NextResponse> {
   const session = await getServerSession();
@@ -15,7 +16,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     const response = await trainerService(session.token).switchBattlePokemon(payload);
     return NextResponse.json(response);
   } catch (error) {
-    const message = error instanceof Error && error.message ? error.message : 'Could not switch battle Pokemon.';
-    return NextResponse.json({ message }, { status: 500 });
+    const { status, message } = resolveTrainerBattleRouteError(error, 'Could not switch battle Pokemon.');
+    return NextResponse.json({ message }, { status });
   }
 }

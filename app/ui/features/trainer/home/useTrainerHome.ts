@@ -178,7 +178,7 @@ export function useTrainerHome() {
       if (!response.ok || !('id' in json)) {
         const message = 'message' in json && json.message ? json.message : t('home.dashboard.walkError');
         setState((previous) => ({ ...previous, isWalking: false, errorMessage: message }));
-        return;
+        return undefined;
       }
 
       setState((previous) => ({
@@ -189,14 +189,17 @@ export function useTrainerHome() {
             ...previous.data!.trainer,
             pokeballs: json.trainer_pokeballs ?? previous.data!.trainer.pokeballs,
           },
+          active_battle: previous.data?.active_battle ?? null,
         },
         lastEvent: json,
         isWalking: false,
         errorMessage: undefined,
       }));
+      return json;
     } catch (error) {
       const message = error instanceof Error && error.message ? error.message : t('home.dashboard.walkError');
       setState((previous) => ({ ...previous, isWalking: false, errorMessage: message }));
+      return undefined;
     }
   }, [t]);
 

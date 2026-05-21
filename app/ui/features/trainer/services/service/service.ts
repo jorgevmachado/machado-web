@@ -4,13 +4,13 @@ import type {
   InitializeTrainerParams,
   OnboardingTrainerParams,
   SelectTrainerEncounterParams,
-  TExplorationEvent,
   TBattleLog,
+  TBattleSession,
+  TExplorationEvent,
   TTrainer,
   TTrainerEncounter,
   TTrainerHome,
   TTrainerPartyMember,
-  TWildPokemonBattleSession,
   SwitchBattlePokemonParams,
   UpdateTrainerPartyParams,
   UseBattleMoveParams,
@@ -38,20 +38,20 @@ export class TrainerService extends BaseServiceAbstract {
   }
 
   public async encounters(): Promise<Array<TTrainerEncounter>> {
-    return await this.get<Array<TTrainerEncounter>>(`${this.pathUrl}/exploration/encounters`);
+    return await this.get<Array<TTrainerEncounter>>(`${this.pathUrl}/encounter`);
   }
 
   public async selectActiveEncounter(
     payload: SelectTrainerEncounterParams,
   ): Promise<TTrainerEncounter> {
     return await this.path<SelectTrainerEncounterParams, TTrainerEncounter>(
-      `${this.pathUrl}/exploration/encounters/active`,
+      `${this.pathUrl}/encounter/active`,
       { body: payload },
     );
   }
 
   public async walk(): Promise<TExplorationEvent> {
-    return await this.post<undefined, TExplorationEvent>(`${this.pathUrl}/exploration/walk`);
+    return await this.post<undefined, TExplorationEvent>(`${this.pathUrl}/encounter/walk`);
   }
 
   public async updateParty(
@@ -63,14 +63,14 @@ export class TrainerService extends BaseServiceAbstract {
     );
   }
 
-  public async activeBattle(): Promise<TWildPokemonBattleSession> {
-    return await this.get<TWildPokemonBattleSession>(`${this.pathUrl}/battle/active`);
+  public async activeBattle(): Promise<TBattleSession> {
+    return await this.get<TBattleSession>(`${this.pathUrl}/battle/active`);
   }
 
   public async useBattleMove(
     payload: UseBattleMoveParams,
-  ): Promise<TWildPokemonBattleSession> {
-    return await this.post<UseBattleMoveParams, TWildPokemonBattleSession>(
+  ): Promise<TBattleSession> {
+    return await this.post<UseBattleMoveParams, TBattleSession>(
       `${this.pathUrl}/battle/move`,
       { body: payload },
     );
@@ -78,15 +78,15 @@ export class TrainerService extends BaseServiceAbstract {
 
   public async switchBattlePokemon(
     payload: SwitchBattlePokemonParams,
-  ): Promise<TWildPokemonBattleSession> {
-    return await this.post<SwitchBattlePokemonParams, TWildPokemonBattleSession>(
+  ): Promise<TBattleSession> {
+    return await this.post<SwitchBattlePokemonParams, TBattleSession>(
       `${this.pathUrl}/battle/switch`,
       { body: payload },
     );
   }
 
-  public async fleeBattle(): Promise<TWildPokemonBattleSession> {
-    return await this.post<undefined, TWildPokemonBattleSession>(
+  public async fleeBattle(): Promise<TBattleSession> {
+    return await this.post<undefined, TBattleSession>(
       `${this.pathUrl}/battle/flee`,
     );
   }

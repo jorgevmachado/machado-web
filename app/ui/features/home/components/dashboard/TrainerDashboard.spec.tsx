@@ -1,12 +1,15 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import TrainerDashboard from './TrainerDashboard';
 
 const showAlertMock = jest.fn();
+const openModalMock = jest.fn();
+const closeModalMock = jest.fn();
 const selectEncounterMock = jest.fn();
 const walkMock = jest.fn();
 const togglePartySelectionMock = jest.fn();
 const savePartyMock = jest.fn();
+const loadMock = jest.fn();
 
 jest.mock('@/app/ds', () => ({
   Badge: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
@@ -32,6 +35,11 @@ jest.mock('@/app/ds', () => ({
     children: React.ReactNode;
   }) => <Component>{children}</Component>,
   useAlert: () => ({ showAlert: showAlertMock }),
+  useModal: () => ({
+    modal: <div data-testid='battle-modal' />,
+    openModal: openModalMock,
+    closeModal: closeModalMock,
+  }),
 }));
 
 jest.mock('@/app/i18n', () => ({
@@ -75,6 +83,7 @@ describe('TrainerDashboard', () => {
       walk: walkMock,
       togglePartySelection: togglePartySelectionMock,
       saveParty: savePartyMock,
+      load: loadMock,
     });
 
     render(<TrainerDashboard />);
@@ -117,6 +126,15 @@ describe('TrainerDashboard', () => {
             pokemon: { name: 'bulbasaur' },
           },
         ],
+        active_battle: {
+          battle_session_id: 'battle-1',
+          status: 'ACTIVE',
+          turn_number: 3,
+          wild_pokemon_name: 'pikachu',
+          wild_pokemon_level: 5,
+          trainer_active_my_pokemon_id: 'my-pokemon-1',
+          has_active_battle: true,
+        },
       },
       encounters: [
         {
@@ -141,6 +159,8 @@ describe('TrainerDashboard', () => {
         id: 'event-1',
         event_type: 'WILD_POKEMON',
         pokemon: { name: 'pikachu' },
+        has_active_battle: true,
+        battle_session_id: 'battle-1',
       },
       isLoading: false,
       isSavingParty: false,
@@ -159,6 +179,7 @@ describe('TrainerDashboard', () => {
       walk: walkMock,
       togglePartySelection: togglePartySelectionMock,
       saveParty: savePartyMock,
+      load: loadMock,
     });
 
     render(<TrainerDashboard />);
@@ -172,11 +193,14 @@ describe('TrainerDashboard', () => {
     fireEvent.click(screen.getByText('home.dashboard.walkButton'));
     fireEvent.click(screen.getByText('Leaf'));
     fireEvent.click(screen.getByText('home.dashboard.saveParty'));
+    fireEvent.click(screen.getByText('home.dashboard.openBattle'));
+    fireEvent.click(screen.getByText('home.dashboard.resumeBattle'));
 
     expect(selectEncounterMock).toHaveBeenCalledWith('encounter-1');
     expect(walkMock).toHaveBeenCalledWith();
     expect(togglePartySelectionMock).toHaveBeenCalledWith('my-pokemon-1');
     expect(savePartyMock).toHaveBeenCalledWith();
+    expect(openModalMock).toHaveBeenCalledTimes(2);
     expect(showAlertMock).toHaveBeenCalledWith({ type: 'error', message: 'Walk failed' });
   });
 
@@ -232,6 +256,7 @@ describe('TrainerDashboard', () => {
       walk: walkMock,
       togglePartySelection: togglePartySelectionMock,
       saveParty: savePartyMock,
+      load: loadMock,
     });
 
     render(<TrainerDashboard />);
@@ -285,11 +310,86 @@ describe('TrainerDashboard', () => {
       walk: walkMock,
       togglePartySelection: togglePartySelectionMock,
       saveParty: savePartyMock,
+      load: loadMock,
     });
 
     render(<TrainerDashboard />);
 
     expect(screen.queryByText('home.dashboard.lastEvent')).not.toBeInTheDocument();
     expect(screen.getByText('home.dashboard.noDiscoveries')).toBeInTheDocument();
+  });
+
+  it('opens the battle modal only when walk returns an active battle and closes it through the modal body callback', async () => {
+    walkMock.mockResolvedValueOnce(undefined).mockResolvedValueOnce({
+      has_active_battle: true,
+      battle_session_id: 'battle-1',
+    });
+
+    useTrainerHome.mockReturnValue({
+      data: {
+        trainer: {
+          id: 'trainer-1',
+          pokeballs: 1,
+          capture_rate: 50,
+        },
+        active_encounter: {
+          id: 'encounter-1',
+          is_active: true,
+          pokemon_encounter: {
+            id: 'pokemon-encounter-1',
+            name: 'route-1',
+            method: 'walk',
+          },
+        },
+        party: [],
+        latest_discoveries: [],
+      },
+      encounters: [],
+      roster: [],
+      partySelection: [],
+      lastEvent: undefined,
+      isLoading: false,
+      isSavingParty: false,
+      isWalking: false,
+      isUpdatingEncounter: false,
+      errorMessage: undefined,
+      activeEncounter: {
+        id: 'encounter-1',
+        pokemon_encounter: {
+          id: 'pokemon-encounter-1',
+          name: 'route-1',
+          method: 'walk',
+        },
+      },
+      selectEncounter: selectEncounterMock,
+      walk: walkMock,
+      togglePartySelection: togglePartySelectionMock,
+      saveParty: savePartyMock,
+      load: loadMock,
+    });
+
+    render(<TrainerDashboard />);
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('home.dashboard.walkButton'));
+    });
+    expect(openModalMock).not.toHaveBeenCalled();
+
+    await act(async () => {
+      fireEvent.click(screen.getByText('home.dashboard.walkButton'));
+    });
+
+    expect(openModalMock).toHaveBeenCalledTimes(1);
+
+    const modalConfig = openModalMock.mock.calls[0][0] as {
+      body: { props: { onClose: () => Promise<void> } };
+    };
+
+    await act(async () => {
+      await modalConfig.body.props.onClose();
+    });
+
+    expect(closeModalMock).toHaveBeenCalled();
+    expect(loadMock).toHaveBeenCalled();
   });
 });

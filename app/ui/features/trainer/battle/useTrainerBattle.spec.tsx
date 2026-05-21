@@ -89,7 +89,7 @@ describe('useTrainerBattle', () => {
         return Promise.resolve({ ok: true, json: async () => ({ ...battle, trainer_active_my_pokemon_id: 'my-pokemon-2' }) } as Response);
       }
       if (url === '/api/trainer/battle/flee') {
-        return Promise.resolve({ ok: true, json: async () => ({ ...battle, status: 'FLED' }) } as Response);
+        return Promise.resolve({ ok: true, json: async () => ({ ...battle, status: 'ESCAPED' }) } as Response);
       }
       return Promise.resolve({ ok: false, json: async () => ({ message: 'unexpected' }) } as Response);
     }) as jest.Mock;
@@ -130,7 +130,7 @@ describe('useTrainerBattle', () => {
     });
 
     await waitFor(() => {
-      expect(result.current.data?.status).toBe('FLED');
+      expect(result.current.data?.status).toBe('ESCAPED');
     });
   });
 

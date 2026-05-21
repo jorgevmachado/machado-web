@@ -2,8 +2,9 @@
 
 import { useEffect } from 'react';
 
-import { Badge, Button, Card, Text, useAlert } from '@/app/ds';
+import { Badge, Button, Card, Text, useAlert, useModal } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
+import { BattleSessionView } from '@/app/ui/features/battle';
 import { useTrainerHome } from '@/app/ui/features/trainer/home/useTrainerHome';
 import { displayDate, formatLabel } from '@/app/utils';
 
@@ -24,9 +25,33 @@ export default function TrainerDashboard() {
     walk,
     togglePartySelection,
     saveParty,
+    load,
   } = useTrainerHome();
   const { t } = useAppTranslation();
   const { showAlert } = useAlert();
+  const { modal, openModal, closeModal } = useModal();
+
+  const handleCloseBattleModal = async () => {
+    closeModal();
+    await load();
+  };
+
+  const openBattleModal = () => {
+    openModal({
+      title: t('trainer.battle.title'),
+      subtitle: t('home.dashboard.battleModalSubtitle'),
+      width: '7xl',
+      maxHeight: '90vh',
+      body: <BattleSessionView variant='modal' onClose={() => void handleCloseBattleModal()} />,
+    });
+  };
+
+  const handleWalk = async () => {
+    const event = await walk();
+    if (event?.has_active_battle && event.battle_session_id) {
+      openBattleModal();
+    }
+  };
 
   useEffect(() => {
     if (errorMessage) {
@@ -59,11 +84,33 @@ export default function TrainerDashboard() {
         </Card>
         <Card rounded='lg' variant='elevated'>
           <Text as='h2' className='text-lg font-semibold'>{t('home.dashboard.walkTitle')}</Text>
-          <Button onClick={() => void walk()} disabled={isWalking || !activeEncounter}>
+          <Button onClick={() => void handleWalk()} disabled={isWalking || !activeEncounter}>
             {isWalking ? t('home.dashboard.walking') : t('home.dashboard.walkButton')}
           </Button>
         </Card>
       </section>
+
+      {data.active_battle ? (
+        <Card rounded='lg' variant='outlined'>
+          <div className='flex flex-col gap-3 md:flex-row md:items-center md:justify-between'>
+            <div>
+              <Text as='h2' className='text-lg font-semibold'>{t('home.dashboard.activeBattleTitle')}</Text>
+              <Text>{t('home.dashboard.activeBattlePokemon', { name: formatLabel(data.active_battle.wild_pokemon_name) })}</Text>
+              <Text className='text-sm text-slate-500'>
+                {t('home.dashboard.activeBattleTurn', { value: data.active_battle.turn_number })}
+              </Text>
+            </div>
+            <div className='flex items-center gap-3'>
+              <Badge tone='warning' variant='soft'>
+                {t(`trainer.battle.status.${data.active_battle.status}`)}
+              </Badge>
+              <Button onClick={() => openBattleModal()} appearance='outline' tone='primary'>
+                {t('home.dashboard.resumeBattle')}
+              </Button>
+            </div>
+          </div>
+        </Card>
+      ) : null}
 
       {lastEvent ? (
         <Card rounded='lg' variant='outlined'>
@@ -76,6 +123,17 @@ export default function TrainerDashboard() {
           ) : null}
           {lastEvent.pokeballs_found ? (
             <Text>{t('home.dashboard.foundPokeballs', { value: lastEvent.pokeballs_found })}</Text>
+          ) : null}
+          {lastEvent.has_active_battle && lastEvent.battle_session_id ? (
+            <div className='mt-3'>
+              <Button
+                onClick={() => openBattleModal()}
+                appearance='outline'
+                tone='primary'
+              >
+                {t('home.dashboard.openBattle')}
+              </Button>
+            </div>
           ) : null}
         </Card>
       ) : null}
@@ -161,6 +219,7 @@ export default function TrainerDashboard() {
           })}
         </div>
       </Card>
+      {modal}
     </div>
   );
 }

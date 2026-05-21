@@ -3,10 +3,10 @@ import { OnboardingTrainerBffParams } from '@/app/ui/features/trainer/services/b
 import {
   OnboardingTrainerParams,
   TBattleLog,
+  TBattleSession,
   TTrainer,
   TTrainerEncounter,
   TTrainerHome,
-  TWildPokemonBattleSession,
 } from '@/app/ui/features/trainer/types';
 
 export class TrainerBffService extends BffBaseServiceAbstract<TTrainer> {
@@ -99,15 +99,15 @@ export class TrainerBffService extends BffBaseServiceAbstract<TTrainer> {
     return resultResponse;
   }
 
-  public async activeBattle(): Promise<BffResponse<TWildPokemonBattleSession>> {
-    const resultResponse: BffResponse<TWildPokemonBattleSession> = {
+  public async activeBattle(): Promise<BffResponse<TBattleSession>> {
+    const resultResponse: BffResponse<TBattleSession> = {
       error: true,
       status: 500,
       message: 'Internal Server Error',
       i18nMessage: 'trainer.battle.loadError',
     };
 
-    const response = await this.get<TWildPokemonBattleSession>(`${this.pathUrl}/battle/active`);
+    const response = await this.get<TBattleSession>(`${this.pathUrl}/battle/active`);
 
     if (this.isResponseError(response)) {
       resultResponse.status = response.statusCode;
