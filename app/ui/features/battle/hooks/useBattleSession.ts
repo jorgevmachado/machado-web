@@ -7,6 +7,7 @@ import { useAppTranslation } from '@/app/i18n';
 
 import { battleBffService } from '../service';
 import type {
+  BattleCaptureResult,
   BattleLog,
   BattleSession,
   BattleSessionStatus,
@@ -21,6 +22,7 @@ type BattleSessionState = {
   isLoading: boolean;
   isActing: boolean;
   errorMessage?: string;
+  captureResult?: BattleCaptureResult;
 };
 
 const initialState: BattleSessionState = {
@@ -29,6 +31,7 @@ const initialState: BattleSessionState = {
   isLoading: true,
   isActing: false,
   errorMessage: undefined,
+  captureResult: undefined,
 };
 
 const sortBattleLogs = (logs: Array<BattleLog>): Array<BattleLog> => {
@@ -53,6 +56,15 @@ export function useBattleSession() {
   const didRunInitialLoadRef = useRef(false);
   const isLoadInFlightRef = useRef(false);
   const terminalSnapshotRef = useRef<BattleSession | undefined>(undefined);
+
+  const isBattleCaptureResult = (value: unknown): value is BattleCaptureResult => {
+    return Boolean(
+      value
+      && typeof value === 'object'
+      && 'battle_session' in value
+      && 'outcome' in value,
+    );
+  };
 
   const load = useCallback(async ({ silent = false }: { silent?: boolean } = {}) => {
     if (isLoadInFlightRef.current) {
@@ -105,6 +117,7 @@ export function useBattleSession() {
         logs,
         isLoading: false,
         isActing: false,
+        captureResult: previous.captureResult,
         errorMessage: battleBffService.isResponseError(logsResponse)
           ? logsResponse.message || t('trainer.battle.logsError')
           : undefined,
@@ -164,7 +177,10 @@ export function useBattleSession() {
     };
   }, [state.data, state.isActing]);
 
-  const syncAfterAction = useCallback(async (fallbackSession: BattleSession) => {
+  const syncAfterAction = useCallback(async (
+    fallbackSession: BattleSession,
+    captureResult?: BattleCaptureResult,
+  ) => {
     let nextLogs = state.logs;
 
     try {
@@ -185,12 +201,13 @@ export function useBattleSession() {
       data: fallbackSession,
       logs: nextLogs,
       isActing: false,
+      captureResult,
       errorMessage: undefined,
     }));
   }, [state.logs]);
 
   const runAction = useCallback(async (
-    action: () => Promise<BattleSession | { statusCode: number; message: string }>,
+    action: () => Promise<BattleSession | BattleCaptureResult | { statusCode: number; message: string }>,
   ) => {
     if (!state.data || state.data.status !== ACTIVE_STATUS) {
       return;
@@ -209,7 +226,12 @@ export function useBattleSession() {
         return;
       }
 
-      await syncAfterAction(actionResponse);
+      if (isBattleCaptureResult(actionResponse)) {
+        await syncAfterAction(actionResponse.battle_session, actionResponse);
+        return;
+      }
+
+      await syncAfterAction(actionResponse, undefined);
     } catch (error) {
       const message = error instanceof Error && error.message ? error.message : t('trainer.battle.actionError');
       setState((previous) => ({
@@ -232,6 +254,10 @@ export function useBattleSession() {
     await runAction(async () => await battleBffService.flee());
   }, [runAction]);
 
+  const capturePokemon = useCallback(async (nickname?: string) => {
+    await runAction(async () => await battleBffService.capture({ nickname }));
+  }, [runAction]);
+
   const isTerminal = useMemo(() => {
     return Boolean(state.data && state.data.status !== ACTIVE_STATUS);
   }, [state.data]);
@@ -244,5 +270,6 @@ export function useBattleSession() {
     useMove,
     switchPokemon,
     flee,
+    capturePokemon,
   };
 }

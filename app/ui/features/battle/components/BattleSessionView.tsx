@@ -40,6 +40,8 @@ export function BattleSessionView({
     useMove: executeMove,
     switchPokemon,
     flee,
+    captureResult,
+    capturePokemon,
   } = useBattleSession();
   const { t } = useAppTranslation();
   const { showAlert } = useAlert();
@@ -118,11 +120,41 @@ export function BattleSessionView({
             <Text className='text-sm text-slate-600'>
               {t('trainer.battle.turn', { value: data.turn_number })}
             </Text>
+            <Text className='text-sm text-slate-600'>
+              {t('trainer.battle.inventory', {
+                pokeballs: data.trainer_pokeballs,
+                captureRate: data.trainer_capture_rate,
+              })}
+            </Text>
           </div>
           <Badge tone={data.status === ACTIVE_STATUS ? 'success' : 'warning'} variant='soft'>
             {t(`trainer.battle.status.${data.status}`)}
           </Badge>
         </header>
+
+        {captureResult ? (
+          <Card
+            rounded='lg'
+            variant='outlined'
+            className={
+              captureResult.success
+                ? 'border-emerald-300 bg-emerald-50'
+                : 'border-sky-300 bg-sky-50'
+            }
+          >
+            <div className='flex flex-wrap items-center justify-between gap-3'>
+              <div>
+                <Text className='font-semibold text-slate-900'>
+                  {t(`trainer.battle.captureOutcome.${captureResult.outcome}`)}
+                </Text>
+                <Text className='text-sm text-slate-700'>{captureResult.message}</Text>
+              </div>
+              <Badge tone={captureResult.success ? 'success' : 'info'} variant='soft'>
+                {t('trainer.battle.captureChance', { value: captureResult.capture_chance ?? 0 })}
+              </Badge>
+            </div>
+          </Card>
+        ) : null}
 
         {isTerminal ? (
           <Card rounded='lg' variant='outlined' className='border-amber-300 bg-amber-50'>
@@ -237,6 +269,19 @@ export function BattleSessionView({
             </div>
 
             <div className='mt-6'>
+              <div className='mb-4 flex flex-wrap items-center gap-3'>
+                <Button
+                  tone='primary'
+                  appearance='solid'
+                  disabled={isActing || isTerminal || data.trainer_pokeballs <= 0}
+                  onClick={() => void capturePokemon()}
+                >
+                  {t('trainer.battle.capture')}
+                </Button>
+                <Text className='text-sm text-slate-600'>
+                  {t('trainer.battle.captureHint')}
+                </Text>
+              </div>
               <Button
                 tone='danger'
                 appearance='outline'

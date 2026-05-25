@@ -7,6 +7,7 @@ const loadMock = jest.fn();
 const useMoveMock = jest.fn();
 const switchPokemonMock = jest.fn();
 const fleeMock = jest.fn();
+const capturePokemonMock = jest.fn();
 
 jest.mock('@/app/ds', () => ({
   Badge: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
@@ -70,6 +71,7 @@ describe('BattleSessionView', () => {
       useMove: useMoveMock,
       switchPokemon: switchPokemonMock,
       flee: fleeMock,
+      capturePokemon: capturePokemonMock,
     });
 
     render(<BattleSessionView />);
@@ -92,6 +94,7 @@ describe('BattleSessionView', () => {
       useMove: useMoveMock,
       switchPokemon: switchPokemonMock,
       flee: fleeMock,
+      capturePokemon: capturePokemonMock,
     });
 
     const { rerender } = render(<BattleSessionView variant='modal' onClose={onCloseMock} />);
@@ -109,6 +112,7 @@ describe('BattleSessionView', () => {
       useMove: useMoveMock,
       switchPokemon: switchPokemonMock,
       flee: fleeMock,
+      capturePokemon: capturePokemonMock,
     });
 
     rerender(<BattleSessionView variant='modal' onClose={onCloseMock} />);
@@ -128,6 +132,8 @@ describe('BattleSessionView', () => {
         wild_pokemon_level: 5,
         turn_number: 2,
         status: 'ACTIVE',
+        trainer_pokeballs: 3,
+        trainer_capture_rate: 75,
         trainer_side: {
           my_pokemon_id: 'my-pokemon-1',
           name: 'bulbasaur-owned',
@@ -218,17 +224,20 @@ describe('BattleSessionView', () => {
       useMove: useMoveMock,
       switchPokemon: switchPokemonMock,
       flee: fleeMock,
+      capturePokemon: capturePokemonMock,
     });
 
     render(<BattleSessionView />);
 
     fireEvent.click(screen.getByRole('button', { name: /Tackle/ }));
     fireEvent.click(screen.getByRole('button', { name: /Bud/ }));
+    fireEvent.click(screen.getByRole('button', { name: 'trainer.battle.capture' }));
     fireEvent.click(screen.getByRole('button', { name: 'trainer.battle.flee' }));
     fireEvent.click(screen.getByRole('button', { name: 'trainer.battle.refresh' }));
 
     expect(useMoveMock).toHaveBeenCalledWith('move-1');
     expect(switchPokemonMock).toHaveBeenCalledWith('my-pokemon-2');
+    expect(capturePokemonMock).toHaveBeenCalled();
     expect(fleeMock).toHaveBeenCalled();
     expect(loadMock).toHaveBeenCalledWith({ silent: true });
     expect(screen.getByText('battle started')).toBeInTheDocument();
@@ -246,6 +255,8 @@ describe('BattleSessionView', () => {
         wild_pokemon_level: 5,
         turn_number: 2,
         status: 'ACTIVE',
+        trainer_pokeballs: 3,
+        trainer_capture_rate: 75,
         trainer_side: {
           my_pokemon_id: 'my-pokemon-1',
           name: 'bulbasaur-owned',
@@ -300,6 +311,7 @@ describe('BattleSessionView', () => {
       useMove: useMoveMock,
       switchPokemon: switchPokemonMock,
       flee: fleeMock,
+      capturePokemon: capturePokemonMock,
     });
 
     render(<BattleSessionView />);
@@ -335,6 +347,8 @@ describe('BattleSessionView', () => {
         wild_pokemon_level: 5,
         turn_number: 2,
         status: 'ACTIVE',
+        trainer_pokeballs: 3,
+        trainer_capture_rate: 75,
         trainer_side: {
           my_pokemon_id: 'my-pokemon-1',
           name: 'bulbasaur-owned',
@@ -374,6 +388,7 @@ describe('BattleSessionView', () => {
       useMove: useMoveMock,
       switchPokemon: switchPokemonMock,
       flee: fleeMock,
+      capturePokemon: capturePokemonMock,
     });
 
     render(<BattleSessionView />);
@@ -396,6 +411,8 @@ describe('BattleSessionView', () => {
         wild_pokemon_level: 5,
         turn_number: 2,
         status: 'ACTIVE',
+        trainer_pokeballs: 3,
+        trainer_capture_rate: 75,
         trainer_side: {
           my_pokemon_id: 'my-pokemon-1',
           name: 'bulbasaur-owned',
@@ -450,6 +467,7 @@ describe('BattleSessionView', () => {
       useMove: useMoveMock,
       switchPokemon: switchPokemonMock,
       flee: fleeMock,
+      capturePokemon: capturePokemonMock,
     });
 
     render(<BattleSessionView />);
@@ -470,6 +488,8 @@ describe('BattleSessionView', () => {
         wild_pokemon_level: 5,
         turn_number: 3,
         status: 'WILD_POKEMON_DEFEATED',
+        trainer_pokeballs: 0,
+        trainer_capture_rate: 75,
         trainer_side: {
           my_pokemon_id: 'my-pokemon-1',
           name: 'bulbasaur-owned',
@@ -509,6 +529,7 @@ describe('BattleSessionView', () => {
       useMove: useMoveMock,
       switchPokemon: switchPokemonMock,
       flee: fleeMock,
+      capturePokemon: capturePokemonMock,
     });
 
     render(<BattleSessionView variant='modal' onClose={onCloseMock} />);
@@ -596,5 +617,143 @@ describe('BattleSessionView', () => {
     expect(screen.getByRole('button', { name: 'trainer.battle.flee' })).toBeDisabled();
     expect(screen.getAllByRole('button', { name: 'trainer.battle.refresh' })).toHaveLength(2);
     expect(showAlertMock).toHaveBeenCalledWith({ type: 'error', message: 'battle over' });
+  });
+
+  it('renders a successful capture result with the returned chance', () => {
+    useBattleSession.mockReturnValue({
+      data: {
+        id: 'battle-1',
+        trainer_id: 'trainer-1',
+        exploration_event_id: 'event-1',
+        trainer_active_my_pokemon_id: 'my-pokemon-1',
+        wild_pokemon_id: 'pokemon-25',
+        wild_pokemon_name: 'pikachu',
+        wild_pokemon_level: 5,
+        turn_number: 3,
+        status: 'CAPTURED',
+        trainer_pokeballs: 2,
+        trainer_capture_rate: 79,
+        trainer_side: {
+          my_pokemon_id: 'my-pokemon-1',
+          name: 'bulbasaur-owned',
+          nickname: 'Leaf',
+          level: 7,
+          current_hp: 8,
+          max_hp: 20,
+          attack: 12,
+          defense: 10,
+          special_attack: 11,
+          special_defense: 10,
+          speed: 10,
+          moves: [],
+        },
+        wild_side: {
+          pokemon_id: 'pokemon-25',
+          name: 'pikachu',
+          level: 5,
+          current_hp: 0,
+          max_hp: 18,
+          attack: 11,
+          defense: 8,
+          special_attack: 10,
+          special_defense: 8,
+          speed: 11,
+          moves: [],
+        },
+        party: [],
+        created_at: '2026-05-20T00:00:00Z',
+      },
+      logs: [],
+      isLoading: false,
+      isActing: false,
+      errorMessage: undefined,
+      isTerminal: true,
+      load: loadMock,
+      useMove: useMoveMock,
+      switchPokemon: switchPokemonMock,
+      flee: fleeMock,
+      captureResult: {
+        success: true,
+        outcome: 'CAPTURED',
+        message: 'pikachu captured',
+        capture_chance: 72,
+      },
+      capturePokemon: capturePokemonMock,
+    });
+
+    render(<BattleSessionView />);
+
+    expect(screen.getByText('trainer.battle.captureOutcome.CAPTURED')).toBeInTheDocument();
+    expect(screen.getByText('pikachu captured')).toBeInTheDocument();
+    expect(screen.getByText('trainer.battle.captureChance:{"value":72}')).toBeInTheDocument();
+  });
+
+  it('renders a failed capture result and falls back capture chance to zero', () => {
+    useBattleSession.mockReturnValue({
+      data: {
+        id: 'battle-1',
+        trainer_id: 'trainer-1',
+        exploration_event_id: 'event-1',
+        trainer_active_my_pokemon_id: 'my-pokemon-1',
+        wild_pokemon_id: 'pokemon-25',
+        wild_pokemon_name: 'pikachu',
+        wild_pokemon_level: 5,
+        turn_number: 2,
+        status: 'ACTIVE',
+        trainer_pokeballs: 2,
+        trainer_capture_rate: 79,
+        trainer_side: {
+          my_pokemon_id: 'my-pokemon-1',
+          name: 'bulbasaur-owned',
+          nickname: 'Leaf',
+          level: 7,
+          current_hp: 8,
+          max_hp: 20,
+          attack: 12,
+          defense: 10,
+          special_attack: 11,
+          special_defense: 10,
+          speed: 10,
+          moves: [],
+        },
+        wild_side: {
+          pokemon_id: 'pokemon-25',
+          name: 'pikachu',
+          level: 5,
+          current_hp: 6,
+          max_hp: 18,
+          attack: 11,
+          defense: 8,
+          special_attack: 10,
+          special_defense: 8,
+          speed: 11,
+          moves: [],
+        },
+        party: [],
+        created_at: '2026-05-20T00:00:00Z',
+      },
+      logs: [],
+      isLoading: false,
+      isActing: false,
+      errorMessage: undefined,
+      isTerminal: false,
+      load: loadMock,
+      useMove: useMoveMock,
+      switchPokemon: switchPokemonMock,
+      flee: fleeMock,
+      captureResult: {
+        success: false,
+        outcome: 'FAILED',
+        message: 'pikachu escaped',
+        capture_chance: null,
+      },
+      capturePokemon: capturePokemonMock,
+    });
+
+    render(<BattleSessionView />);
+
+    expect(screen.getByText('trainer.battle.captureOutcome.FAILED')).toBeInTheDocument();
+    expect(screen.getByText('pikachu escaped')).toBeInTheDocument();
+    expect(screen.getByText('trainer.battle.captureChance:{"value":0}')).toBeInTheDocument();
   });
 });

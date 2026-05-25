@@ -459,8 +459,12 @@
       "backToHome": "Voltar para Início",
       "moves": "Movimentos",
       "moveMeta": "Tipo {{type}} • Poder {{power}} • Precisão {{accuracy}}",
+      "inventory": "Pokébolas {{pokeballs}} • Taxa de captura {{captureRate}}",
       "switchTitle": "Trocar Pokémon",
       "noSwitchTargets": "Nenhum membro disponível para troca neste momento.",
+      "capture": "Capturar Pokémon",
+      "captureHint": "Use uma pokébola para tentar capturar o Pokémon selvagem.",
+      "captureChance": "Chance {{value}}%",
       "flee": "Fugir da batalha",
       "logs": "Logs da batalha",
       "noLogs": "Nenhum log disponível para esta batalha.",
@@ -469,8 +473,14 @@
       "logsError": "Não foi possível carregar os logs da batalha.",
       "actionError": "Não foi possível executar a ação da batalha.",
       "finished": "Esta batalha foi encerrada. As ações estão bloqueadas.",
+      "captureOutcome": {
+        "CAPTURED": "Captura bem-sucedida",
+        "FAILED_CHANCE": "O Pokémon escapou da pokébola",
+        "INELIGIBLE_CAPTURE_RATE": "Seu treinador ainda não consegue capturar esse Pokémon"
+      },
       "status": {
         "ACTIVE": "Ativa",
+        "CAPTURED": "Capturado",
         "ESCAPED": "Escapou",
         "WILD_POKEMON_DEFEATED": "Pokémon selvagem derrotado",
         "TRAINER_DEFEATED": "Treinador derrotado"

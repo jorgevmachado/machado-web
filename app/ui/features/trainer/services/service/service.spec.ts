@@ -20,6 +20,7 @@ describe('TrainerService', () => {
       .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'battle-2' }) })
       .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'battle-3' }) })
       .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'battle-4' }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ success: true, outcome: 'CAPTURED' }) })
       .mockResolvedValueOnce({ ok: true, json: async () => ([{ id: 'log-1' }]) });
 
     const service = new TrainerService('https://api.example.com', 'token');
@@ -34,6 +35,7 @@ describe('TrainerService', () => {
     await service.useBattleMove({ move_id: 'move-1' });
     await service.switchBattlePokemon({ my_pokemon_id: 'pokemon-2' });
     await service.fleeBattle();
+    await service.captureBattlePokemon({ nickname: 'Sparky' });
     await service.battleLogs();
 
     expect(fetchMock).toHaveBeenNthCalledWith(1, 'https://api.example.com/trainer/initialize', expect.objectContaining({
@@ -69,8 +71,30 @@ describe('TrainerService', () => {
     expect(fetchMock).toHaveBeenNthCalledWith(11, 'https://api.example.com/trainer/battle/flee', expect.objectContaining({
       method: 'POST',
     }));
-    expect(fetchMock).toHaveBeenNthCalledWith(12, 'https://api.example.com/trainer/battle/logs', expect.objectContaining({
+    expect(fetchMock).toHaveBeenNthCalledWith(12, 'https://api.example.com/trainer/battle/capture', expect.objectContaining({
+      method: 'POST',
+    }));
+    expect(fetchMock).toHaveBeenNthCalledWith(13, 'https://api.example.com/trainer/battle/logs', expect.objectContaining({
       method: 'GET',
     }));
+  });
+
+  it('uses an empty payload when capturing without arguments', async () => {
+    const fetchMock = global.fetch as jest.Mock;
+    fetchMock.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ success: true, outcome: 'FAILED_CHANCE' }),
+    });
+
+    const service = new TrainerService('https://api.example.com', 'token');
+    await service.captureBattlePokemon();
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://api.example.com/trainer/battle/capture',
+      expect.objectContaining({
+        method: 'POST',
+        body: JSON.stringify({}),
+      }),
+    );
   });
 });

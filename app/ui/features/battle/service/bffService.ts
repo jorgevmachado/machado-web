@@ -2,8 +2,10 @@ import { BffBaseServiceAbstract } from '@/app/shared/services/bff-service';
 import type { ResponseError } from '@/app/shared/services/http';
 
 import type {
+  BattleCaptureResult,
   BattleLog,
   BattleSession,
+  CapturePokemonPayload,
   SwitchPokemonPayload,
   UseMovePayload,
 } from '../types';
@@ -40,7 +42,15 @@ export class BattleBffService extends BffBaseServiceAbstract<BattleSession> {
       `${this.pathUrl}/flee`,
     );
   }
+
+  public async capture(
+    payload: CapturePokemonPayload = {},
+  ): Promise<BattleCaptureResult | ResponseError> {
+    return await this.post<CapturePokemonPayload, BattleCaptureResult | ResponseError>(
+      `${this.pathUrl}/capture`,
+      { body: payload },
+    );
+  }
 }
 
 export const battleBffService = new BattleBffService();
-

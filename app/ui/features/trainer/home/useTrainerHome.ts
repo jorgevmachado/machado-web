@@ -65,6 +65,12 @@ const initialState: TrainerHomeState = {
   errorMessage: undefined,
 };
 
+const buildSavingPartyState = (previous: TrainerHomeState): TrainerHomeState => ({
+  ...previous,
+  isSavingParty: true,
+  errorMessage: undefined,
+});
+
 export function useTrainerHome() {
   const [state, setState] = useState<TrainerHomeState>(initialState);
   const { startContentLoading, stopContentLoading } = useLoading();
@@ -223,7 +229,7 @@ export function useTrainerHome() {
   }, []);
 
   const saveParty = useCallback(async () => {
-    setState((previous) => ({ ...previous, isSavingParty: true, errorMessage: undefined }));
+    setState(buildSavingPartyState);
 
     try {
       const response = await fetch('/api/trainer/party', {

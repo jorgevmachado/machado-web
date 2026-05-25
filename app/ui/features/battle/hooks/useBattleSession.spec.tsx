@@ -10,6 +10,7 @@ const logsMock = jest.fn();
 const useMoveMock = jest.fn();
 const switchPokemonMock = jest.fn();
 const fleeMock = jest.fn();
+const captureMock = jest.fn();
 const useAppTranslationMock = jest.fn();
 
 jest.mock('@/app/ds', () => ({
@@ -30,6 +31,7 @@ jest.mock('../service', () => ({
     useMove: (...args: unknown[]) => useMoveMock(...args),
     switchPokemon: (...args: unknown[]) => switchPokemonMock(...args),
     flee: (...args: unknown[]) => fleeMock(...args),
+    capture: (...args: unknown[]) => captureMock(...args),
     isResponseError: (response: unknown) => {
       return Boolean(response && typeof response === 'object' && 'statusCode' in response);
     },
@@ -46,6 +48,8 @@ const activeBattle = {
   wild_pokemon_level: 3,
   turn_number: 1,
   status: 'ACTIVE' as const,
+  trainer_pokeballs: 3,
+  trainer_capture_rate: 75,
   trainer_side: {
     my_pokemon_id: 'my-pokemon-1',
     name: 'bulbasaur-owned',
@@ -85,6 +89,7 @@ describe('useBattleSession', () => {
     useMoveMock.mockReset();
     switchPokemonMock.mockReset();
     fleeMock.mockReset();
+    captureMock.mockReset();
     useAppTranslationMock.mockReturnValue({
       t: (key: string) => key,
     });
@@ -342,6 +347,38 @@ describe('useBattleSession', () => {
     expect(activeMock).toHaveBeenCalledTimes(1);
     expect(result.current.logs.some((log) => log.id === 'log-2')).toBe(true);
     expect(result.current.isActing).toBe(false);
+  });
+
+  it('executes capture action and stores capture result feedback', async () => {
+    activeMock.mockResolvedValue(activeBattle);
+    logsMock.mockResolvedValue([]);
+    captureMock.mockResolvedValue({
+      success: true,
+      outcome: 'CAPTURED',
+      message: 'Trainer captured pikachu',
+      battle_session: { ...activeBattle, status: 'CAPTURED', trainer_pokeballs: 2, trainer_capture_rate: 77 },
+      my_pokemon: { id: 'my-pokemon-99' },
+      pokedex_updated: true,
+      trainer_pokeballs: 2,
+      trainer_capture_rate: 77,
+      trainer_capture_progress_points: 2,
+      progress_points_awarded: 2,
+      capture_chance: 60,
+    });
+
+    const { result } = renderHook(() => useBattleSession());
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    await act(async () => {
+      await result.current.capturePokemon();
+    });
+
+    expect(captureMock).toHaveBeenCalledWith({ nickname: undefined });
+    expect(result.current.captureResult?.outcome).toBe('CAPTURED');
+    expect(result.current.data?.status).toBe('CAPTURED');
   });
 
   it('ignores actions when there is no active session and maps action response errors', async () => {

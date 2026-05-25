@@ -81,7 +81,16 @@ export type TBattleLog = {
   id: string;
   turn_number?: number | null;
   actor?: 'TRAINER' | 'WILD' | null;
-  log_type: 'SESSION_STARTED' | 'MOVE_USED' | 'DAMAGE_DEALT' | 'SWITCHED' | 'ESCAPED' | 'SESSION_FINISHED';
+  log_type:
+    | 'SESSION_STARTED'
+    | 'MOVE_USED'
+    | 'DAMAGE_DEALT'
+    | 'SWITCHED'
+    | 'ESCAPED'
+    | 'CAPTURE_ATTEMPT'
+    | 'CAPTURE_SUCCESS'
+    | 'CAPTURE_FAILED'
+    | 'SESSION_FINISHED';
   message: string;
   reference?: string | null;
   payload: Record<string, unknown>;
@@ -97,12 +106,30 @@ export type TBattleSession = {
   wild_pokemon_name: string;
   wild_pokemon_level: number;
   turn_number: number;
-  status: 'ACTIVE' | 'ESCAPED' | 'WILD_POKEMON_DEFEATED' | 'TRAINER_DEFEATED';
+  status: 'ACTIVE' | 'ESCAPED' | 'CAPTURED' | 'WILD_POKEMON_DEFEATED' | 'TRAINER_DEFEATED';
+  trainer_pokeballs: number;
+  trainer_capture_rate: number;
   trainer_side: TBattleSide;
   wild_side: TBattleSide;
   party: Array<TBattleSide>;
   created_at: string;
   updated_at?: string | null;
+};
+
+export type TBattleCaptureOutcome = 'CAPTURED' | 'FAILED_CHANCE' | 'INELIGIBLE_CAPTURE_RATE';
+
+export type TBattleCaptureResult = {
+  success: boolean;
+  outcome: TBattleCaptureOutcome;
+  message: string;
+  battle_session: TBattleSession;
+  my_pokemon?: TMyPokemon | null;
+  pokedex_updated: boolean;
+  trainer_pokeballs: number;
+  trainer_capture_rate: number;
+  trainer_capture_progress_points: number;
+  progress_points_awarded: number;
+  capture_chance?: number | null;
 };
 
 export type TActiveBattleSummary = {
@@ -162,4 +189,8 @@ export type UseBattleMoveParams = {
 
 export type SwitchBattlePokemonParams = {
   my_pokemon_id: string;
+};
+
+export type CaptureBattlePokemonParams = {
+  nickname?: string | null;
 };

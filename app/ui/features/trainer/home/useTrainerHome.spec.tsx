@@ -820,4 +820,54 @@ describe('useTrainerHome', () => {
 
     unmount();
   });
+
+  it('marks party saving as active while the save request is still pending', async () => {
+    let resolveSave: ((value: ReturnType<typeof jsonResponse>) => void) | undefined;
+    const pendingSave = new Promise<ReturnType<typeof jsonResponse>>((resolve) => {
+      resolveSave = resolve;
+    });
+
+    global.fetch = jest.fn(async (input: RequestInfo | URL) => {
+      const url = String(input);
+
+      if (url === '/api/trainer/party') {
+        return await pendingSave;
+      }
+
+      if (url === '/api/trainer/home') {
+        return jsonResponse(trainerHome);
+      }
+
+      if (url === '/api/trainer/encounters') {
+        return jsonResponse(encounters);
+      }
+
+      if (url === '/api/trainer/my-pokemon?page=1&limit=100') {
+        return jsonResponse(roster);
+      }
+
+      return undefined;
+    }) as never;
+
+    const { result } = renderHook(() => useTrainerHome());
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false);
+    });
+
+    let savePromise: Promise<unknown> | undefined;
+    await act(async () => {
+      savePromise = result.current.saveParty();
+    });
+
+    expect(result.current.isSavingParty).toBe(true);
+
+    resolveSave?.(jsonResponse(trainerHome.party));
+
+    await act(async () => {
+      await savePromise;
+    });
+
+    expect(result.current.isSavingParty).toBe(false);
+  });
 });

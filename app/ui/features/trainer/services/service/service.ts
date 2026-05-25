@@ -1,9 +1,11 @@
 import { BaseServiceAbstract } from '@/app/shared/services/service/service';
 
 import type {
+  CaptureBattlePokemonParams,
   InitializeTrainerParams,
   OnboardingTrainerParams,
   SelectTrainerEncounterParams,
+  TBattleCaptureResult,
   TBattleLog,
   TBattleSession,
   TExplorationEvent,
@@ -88,6 +90,15 @@ export class TrainerService extends BaseServiceAbstract {
   public async fleeBattle(): Promise<TBattleSession> {
     return await this.post<undefined, TBattleSession>(
       `${this.pathUrl}/battle/flee`,
+    );
+  }
+
+  public async captureBattlePokemon(
+    payload: CaptureBattlePokemonParams = {},
+  ): Promise<TBattleCaptureResult> {
+    return await this.post<CaptureBattlePokemonParams, TBattleCaptureResult>(
+      `${this.pathUrl}/battle/capture`,
+      { body: payload },
     );
   }
 

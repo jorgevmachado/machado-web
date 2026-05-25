@@ -459,8 +459,12 @@
       "backToHome": "Back to Home",
       "moves": "Moves",
       "moveMeta": "Type {{type}} • Power {{power}} • Accuracy {{accuracy}}",
+      "inventory": "Pokeballs {{pokeballs}} • Capture rate {{captureRate}}",
       "switchTitle": "Switch Pokemon",
       "noSwitchTargets": "No available party member to switch right now.",
+      "capture": "Capture Pokemon",
+      "captureHint": "Use a pokeball to try to capture the wild Pokemon.",
+      "captureChance": "Chance {{value}}%",
       "flee": "Flee battle",
       "logs": "Battle logs",
       "noLogs": "No logs available for this battle.",
@@ -469,8 +473,14 @@
       "logsError": "Could not load battle logs.",
       "actionError": "Could not execute battle action.",
       "finished": "This battle is finished. Actions are disabled.",
+      "captureOutcome": {
+        "CAPTURED": "Capture succeeded",
+        "FAILED_CHANCE": "The Pokemon broke free",
+        "INELIGIBLE_CAPTURE_RATE": "Your trainer cannot capture this Pokemon yet"
+      },
       "status": {
         "ACTIVE": "Active",
+        "CAPTURED": "Captured",
         "ESCAPED": "Escaped",
         "WILD_POKEMON_DEFEATED": "Wild Pokemon defeated",
         "TRAINER_DEFEATED": "Trainer defeated"
