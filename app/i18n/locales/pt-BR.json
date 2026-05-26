@@ -36,6 +36,7 @@
     "encounters": "Encontros",
     "pokedex": "Pokédex",
     "myPokemons": "Meus Pokémons",
+    "pokemonCenter": "Centro Pokémon",
     "battle": "Batalha"
   },
   "filters": {
@@ -138,15 +139,43 @@
         "foundPokeballs": "Pokébolas encontradas: {{value}}",
         "openBattle": "Abrir batalha",
         "battleModalSubtitle": "Retome a batalha atual sem sair da Home.",
-        "activeBattleTitle": "Batalha ativa",
-        "activeBattlePokemon": "Enfrentando {{name}}",
-        "activeBattleTurn": "Turno {{value}}",
-        "resumeBattle": "Retomar batalha",
+      "activeBattleTitle": "Batalha ativa",
+      "activeBattlePokemon": "Enfrentando {{name}}",
+      "activeBattleTurn": "Turno {{value}}",
+      "lastHealingTitle": "Última cura",
+      "lastHealingCount": "{{value}} Pokémon(s) restaurado(s)",
+      "lastHealingHp": "HP restaurado: {{value}}",
+      "lastHealingPp": "PP restaurado: {{value}}",
+      "resumeBattle": "Retomar batalha",
         "eventType": {
           "WILD_POKEMON": "Pokémon selvagem",
           "POKEBALLS": "Pokébolas"
         }
       }
+  },
+  "pokemonCenter": {
+    "title": "Centro Pokémon",
+    "description": "Restaure a party principal, recupere HP e PP e acompanhe o histórico detalhado de healing do treinador.",
+    "loading": "Carregando Centro Pokémon...",
+    "loadError": "Não foi possível carregar o Centro Pokémon.",
+    "historyLoadError": "Não foi possível carregar o histórico de healing.",
+    "healButton": "Restaurar party",
+    "healing": "Restaurando...",
+    "healError": "Não foi possível restaurar a party no Centro Pokémon.",
+    "latestHealingTitle": "Última operação de cura",
+    "lastHealingResult": "Resultado da restauração atual",
+    "healedPokemonCount": "{{value}} Pokémon(s) restaurado(s)",
+    "restoredHp": "HP restaurado: {{value}}",
+    "restoredPp": "PP restaurado: {{value}}",
+    "revived": "Revive aplicado",
+    "partyTitle": "Party atual",
+    "partyHint": "A restauração sempre afeta todos os Pokémons ativos da party principal.",
+    "partySlot": "Slot {{value}}",
+    "hpSummary": "HP {{current}}/{{max}}",
+    "ppSummary": "PP total {{value}}",
+    "noParty": "Nenhum Pokémon ativo na party principal.",
+    "historyTitle": "Histórico item a item",
+    "noHistory": "Nenhum healing registrado até agora."
   },
   "myPokemon": {
     "filters": {

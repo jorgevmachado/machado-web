@@ -112,6 +112,24 @@ export default function TrainerDashboard() {
         </Card>
       ) : null}
 
+      {data.last_healing ? (
+        <Card rounded='lg' variant='outlined'>
+          <div className='flex flex-col gap-2 md:flex-row md:items-center md:justify-between'>
+            <div>
+              <Text as='h2' className='text-lg font-semibold'>{t('home.dashboard.lastHealingTitle')}</Text>
+              <Text className='text-sm text-slate-500'>
+                {displayDate(data.last_healing.created_at)}
+              </Text>
+            </div>
+            <div className='flex flex-wrap gap-3 text-sm text-slate-700'>
+              <span>{t('home.dashboard.lastHealingCount', { value: data.last_healing.healed_pokemon_quantity })}</span>
+              <span>{t('home.dashboard.lastHealingHp', { value: data.last_healing.restored_hp })}</span>
+              <span>{t('home.dashboard.lastHealingPp', { value: data.last_healing.restored_pp })}</span>
+            </div>
+          </div>
+        </Card>
+      ) : null}
+
       {lastEvent ? (
         <Card rounded='lg' variant='outlined'>
           <Text as='h2' className='text-lg font-semibold'>{t('home.dashboard.lastEvent')}</Text>

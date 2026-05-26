@@ -4,6 +4,8 @@ import type {
   CaptureBattlePokemonParams,
   InitializeTrainerParams,
   OnboardingTrainerParams,
+  TPokemonCenterHealingResult,
+  TPokemonCenterHistoryResponse,
   SelectTrainerEncounterParams,
   TBattleCaptureResult,
   TBattleLog,
@@ -104,5 +106,18 @@ export class TrainerService extends BaseServiceAbstract {
 
   public async battleLogs(): Promise<Array<TBattleLog>> {
     return await this.get<Array<TBattleLog>>(`${this.pathUrl}/battle/logs`);
+  }
+
+  public async healPokemonCenter(): Promise<TPokemonCenterHealingResult> {
+    return await this.post<undefined, TPokemonCenterHealingResult>(
+      `${this.pathUrl}/pokemon-center/heal`,
+    );
+  }
+
+  public async healingHistory(limit: number = 12): Promise<TPokemonCenterHistoryResponse> {
+    return await this.get<TPokemonCenterHistoryResponse>(
+      `${this.pathUrl}/pokemon-center/healing-history`,
+      { params: { limit } },
+    );
   }
 }

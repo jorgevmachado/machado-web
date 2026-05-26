@@ -21,7 +21,9 @@ describe('TrainerService', () => {
       .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'battle-3' }) })
       .mockResolvedValueOnce({ ok: true, json: async () => ({ id: 'battle-4' }) })
       .mockResolvedValueOnce({ ok: true, json: async () => ({ success: true, outcome: 'CAPTURED' }) })
-      .mockResolvedValueOnce({ ok: true, json: async () => ([{ id: 'log-1' }]) });
+      .mockResolvedValueOnce({ ok: true, json: async () => ([{ id: 'log-1' }]) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ success: true, restored_pokemon: [] }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ items: [], meta: { total: 0 } }) });
 
     const service = new TrainerService('https://api.example.com', 'token');
     await service.initialize({ nickname: 'Leaf', pokemon_name: 'bulbasaur' });
@@ -37,6 +39,8 @@ describe('TrainerService', () => {
     await service.fleeBattle();
     await service.captureBattlePokemon({ nickname: 'Sparky' });
     await service.battleLogs();
+    await service.healPokemonCenter();
+    await service.healingHistory();
 
     expect(fetchMock).toHaveBeenNthCalledWith(1, 'https://api.example.com/trainer/initialize', expect.objectContaining({
       method: 'POST',
@@ -75,6 +79,12 @@ describe('TrainerService', () => {
       method: 'POST',
     }));
     expect(fetchMock).toHaveBeenNthCalledWith(13, 'https://api.example.com/trainer/battle/logs', expect.objectContaining({
+      method: 'GET',
+    }));
+    expect(fetchMock).toHaveBeenNthCalledWith(14, 'https://api.example.com/trainer/pokemon-center/heal', expect.objectContaining({
+      method: 'POST',
+    }));
+    expect(fetchMock).toHaveBeenNthCalledWith(15, 'https://api.example.com/trainer/pokemon-center/healing-history?limit=12', expect.objectContaining({
       method: 'GET',
     }));
   });

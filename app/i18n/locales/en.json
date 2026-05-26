@@ -36,6 +36,7 @@
     "encounters": "Encounters",
     "pokedex": "Pokedex",
     "myPokemons": "My Pokemons",
+    "pokemonCenter": "Pokemon Center",
     "battle": "Battle"
   },
   "filters": {
@@ -138,15 +139,43 @@
         "foundPokeballs": "Pokeballs found: {{value}}",
         "openBattle": "Open battle",
         "battleModalSubtitle": "Resume the current battle without leaving Home.",
-        "activeBattleTitle": "Active battle",
-        "activeBattlePokemon": "Facing {{name}}",
-        "activeBattleTurn": "Turn {{value}}",
-        "resumeBattle": "Resume battle",
+      "activeBattleTitle": "Active battle",
+      "activeBattlePokemon": "Facing {{name}}",
+      "activeBattleTurn": "Turn {{value}}",
+      "lastHealingTitle": "Latest healing",
+      "lastHealingCount": "{{value}} restored Pokemon",
+      "lastHealingHp": "Restored HP: {{value}}",
+      "lastHealingPp": "Restored PP: {{value}}",
+      "resumeBattle": "Resume battle",
         "eventType": {
           "WILD_POKEMON": "Wild Pokemon",
           "POKEBALLS": "Pokeballs"
         }
       }
+  },
+  "pokemonCenter": {
+    "title": "Pokemon Center",
+    "description": "Restore the main party, recover HP and PP, and review the trainer's detailed healing history.",
+    "loading": "Loading Pokemon Center...",
+    "loadError": "Could not load the Pokemon Center.",
+    "historyLoadError": "Could not load the healing history.",
+    "healButton": "Restore party",
+    "healing": "Restoring...",
+    "healError": "Could not restore the trainer party at the Pokemon Center.",
+    "latestHealingTitle": "Latest healing operation",
+    "lastHealingResult": "Current restoration result",
+    "healedPokemonCount": "{{value}} restored Pokemon",
+    "restoredHp": "Restored HP: {{value}}",
+    "restoredPp": "Restored PP: {{value}}",
+    "revived": "Revive applied",
+    "partyTitle": "Current party",
+    "partyHint": "Restoration always affects every active Pokemon in the main party.",
+    "partySlot": "Slot {{value}}",
+    "hpSummary": "HP {{current}}/{{max}}",
+    "ppSummary": "Total PP {{value}}",
+    "noParty": "No active Pokemon in the main party.",
+    "historyTitle": "Itemized history",
+    "noHistory": "No healing has been recorded yet."
   },
   "myPokemon": {
     "filters": {

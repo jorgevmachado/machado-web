@@ -1,3 +1,4 @@
+import type { TPaginatedListResponse } from '@/app/ds';
 import { TMyPokemon } from '@/app/ui/features/trainer/my_pokemon/types';
 import { TPokedex } from '@/app/ui/features/trainer/pokedex/types';
 
@@ -142,12 +143,64 @@ export type TActiveBattleSummary = {
   has_active_battle: boolean;
 };
 
+export type TLastHealingSummary = {
+  id: string;
+  healed_pokemon_quantity: number;
+  restored_hp: number;
+  restored_pp: number;
+  created_at: string;
+};
+
+export type TPokemonCenterHealingSummary = {
+  id: string;
+  trainer_id: string;
+  healed_pokemon_quantity: number;
+  restored_hp: number;
+  restored_pp: number;
+  created_at: string;
+  updated_at?: string | null;
+  deleted_at?: string | null;
+};
+
+export type TPokemonCenterHistoryPokemon = {
+  id: string;
+  name: string;
+  nickname: string;
+  hp: number;
+  max_hp: number;
+};
+
+export type TPokemonCenterHistoryEntry = {
+  id: string;
+  trainer_id: string;
+  pokemon_center_healing_id: string;
+  my_pokemon_id: string;
+  action_type: string;
+  restored_hp: number;
+  restored_pp: number;
+  was_revived: boolean;
+  created_at: string;
+  updated_at?: string | null;
+  deleted_at?: string | null;
+  my_pokemon: TPokemonCenterHistoryPokemon;
+};
+
+export type TPokemonCenterHealingResult = {
+  success: boolean;
+  message: string;
+  healing_summary?: TPokemonCenterHealingSummary | null;
+  restored_pokemon: Array<TPokemonCenterHistoryEntry>;
+};
+
+export type TPokemonCenterHistoryResponse = TPaginatedListResponse<TPokemonCenterHistoryEntry>;
+
 export type TTrainerHome = {
   trainer: TTrainer;
   active_encounter?: TTrainerEncounter | null;
   party: Array<TTrainerPartyMember>;
   latest_discoveries: Array<TPokedex>;
   active_battle?: TActiveBattleSummary | null;
+  last_healing?: TLastHealingSummary | null;
 };
 
 export type TTrainer = {

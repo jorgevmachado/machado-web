@@ -126,6 +126,13 @@ describe('TrainerDashboard', () => {
             pokemon: { name: 'bulbasaur' },
           },
         ],
+        last_healing: {
+          id: 'healing-1',
+          healed_pokemon_quantity: 2,
+          restored_hp: 30,
+          restored_pp: 12,
+          created_at: '2026-05-25T00:00:00.000Z',
+        },
         active_battle: {
           battle_session_id: 'battle-1',
           status: 'ACTIVE',
@@ -186,6 +193,8 @@ describe('TrainerDashboard', () => {
 
     expect(screen.getByRole('heading', { name: 'home.dashboard.trainerTitle' })).toBeInTheDocument();
     expect(screen.getByText('home.dashboard.pokeballs:{"value":5}')).toBeInTheDocument();
+    expect(screen.getByText('home.dashboard.lastHealingTitle')).toBeInTheDocument();
+    expect(screen.getByText('home.dashboard.lastHealingHp:{"value":30}')).toBeInTheDocument();
     expect(screen.getByText('home.dashboard.eventType.WILD_POKEMON')).toBeInTheDocument();
     expect(screen.getByText('home.dashboard.foundPokemon:{"name":"Pikachu"}')).toBeInTheDocument();
 

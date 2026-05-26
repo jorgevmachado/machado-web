@@ -1,5 +1,6 @@
 import {
   GiCrossedSwords ,
+  GiHealing ,
   GiPositionMarker ,
   GiPunchBlast ,
   GiStumpRegrowth,
@@ -55,6 +56,11 @@ export const getAuthenticatedMenuItems = (translate: (key: string) => string): M
     label: translate('navigation.myPokemons'),
     href: '/my-pokemon',
     icon: MdInventory2,
+  },
+  {
+    label: translate('navigation.pokemonCenter'),
+    href: '/pokemon-center',
+    icon: GiHealing,
   },
   {
     label: translate('navigation.battle'),
