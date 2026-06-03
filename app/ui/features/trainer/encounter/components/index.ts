@@ -1,0 +1,1 @@
+export { default as SelectTrainerEncounters } from './select-trainer-encounters';

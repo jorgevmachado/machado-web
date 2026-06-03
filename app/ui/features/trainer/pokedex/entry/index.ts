@@ -1,0 +1,1 @@
+export type { TPokedexEntry } from './types';

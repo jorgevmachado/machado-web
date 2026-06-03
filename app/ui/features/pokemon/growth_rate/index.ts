@@ -1,8 +1,8 @@
-export { PokemonGrowthRateDetailView } from './detail/PokemonGrowthRateDetailView';
-export { PokemonGrowthRateListView } from './list/PokemonGrowthRateListView';
-export * from './services';
+export {
+  pokemonGrowthRateBffService,
+  pokemonGrowthRateService,
+} from './services';
 export type {
-  PokemonGrowthRateFilters,
-  PokemonGrowthRateListResponse,
   TPokemonGrowthRate,
+  TPokemonGrowthRateFilters
 } from './types';

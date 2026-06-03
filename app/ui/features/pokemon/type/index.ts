@@ -1,10 +1,2 @@
-export { PokemonTypeDetailView } from './detail/PokemonTypeDetailView';
-export { PokemonTypeListView } from './list/PokemonTypeListView';
-export * from './services';
-export { translatePokemonTypeName } from './translatePokemonTypeName';
-export type {
-  PokemonTypeFilters,
-  PokemonTypeListResponse,
-  TPokemonType,
-  TPokemonTypeDamage,
-} from './types';
+export { pokemonTypeBffService, pokemonTypeService } from './services';
+export type { TPokemonType, TPokemonTypeDamage, TPokemonTypeFilters } from './types';

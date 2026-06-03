@@ -1,7 +1,6 @@
-import type { TPaginatedListResponse } from '@/app/ds';
+import { TEntity } from '@/app/ui/types';
 
-export type TPokemonEncounter = {
-  id: string;
+export type TPokemonEncounter = TEntity & {
   url: string;
   name: string;
   order: number;
@@ -12,14 +11,8 @@ export type TPokemonEncounter = {
   max_level: number;
   condition: string;
   max_chance: number;
-  created_at: string;
-  updated_at?: string | null;
-  deleted_at?: string | null;
-};
+}
 
-export type PokemonEncounterFilters = {
+export type TPokemonEncounterFilters = {
   name?: string;
-  order?: string;
-};
-
-export type PokemonEncounterListResponse = TPaginatedListResponse<TPokemonEncounter>;
+}

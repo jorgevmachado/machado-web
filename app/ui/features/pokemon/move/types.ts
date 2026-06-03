@@ -1,28 +1,21 @@
-import type { TPaginatedListResponse } from '@/app/ds';
+import { TEntity } from '@/app/ui/types';
 
-export type TPokemonMove = {
-  id: string;
+export type TPokemonMove = TEntity & {
   pp: number;
   url: string;
   name: string;
   type: string;
   power: number;
   order: number;
-  priority?: number;
   target: string;
   effect: string;
   accuracy: number;
   short_effect: string;
   damage_class: string;
   effect_chance?: number;
-  created_at: string;
-  updated_at?: string;
-  deleted_at?: string;
-};
+}
 
-export type PokemonMoveFilters = {
+export type TPokemonMoveFilters = {
   name?: string;
   order?: string;
-};
-
-export type PokemonMoveListResponse = TPaginatedListResponse<TPokemonMove>;
+}

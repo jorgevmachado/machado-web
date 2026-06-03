@@ -1,5 +1,7 @@
-import { PokemonTypeBffService } from '@/app/ui/features/pokemon/type/services/bff-service/bffService';
+import {
+  PokemonTypeBffService
+} from './bffService';
 
-export const pokemonTypeBffService: PokemonTypeBffService = new PokemonTypeBffService('pokemon/type');
-
-export { PokemonTypeBffService } from './bffService';
+export const pokemonTypeBffService = (): PokemonTypeBffService => {
+  return new PokemonTypeBffService('pokemon/type');
+};

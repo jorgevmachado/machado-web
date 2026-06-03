@@ -6,7 +6,7 @@ describe('PokemonService', () => {
     global.fetch = jest.fn();
   });
 
-  it('calls the list endpoint with query params', async () => {
+  it('calls the Pokemon list endpoint with query params', async () => {
     const fetchMock = global.fetch as jest.Mock;
     fetchMock.mockResolvedValueOnce({
       ok: true,
@@ -15,10 +15,10 @@ describe('PokemonService', () => {
     } as Response);
     const service = new PokemonService('http://api.test', 'token');
 
-    await service.list({ page: '2', limit: '12', type: 'grass' });
+    await service.list({ page: '2', limit: '12', name: 'name' });
 
     expect(fetchMock).toHaveBeenCalledWith(
-      'http://api.test/pokemon?page=2&limit=12&type=grass',
+      'http://api.test/pokemon?page=2&limit=12&name=name',
       expect.objectContaining({
         method: 'GET',
         headers: expect.objectContaining({ Authorization: 'Bearer token' }),
@@ -26,19 +26,19 @@ describe('PokemonService', () => {
     );
   });
 
-  it('calls the detail endpoint by identifier', async () => {
+  it('calls the Pokemon detail endpoint by identifier', async () => {
     const fetchMock = global.fetch as jest.Mock;
     fetchMock.mockResolvedValueOnce({
       ok: true,
       status: 200,
-      json: async () => ({ id: '1', name: 'bulbasaur' }),
+      json: async () => ({ id: '1', name: 'name' }),
     } as Response);
     const service = new PokemonService('http://api.test');
 
-    await service.detail('bulbasaur');
+    await service.detail('name');
 
     expect(fetchMock).toHaveBeenCalledWith(
-      'http://api.test/pokemon/bulbasaur',
+      'http://api.test/pokemon/name',
       expect.objectContaining({ method: 'GET' }),
     );
   });

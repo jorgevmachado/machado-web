@@ -1,20 +1,13 @@
-import type { TPaginatedListResponse } from '@/app/ds';
+import { TEntity } from '@/app/ui/types';
 
-export type TPokemonGrowthRate = {
-  id: string;
+export type TPokemonGrowthRate = TEntity & {
   url: string;
   name: string;
   order: number;
   formula: string;
   description: string;
-  created_at: string;
-  updated_at?: string | null;
-  deleted_at?: string | null;
 };
 
-export type PokemonGrowthRateFilters = {
+export type TPokemonGrowthRateFilters = {
   name?: string;
-  order?: string;
-};
-
-export type PokemonGrowthRateListResponse = TPaginatedListResponse<TPokemonGrowthRate>;
+}

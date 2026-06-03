@@ -1,6 +1,7 @@
-import { BattleSessionView } from '@/app/ui/features/battle';
-
-export default function BattlePage() {
-  return <BattleSessionView />;
+export default function Battle() {
+  return (
+    <div>
+      <h1>BATTLE</h1>
+    </div>
+  );
 }
-

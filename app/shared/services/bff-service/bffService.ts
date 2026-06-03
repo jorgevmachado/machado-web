@@ -1,5 +1,10 @@
-import { Http, ResponseError } from '@/app/shared/services/http';
-import { BffListResponse, BffResponse, DataListResponse } from '@/app/shared/services/bff-service/types';
+import { Http ,RequestConfig ,ResponseError } from '@/app/shared/services/http';
+import {
+  BffDetailResponse ,
+  BffListResponse ,
+  BffResponse ,
+  DataListResponse,
+} from '@/app/shared/services/bff-service/types';
 import { buildQueryString } from '@/app/utils';
 
 export abstract class BffBaseServiceAbstract<T> extends Http {
@@ -22,27 +27,34 @@ export abstract class BffBaseServiceAbstract<T> extends Http {
     return Boolean(response && typeof response === 'object' && 'statusCode' in response);
   };
 
-  public fetchOne = async (identifier: string): Promise<BffResponse<T>> => {
-    const resultResponse: BffResponse<T> = {
-      error: true,
-      status: 500,
-      message: 'Internal Server Error',
-      i18nMessage: `${this.domain}.detail.loadError`,
-    };
-
-    const response = await this.get<T | ResponseError>(`${this.pathUrl}/${identifier}`);
-
+  public validateResponse = <T>(
+    response: DataListResponse<T> | ResponseError | T,
+    i18nMessage: string
+  ): BffResponse<T> => {
     if (this.isResponseError(response)) {
-      resultResponse.status = response.statusCode;
-      resultResponse.message = response.message;
-      return resultResponse;
+      return {
+        error: true,
+        status: response.statusCode,
+        message: response.message,
+        i18nMessage,
+      };
     }
+    return {
+      data: response,
+      error: false,
+      status: 200,
+      message: 'OK',
+      i18nMessage,
+    };
+  };
 
-    resultResponse.data = response;
-    resultResponse.error = false;
-    resultResponse.status = 200;
-    resultResponse.message = 'OK';
-    return resultResponse;
+  public fetchOne = async (identifier: string): Promise<BffDetailResponse<T>> => {
+    const response = await this.get<T | ResponseError>(`${this.pathUrl}/${identifier}`);
+    const validatedResponse = this.validateResponse<T>(response, `${this.domain}.detail.loadError`);
+    return {
+      ...validatedResponse,
+      data: validatedResponse.data as T,
+    };
   };
 
   public fetchAll = async <TFilter>(
@@ -50,28 +62,16 @@ export abstract class BffBaseServiceAbstract<T> extends Http {
     page?: number,
     perPage?: number,
   ): Promise<BffListResponse<T>> => {
-    const resultResponse: BffListResponse<T> = {
-      error: true,
-      status: 500,
-      message: 'Internal Server Error',
-      i18nMessage: `${this.domain}.list.loadError`,
-    };
 
     const queryString = buildQueryString<TFilter>(filters, page, perPage);
     const path = queryString === '' ? this.pathUrl : `${this.pathUrl}?${queryString}`;
     const response = await this.get<DataListResponse<T> | ResponseError>(path);
 
-    if (this.isResponseError(response)) {
-      resultResponse.status = response.statusCode;
-      resultResponse.message = response.message;
-      return resultResponse;
-    }
-
-    resultResponse.data = response;
-    resultResponse.error = false;
-    resultResponse.status = 200;
-    resultResponse.message = 'OK';
-    return resultResponse;
+    const validatedResponse = this.validateResponse<T>(response, `${this.domain}.list.loadError`);
+    return {
+      ...validatedResponse,
+      data: validatedResponse.data as DataListResponse<T>,
+    };
   };
 
   public fetchList = async <TFilter>(
@@ -80,5 +80,31 @@ export abstract class BffBaseServiceAbstract<T> extends Http {
     perPage?: number,
   ): Promise<BffListResponse<T>> => {
     return await this.fetchAll(filters, page, perPage);
+  };
+
+  public bff_path = async <B, T = unknown>(
+    path: string,
+    config?: RequestConfig<B>,
+    i18NMessage: string = `${this.domain}.update.loadError`
+  ): Promise<BffDetailResponse<T>> => {
+    const response = await this.path<B, T>(`${this.pathUrl}/${path}`, config);
+    const validatedResponse = this.validateResponse<T>(response, i18NMessage);
+    return {
+      ...validatedResponse,
+      data: validatedResponse.data as T,
+    };
+  };
+
+  public bff_post = async <B, T = unknown>(
+    path: string,
+    config?: RequestConfig<B>,
+    i18NMessage: string = `${this.domain}.create.loadError`
+  ): Promise<BffDetailResponse<T>> => {
+    const response = await this.post<B, T>(`${this.pathUrl}/${path}`, config);
+    const validatedResponse = this.validateResponse<T>(response, i18NMessage);
+    return {
+      ...validatedResponse,
+      data: validatedResponse.data as T,
+    };
   };
 }

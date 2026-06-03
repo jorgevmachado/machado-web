@@ -1,5 +1,7 @@
-import { PokemonGrowthRateBffService } from '@/app/ui/features/pokemon/growth_rate/services/bff-service/bffService';
+import {
+  PokemonGrowthRateBffService
+} from './bffService';
 
-export const pokemonGrowthRateBffService: PokemonGrowthRateBffService = new PokemonGrowthRateBffService('pokemon/growth-rate');
-
-export { PokemonGrowthRateBffService } from './bffService';
+export const pokemonGrowthRateBffService = (): PokemonGrowthRateBffService => {
+  return new PokemonGrowthRateBffService('pokemon/growth_rate');
+};

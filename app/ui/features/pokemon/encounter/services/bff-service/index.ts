@@ -1,5 +1,7 @@
-import { PokemonEncounterBffService } from '@/app/ui/features/pokemon/encounter/services/bff-service/bffService';
+import {
+  PokemonEncounterBffService
+} from './bffService';
 
-export const pokemonEncounterBffService: PokemonEncounterBffService = new PokemonEncounterBffService('pokemon/encounter');
-
-export { PokemonEncounterBffService } from './bffService';
+export const pokemonEncounterBffService = (): PokemonEncounterBffService => {
+  return new PokemonEncounterBffService('pokemon/encounter');
+};

@@ -47,7 +47,7 @@ export default function Spinner({
   const getSizeClassName = () => {
     if (type === 'bar') return `${barSizeClass[size]} drop-shadow-md`;
     if (type === 'dots') return `${dotsSizeClass[size]} drop-shadow-md`;
-    return `${sizeClass[size]} animate-[pokeball-spin_0.85s_linear_infinite] drop-shadow-md`;
+    return `${sizeClass[size]} drop-shadow-md`;
   };
 
   return (

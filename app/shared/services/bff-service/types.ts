@@ -8,11 +8,16 @@ type TBffResponse = {
 };
 
 export type BffResponse<T> = TBffResponse & {
-  data?: T;
+  data?: T | DataListResponse<T>;
 };
 
 export type DataListResponse<T> = Array<T> | TPaginatedListResponse<T>;
 
 export type BffListResponse<T> = TBffResponse & {
   data?: DataListResponse<T>;
+};
+
+
+export type BffDetailResponse<T> = TBffResponse & {
+  data?: T;
 };

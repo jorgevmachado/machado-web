@@ -1,9 +1,7 @@
-export type TPokemonHabitat = {
-  id: string;
+import { TEntity } from '@/app/ui/types';
+
+export type TPokemonHabitat = TEntity & {
   url: string;
   name: string;
   order: number;
-  created_at: string;
-  updated_at?: string | null;
-  deleted_at?: string | null;
 };

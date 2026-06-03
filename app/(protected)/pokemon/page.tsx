@@ -1,5 +1,8 @@
-import { PokemonListView } from '@/app/ui/features/pokemon';
-
 export default function PokemonPage() {
-  return <PokemonListView />;
+  return (
+    <div>
+      <h1>Pokemon Page</h1>
+      <p>This is the Pokemon page.</p>
+    </div>
+  );
 }

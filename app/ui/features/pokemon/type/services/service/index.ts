@@ -1,9 +1,9 @@
-import { getBaseUrl } from '@/app/utils/url/url';
+import { getBaseUrl } from '@/app/utils';
 
-import { PokemonTypeService } from './service';
+import {
+  PokemonTypeService
+} from './service';
 
 export const pokemonTypeService = (token?: string): PokemonTypeService => {
   return new PokemonTypeService(getBaseUrl(), token);
 };
-
-export { PokemonTypeService } from './service';

@@ -1,14 +1,18 @@
 import { BaseServiceAbstract } from '@/app/shared/services/service/service';
+import {
+  TPokemonType,
+  TPokemonTypeFilters,
+} from '@/app/ui';
+import { TPaginatedListResponse } from '@/app/ds';
 
-import type { TPokemonType, PokemonTypeFilters, PokemonTypeListResponse } from '../../types';
 
 export class PokemonTypeService extends BaseServiceAbstract {
   constructor(baseUrl: string, token?: string) {
     super(baseUrl, 'pokemon/type', token);
   }
 
-  public async list(params: PokemonTypeFilters & { page?: string; limit?: string }): Promise<PokemonTypeListResponse> {
-    return await this.get<PokemonTypeListResponse>(this.pathUrl, { params });
+  public async list(params: TPokemonTypeFilters & { page?: string; limit?: string }): Promise<TPaginatedListResponse<TPokemonType>> {
+    return await this.get<TPaginatedListResponse<TPokemonType>>(this.pathUrl, { params });
   }
 
   public async detail(identifier: string): Promise<TPokemonType> {

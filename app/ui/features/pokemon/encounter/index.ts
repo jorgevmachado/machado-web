@@ -1,4 +1,2 @@
-export { PokemonEncounterDetailView } from './detail/PokemonEncounterDetailView';
-export { PokemonEncounterListView } from './list/PokemonEncounterListView';
-export * from './services';
-export type { PokemonEncounterFilters, PokemonEncounterListResponse, TPokemonEncounter } from './types';
+export { pokemonEncounterBffService,pokemonEncounterService } from './services';
+export type { TPokemonEncounter, TPokemonEncounterFilters } from './types';

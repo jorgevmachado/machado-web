@@ -1,0 +1,1 @@
+export { default as MainParty } from './main-party';

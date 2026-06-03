@@ -1,11 +1,25 @@
 import { BaseServiceAbstract } from '@/app/shared/services/service/service';
+import {
+  TPokemon,
+  TPokemonFilters,
+} from '@/app/ui';
+import { TPaginatedListResponse } from '@/app/ds';
+import {
+  PokemonAbilityService
+} from '@/app/ui/features/pokemon/ability/services/service/service';
+import {
+  PokemonEncounterService
+} from '@/app/ui/features/pokemon/encounter/services/service/service';
+import {
+  PokemonGrowthRateService
+} from '@/app/ui/features/pokemon/growth_rate/services/service/service';
+import {
+  PokemonMoveService
+} from '@/app/ui/features/pokemon/move/services/service/service';
+import {
+  PokemonTypeService
+} from '@/app/ui/features/pokemon/type/services/service/service';
 
-import type { TPokemon, PokemonListFilters, PokemonListResponse } from '../../types';
-import { PokemonAbilityService } from '@/app/ui/features/pokemon/ability/services';
-import { PokemonEncounterService } from '@/app/ui/features/pokemon/encounter/services';
-import { PokemonGrowthRateService } from '../../growth_rate/services/service';
-import { PokemonMoveService } from '../../move/services/service';
-import { PokemonTypeService } from '../../type/services/service';
 
 export class PokemonService extends BaseServiceAbstract {
   private readonly abilityModule: PokemonAbilityService;
@@ -43,8 +57,8 @@ export class PokemonService extends BaseServiceAbstract {
     return this.typeModule;
   }
 
-  public async list(params: PokemonListFilters & { page?: string; limit?: string }): Promise<PokemonListResponse> {
-    return await this.get<PokemonListResponse>(this.pathUrl, { params });
+  public async list(params: TPokemonFilters & { page?: string; limit?: string }): Promise<TPaginatedListResponse<TPokemon>> {
+    return await this.get<TPaginatedListResponse<TPokemon>>(this.pathUrl, { params });
   }
 
   public async detail(identifier: string): Promise<TPokemon> {

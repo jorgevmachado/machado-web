@@ -9,6 +9,10 @@ export default function Pokeball() {
       aria-hidden='true'
       focusable='false'
       className='h-full w-full'
+      style={{
+        animation: 'pokeballSpin 0.85s linear infinite',
+        transformOrigin: '50% 50%',
+      }}
     >
       <circle cx='20' cy='20' r='18.5' fill='#f8fafc' stroke='#0f172a' strokeWidth='2' />
       <path d='M1.5 20h37' stroke='#0f172a' strokeWidth='2' />
@@ -18,6 +22,16 @@ export default function Pokeball() {
       />
       <circle cx='20' cy='20' r='5' fill='#f8fafc' stroke='#0f172a' strokeWidth='2' />
       <circle cx='20' cy='20' r='2.5' fill='#0f172a' />
+      <style>{`
+        @keyframes pokeballSpin {
+          0% {
+            transform: rotate(0deg);
+          }
+          100% {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </svg>
   );
 }

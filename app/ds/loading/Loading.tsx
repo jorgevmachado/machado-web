@@ -14,5 +14,5 @@ type LoadingProps = {
 export default function Loading({ type = 'top-progress-bar', overlay = true, isVisible = true }: LoadingProps) {
   return  type === 'top-progress-bar' ? (
     <TopProgressBar isVisible={isVisible} />
-  ) : <Spinner overlay={overlay} type="pokeball" color="warning"/>;
+  ) : <Spinner overlay={overlay} type={type} color="warning"/>;
 }

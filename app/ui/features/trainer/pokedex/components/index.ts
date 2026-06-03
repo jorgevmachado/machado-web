@@ -1,0 +1,1 @@
+export { default as LatestDiscoveries } from './latest-discoveries';

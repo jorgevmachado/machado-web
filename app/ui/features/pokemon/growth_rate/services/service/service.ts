@@ -1,14 +1,18 @@
 import { BaseServiceAbstract } from '@/app/shared/services/service/service';
+import {
+  TPokemonGrowthRate,
+  TPokemonGrowthRateFilters,
+} from '@/app/ui';
+import { TPaginatedListResponse } from '@/app/ds';
 
-import type { TPokemonGrowthRate, PokemonGrowthRateFilters, PokemonGrowthRateListResponse } from '../../types';
 
 export class PokemonGrowthRateService extends BaseServiceAbstract {
   constructor(baseUrl: string, token?: string) {
-    super(baseUrl, 'pokemon/growth-rate', token);
+    super(baseUrl, 'pokemon/growth_rate', token);
   }
 
-  public async list(params: PokemonGrowthRateFilters & { page?: string; limit?: string }): Promise<PokemonGrowthRateListResponse> {
-    return await this.get<PokemonGrowthRateListResponse>(this.pathUrl, { params });
+  public async list(params: TPokemonGrowthRateFilters & { page?: string; limit?: string }): Promise<TPaginatedListResponse<TPokemonGrowthRate>> {
+    return await this.get<TPaginatedListResponse<TPokemonGrowthRate>>(this.pathUrl, { params });
   }
 
   public async detail(identifier: string): Promise<TPokemonGrowthRate> {

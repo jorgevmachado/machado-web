@@ -1,4 +1,3 @@
-export * from './detail/PokedexDetailView';
-export * from './list/PokedexListView';
-export * from './service';
-export * from './types';
+export { LatestDiscoveries } from './components';
+export { type TPokedexEntry } from './entry';
+export type { TPokedex, TPokedexFilters } from './types';

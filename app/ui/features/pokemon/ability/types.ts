@@ -1,7 +1,6 @@
-import type { TPaginatedListResponse } from '@/app/ds';
+import { TEntity } from '@/app/ui/types';
 
-export type TPokemonAbility = {
-  id: string;
+export type TPokemonAbility = TEntity & {
   url: string;
   name: string;
   slot: number;
@@ -10,14 +9,9 @@ export type TPokemonAbility = {
   is_hidden: boolean;
   flavor_text: string;
   short_effect: string;
-  created_at: string;
-  updated_at?: string | null;
-  deleted_at?: string | null;
-};
+}
 
-export type PokemonAbilityFilters = {
+export type TPokemonAbilityFilters = {
   name?: string;
   order?: string;
-};
-
-export type PokemonAbilityListResponse = TPaginatedListResponse<TPokemonAbility>;
+}

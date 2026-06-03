@@ -1,8 +1,5 @@
-export { PokemonAbilityDetailView } from './detail/PokemonAbilityDetailView';
-export { PokemonAbilityListView } from './list/PokemonAbilityListView';
-export * from './services';
-export type {
-  PokemonAbilityFilters,
-  PokemonAbilityListResponse,
-  TPokemonAbility,
-} from './types';
+export {
+  pokemonAbilityBffService,
+  pokemonAbilityService,
+} from './services';
+export type { TPokemonAbility, TPokemonAbilityFilters } from './types';

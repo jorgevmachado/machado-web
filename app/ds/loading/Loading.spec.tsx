@@ -96,6 +96,8 @@ describe('<Spinner />', () => {
 
 describe('<Bar />', () => {
   it('renders SVG bar', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     render(<Spinner type='bar'><Bar /></Spinner>);
     expect(screen.getByRole('status', { name: 'loading' })).toBeInTheDocument();
   });
@@ -124,6 +126,11 @@ describe('<Pokeball />', () => {
   it('renders standalone', () => {
     const { container } = render(<Pokeball />);
     expect(container.querySelector('svg')).toBeInTheDocument();
+  });
+
+  it('applies a spin animation to the svg', () => {
+    const { container } = render(<Pokeball />);
+    expect(container.querySelector('svg')).toHaveStyle({ animation: 'pokeballSpin 0.85s linear infinite' });
   });
 });
 
