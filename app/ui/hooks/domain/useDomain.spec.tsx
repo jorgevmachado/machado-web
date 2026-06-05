@@ -214,6 +214,24 @@ describe('useDomain', () => {
     });
   });
 
+  it('handles explicit fetchOne errors and paginated results without items when catch error is not Error', async () => {
+    const getOne = jest.fn().mockRejectedValue('detail boom');
+    const getAll = jest.fn().mockRejectedValue('list boom');
+
+    const { result } = renderHook(() => useDomain<{ id: string; name: string }, { name?: string }>({
+      getOne,
+      getAll,
+    }));
+
+    await expect(result.current.fetchOne('missing')).resolves.toBeUndefined();
+    await expect(result.current.fetchList({}, 12)).resolves.toEqual([]);
+
+    expect(showAlertMock).toHaveBeenCalledWith({
+      type: 'error',
+      message: 'translated:common.unknown',
+    });
+  });
+
   it('uses fetchAll defaults when pagination arguments are omitted', async () => {
     const getOne = jest.fn();
     const getAll = jest.fn().mockResolvedValue({

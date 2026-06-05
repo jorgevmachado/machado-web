@@ -3,7 +3,7 @@ import { useAppTranslation } from '@/app/i18n';
 import { useCallback } from 'react';
 import { clampPage } from '@/app/utils';
 import { ShowAlertInput } from '@/app/ds/alert';
-import { BffListResponse, BffResponse } from '@/app/shared';
+import { BffDetailResponse ,BffListResponse } from '@/app/shared';
 
 type UseDomainResult<TItem, TFilters> = {
   fetchOne: (identifier: string, fetchErrorMessage?: string) => Promise<TItem | undefined>;
@@ -16,7 +16,7 @@ type UseDomainResult<TItem, TFilters> = {
 };
 
 type UseDomainParams<TItem, TFilters> = {
-  getOne: (identifier: string) => Promise<BffResponse<TItem>>;
+  getOne: (identifier: string) => Promise<BffDetailResponse<TItem>>;
   getAll: (filters: TFilters, page?: number, perPage?: number) => Promise<BffListResponse<TItem>>;
 };
 
@@ -40,6 +40,7 @@ const useDomain = <TItem, TFilters>({
       }
       return response.data;
     } catch (error) {
+      console.log('# => error => ', error);
       const message = error instanceof Error && error.message ? error.message : errorMessage;
       showAlert({ type: 'error', message });
     } finally {

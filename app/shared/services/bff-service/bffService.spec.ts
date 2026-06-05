@@ -49,7 +49,7 @@ describe('BffBaseServiceAbstract', () => {
   });
 
   describe('fetchOne', () => {
-    it('returns success response when get succeeds', async () => {
+    it('returns success response when fetchOne succeeds', async () => {
       const service = new TestBffService('pokemon');
       const getSpy = jest
         .spyOn(service, 'get')
@@ -67,7 +67,7 @@ describe('BffBaseServiceAbstract', () => {
       });
     });
 
-    it('returns error response when get returns ResponseError', async () => {
+    it('returns error response when fetchOne returns ResponseError', async () => {
       const service = new TestBffService('pokemon');
       jest.spyOn(service, 'get').mockResolvedValueOnce({
         statusCode: 503,
@@ -86,7 +86,7 @@ describe('BffBaseServiceAbstract', () => {
   });
 
   describe('fetchAll', () => {
-    it('returns success response and builds query string with filters and pagination', async () => {
+    it('returns success response fetchAll and builds query string with filters and pagination', async () => {
       const service = new TestBffService('pokemon');
       const data = {
         items: [{ id: '1', name: 'pikachu' }],
@@ -114,7 +114,7 @@ describe('BffBaseServiceAbstract', () => {
       });
     });
 
-    it('calls get without query string when filters are empty and no pagination is provided', async () => {
+    it('calls fetchAll  without query string when filters are empty and no pagination is provided', async () => {
       const service = new TestBffService('pokemon');
       const getSpy = jest.spyOn(service, 'get').mockResolvedValueOnce([]);
 
@@ -123,7 +123,7 @@ describe('BffBaseServiceAbstract', () => {
       expect(getSpy).toHaveBeenCalledWith('pokemon');
     });
 
-    it('returns error response when get returns ResponseError', async () => {
+    it('returns error response fetchAll when get returns ResponseError', async () => {
       const service = new TestBffService('pokemon');
       jest.spyOn(service, 'get').mockResolvedValueOnce({
         statusCode: 500,
@@ -142,7 +142,7 @@ describe('BffBaseServiceAbstract', () => {
   });
 
   describe('fetchList', () => {
-    it('delegates to fetchAll with the same arguments', async () => {
+    it('fetchList delegates to fetchAll with the same arguments', async () => {
       const service = new TestBffService('pokemon');
       const fetchAllSpy = jest.spyOn(service, 'fetchAll').mockResolvedValueOnce({
         data: [],
@@ -161,6 +161,171 @@ describe('BffBaseServiceAbstract', () => {
         status: 200,
         message: 'OK',
         i18nMessage: 'domain.list.loadError',
+      });
+    });
+  });
+  
+  describe('bff_get', () => {
+    it('returns success response when bff_get succeeds', async () => {
+      const service = new TestBffService('pokemon');
+      const getSpy = jest
+        .spyOn(service, 'get')
+        .mockResolvedValueOnce([{ id: '1', name: 'pikachu' }]);
+
+      const response = await service.bff_get();
+
+      expect(getSpy).toHaveBeenCalledWith('pokemon', undefined);
+      expect(response).toEqual({
+        data: [{ id: '1', name: 'pikachu' }],
+        error: false,
+        status: 200,
+        message: 'OK',
+        i18nMessage: 'domain.list.loadError',
+      });
+    });
+
+    it('returns success response with param when bff_get succeeds', async () => {
+      const service = new TestBffService('pokemon');
+      const getSpy = jest
+        .spyOn(service, 'get')
+        .mockResolvedValueOnce({ id: '1', name: 'pikachu' });
+
+      const response = await service.bff_get({ param: 'pikachu' });
+
+      expect(getSpy).toHaveBeenCalledWith('pokemon/pikachu', undefined);
+      expect(response).toEqual({
+        data: { id: '1', name: 'pikachu' },
+        error: false,
+        status: 200,
+        message: 'OK',
+        i18nMessage: 'domain.list.loadError',
+      });
+    });
+
+    it('returns success response with param has / when bff_get succeeds', async () => {
+      const service = new TestBffService('pokemon');
+      const getSpy = jest
+        .spyOn(service, 'get')
+        .mockResolvedValueOnce({ id: '1', name: 'pikachu' });
+
+      const response = await service.bff_get({ param: '/pikachu' });
+
+      expect(getSpy).toHaveBeenCalledWith('pokemon/pikachu', undefined);
+      expect(response).toEqual({
+        data: { id: '1', name: 'pikachu' },
+        error: false,
+        status: 200,
+        message: 'OK',
+        i18nMessage: 'domain.list.loadError',
+      });
+    });
+
+    it('returns success response with param and queryString when bff_get succeeds', async () => {
+      const service = new TestBffService('pokemon');
+      const getSpy = jest
+        .spyOn(service, 'get')
+        .mockResolvedValueOnce([{ id: '1', name: 'pikachu' }]);
+
+      const response = await service.bff_get({ param:'/pikachu',  queryString: 'name=pikachu' });
+
+      expect(getSpy).toHaveBeenCalledWith('pokemon/pikachu?name=pikachu', undefined);
+      expect(response).toEqual({
+        data: [{ id: '1', name: 'pikachu' }],
+        error: false,
+        status: 200,
+        message: 'OK',
+        i18nMessage: 'domain.list.loadError',
+      });
+    });
+  });
+
+  describe('bff_path', () => {
+    it('returns success response when bff_path succeeds', async () => {
+      const service = new TestBffService('trainer/encounter');
+      const dataResponse = { id: 'encounter_id', name: 'pallet', is_active: true };
+      const getSpy = jest
+        .spyOn(service, 'path')
+        .mockResolvedValueOnce(dataResponse);
+      const config = { body: { encounter_id: 'encounter_id' } };
+      const response = await service.bff_path({ param: 'active', config });
+
+      expect(getSpy).toHaveBeenCalledWith('trainer/encounter/active', config);
+      expect(response).toEqual({
+        data: dataResponse,
+        error: false,
+        status: 200,
+        message: 'OK',
+        i18nMessage: 'domain.update.loadError',
+      });
+    });
+
+    it('returns success response with param has / when bff_path  succeeds', async () => {
+      const service = new TestBffService('trainer/encounter');
+      const dataResponse = { id: 'encounter_id', name: 'pallet', is_active: true };
+      const getSpy = jest
+        .spyOn(service, 'path')
+        .mockResolvedValueOnce(dataResponse);
+      const config = { body: { encounter_id: 'encounter_id' } };
+      const response = await service.bff_path({ param: '/active', config });
+
+      expect(getSpy).toHaveBeenCalledWith('trainer/encounter/active', config);
+      expect(response).toEqual({
+        data: dataResponse,
+        error: false,
+        status: 200,
+        message: 'OK',
+        i18nMessage: 'domain.update.loadError',
+      });
+    });
+  });
+
+  describe('bff_post', () => {
+    it('returns success response when bff_post succeeds', async () => {
+      const service = new TestBffService('trainer');
+      const dataResponse = {
+        id: 'trainer_id',
+        name: 'ash',
+        pokemon: { name: 'pikachu' },
+        pokeballs: 1,
+        capture_rate: 70,
+      };
+      const getSpy = jest
+        .spyOn(service, 'post')
+        .mockResolvedValueOnce(dataResponse);
+      const response = await service.bff_post();
+
+      expect(getSpy).toHaveBeenCalledWith('trainer', undefined);
+      expect(response).toEqual({
+        data: dataResponse,
+        error: false,
+        status: 200,
+        message: 'OK',
+        i18nMessage: 'domain.create.loadError',
+      });
+    });
+
+    it('returns success response with param has / when bff_post  succeeds', async () => {
+      const service = new TestBffService('trainer');
+      const dataResponse = {
+        id: 'trainer_id',
+        name: 'ash',
+        pokemon: { name: 'pikachu' },
+        pokeballs: 1,
+        capture_rate: 70,
+      };
+      const getSpy = jest
+        .spyOn(service, 'post')
+        .mockResolvedValueOnce(dataResponse);
+      const config = { body: { pokeballs: 1, capture_Rate: 70 } };
+      const response = await service.bff_post({ param: '/onboard', config });
+
+      expect(getSpy).toHaveBeenCalledWith('trainer/onboard', config);
+      expect(response).toEqual({
+        data: dataResponse,
+        error: false,
+        status: 200,
+        message: 'OK',
+        i18nMessage: 'domain.create.loadError',
       });
     });
   });

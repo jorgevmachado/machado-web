@@ -1,9 +1,9 @@
-import { Http ,RequestConfig ,ResponseError } from '@/app/shared/services/http';
+import { Http ,ResponseError } from '@/app/shared/services/http';
 import {
-  BffDetailResponse ,
-  BffListResponse ,
+  BffDetailResponse ,BffGetParams ,
+  BffListResponse ,BffPathParams ,BffPostParams ,
   BffResponse ,
-  DataListResponse,
+  DataListResponse ,
 } from '@/app/shared/services/bff-service/types';
 import { buildQueryString } from '@/app/utils';
 
@@ -81,30 +81,40 @@ export abstract class BffBaseServiceAbstract<T> extends Http {
   ): Promise<BffListResponse<T>> => {
     return await this.fetchAll(filters, page, perPage);
   };
-
-  public bff_path = async <B, T = unknown>(
-    path: string,
-    config?: RequestConfig<B>,
-    i18NMessage: string = `${this.domain}.update.loadError`
-  ): Promise<BffDetailResponse<T>> => {
-    const response = await this.path<B, T>(`${this.pathUrl}/${path}`, config);
-    const validatedResponse = this.validateResponse<T>(response, i18NMessage);
-    return {
-      ...validatedResponse,
-      data: validatedResponse.data as T,
-    };
+  
+  public bff_get = async <T>(bffGetParams?: BffGetParams): Promise<BffResponse<T>> => {
+    const {
+      param,
+      config,
+      queryString,
+      i18NMessage = `${this.domain}.list.loadError`
+    } = bffGetParams ?? {};
+    const currentParam = param?.startsWith('/') ? param?.substring(1) : param;
+    const pathParam = currentParam ? `${this.pathUrl}/${currentParam}` : this.pathUrl;
+    const path = queryString && queryString !== '' ? `${pathParam}?${queryString}` : pathParam;
+    const response = await this.get<T | DataListResponse<T> | ResponseError>(path, config);
+    return this.validateResponse<T>(response, i18NMessage);
   };
 
-  public bff_post = async <B, T = unknown>(
-    path: string,
-    config?: RequestConfig<B>,
-    i18NMessage: string = `${this.domain}.create.loadError`
-  ): Promise<BffDetailResponse<T>> => {
-    const response = await this.post<B, T>(`${this.pathUrl}/${path}`, config);
-    const validatedResponse = this.validateResponse<T>(response, i18NMessage);
-    return {
-      ...validatedResponse,
-      data: validatedResponse.data as T,
-    };
+  public bff_path = async <B, T = unknown>({
+    param,
+    config,
+    i18NMessage = `${this.domain}.update.loadError`
+  }: BffPathParams<B>): Promise<BffResponse<T>> => {
+    const pathParam = param.startsWith('/') ? param.substring(1) : param;
+    const response = await this.path<B, T>(`${this.pathUrl}/${pathParam}`, config);
+    return this.validateResponse<T>(response, i18NMessage);
+  };
+
+  public bff_post = async <B, T = unknown>(bffPostParams?:BffPostParams<B>): Promise<BffResponse<T>> => {
+    const {
+      param,
+      config,
+      i18NMessage = `${this.domain}.create.loadError`
+    } = bffPostParams ?? {};
+    const currentParam = param?.startsWith('/') ? param?.substring(1) : param;
+    const path = currentParam ? `${this.pathUrl}/${currentParam}` : this.pathUrl;
+    const response = await this.post<B, T>(path, config);
+    return this.validateResponse<T>(response, i18NMessage);
   };
 }

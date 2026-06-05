@@ -9,9 +9,9 @@ export class TrainerEncounterBffService extends BffBaseServiceAbstract<TTrainerE
   }
 
   public active = async (params: TActiveTrainerEncounterParams): Promise<BffDetailResponse<TTrainerEncounter>> => {
-    return await this.bff_path<TActiveTrainerEncounterParams ,TTrainerEncounter>(
-      '/active' ,
-      { body: params } ,
-    );
+    return await this.bff_path<TActiveTrainerEncounterParams ,TTrainerEncounter>({
+      param: 'active' ,
+      config: { body: params }
+    }) as BffDetailResponse<TTrainerEncounter>;
   };
 }

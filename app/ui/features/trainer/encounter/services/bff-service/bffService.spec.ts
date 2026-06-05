@@ -66,4 +66,30 @@ describe('TrainerEncounterBffService', () => {
       i18nMessage: 'trainer.encounter.list.loadError',
     });
   });
+
+  it('builds active endpoint and domain i18n message on bff_path', async () => {
+    const service = new TestTrainerEncounterBffService('trainer/encounter');
+    const bffPathSpy = jest.spyOn(service, 'path').mockResolvedValueOnce({
+      id: 1,
+      name: 'name',
+      encounter_id: 'encounter_id'
+    } as never);
+
+    const response = await service.active({
+      encounter_id: 'encounter_id',
+    });
+    const config = {
+      body: {
+        encounter_id: 'encounter_id',
+      }
+    };
+    expect(bffPathSpy).toHaveBeenCalledWith( 'trainer/encounter/active', config );
+    expect(response).toEqual({
+      data: { id: 1, name: 'name', encounter_id: 'encounter_id' },
+      error: false,
+      status: 200,
+      message: 'OK',
+      i18nMessage: 'trainer.encounter.update.loadError',
+    });
+  });
 });
