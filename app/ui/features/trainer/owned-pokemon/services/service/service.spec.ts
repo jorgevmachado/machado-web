@@ -18,7 +18,7 @@ describe('TrainerOwnedPokemonService', () => {
     await service.list({ page: '2', limit: '12', name: 'name' });
 
     expect(fetchMock).toHaveBeenCalledWith(
-      'http://api.test/trainer/owned-pokemon?page=2&limit=12&name=name',
+      'http://api.test/trainer/pokemon?page=2&limit=12&name=name',
       expect.objectContaining({
         method: 'GET',
         headers: expect.objectContaining({ Authorization: 'Bearer token' }),
@@ -38,7 +38,7 @@ describe('TrainerOwnedPokemonService', () => {
     await service.detail('name');
 
     expect(fetchMock).toHaveBeenCalledWith(
-      'http://api.test/trainer/owned-pokemon/name',
+      'http://api.test/trainer/pokemon/name',
       expect.objectContaining({ method: 'GET' }),
     );
   });

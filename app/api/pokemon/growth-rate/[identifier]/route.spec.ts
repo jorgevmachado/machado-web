@@ -17,8 +17,8 @@ jest.mock('@/app/shared/lib/auth/server', () => ({
   getServerSession: jest.fn(async () => ({ isAuthenticated: true, token: 'token' })),
 }));
 
-jest.mock('@/app/ui/features/pokemon/growth_rate', () => ({
-  pokemonGrowthRateService: jest.fn(() => ({ detail: detailMock })),
+jest.mock('@/app/ui', () => ({
+  pokemonService: jest.fn(() => ({ growthRate: { detail: detailMock } })),
 }));
 
 describe('GET /api/pokemon/growth_rate/[identifier]', () => {

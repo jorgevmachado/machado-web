@@ -1,4 +1,7 @@
-import { convertSubPathUrl, formatUrl, getBaseUrl, sanitizedParams, serialize_url } from './url';
+import {
+  buildDetailUrl ,
+  convertSubPathUrl ,formatUrl ,getBaseUrl ,sanitizedParams ,serialize_url,
+} from './url';
 
 describe('url utils', () => {
   const originalEnv = process.env;
@@ -53,5 +56,10 @@ describe('url utils', () => {
     expect(sanitizedParams(' pikachu ')).toBe('pikachu');
     expect(sanitizedParams('   ')).toBeUndefined();
     expect(sanitizedParams(null)).toBeUndefined();
+  });
+
+  it('build detail url', () => {
+    expect(buildDetailUrl('/pokemon/move/1')).toBe('1');
+    expect(buildDetailUrl('/pokemon/move/2/')).toBe('2');
   });
 });

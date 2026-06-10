@@ -1,9 +1,11 @@
-export { type TPokemonAbility, type TPokemonAbilityFilters } from './ability';
-export { type TPokemonEncounter, type TPokemonEncounterFilters } from './encounter';
+export { AbilityDetails,type TPokemonAbility, type TPokemonAbilityFilters } from './ability';
+export { PokemonCard, PokemonDetail,PokemonFeatures,PokemonGallery, PokemonStats } from './components';
+export { EncountersBadge,type TPokemonEncounter, type TPokemonEncounterFilters } from './encounter';
 export { type TPokemonGrowthRate, type TPokemonGrowthRateFilters } from './growth_rate';
 export { type TPokemonHabitat } from './habitat';
 export { type TPokemonImage } from './image';
-export { type TPokemonMove, type TPokemonMoveFilters } from './move';
+export { MoveDetails,MovesExpand, type TPokemonMove, type TPokemonMoveFilters } from './move';
+export { pokemonBffService, pokemonService } from './services';
 export { type TPokemonShape } from './shape';
-export { type TPokemonType, type TPokemonTypeFilters } from './type';
+export { type TPokemonType, type TPokemonTypeFilters, translatePokemonTypeName, TypeDetails,TypesBadge } from './type';
 export { type TPokemon, type TPokemonFilters } from './types';

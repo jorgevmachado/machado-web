@@ -25,10 +25,10 @@ export {
 } from './bar-chart';
 export {
   default as Breadcrumb,
-  type BreadcrumbItem,
   BreadcrumbProvider,
   buildBreadcrumbs,
   ROUTE_SEGMENT_LABELS,
+  type TBreadcrumbItem,
   useBreadcrumb,
 } from './breadcrumb';
 export {

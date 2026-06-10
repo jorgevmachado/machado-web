@@ -2,6 +2,7 @@
   "common": {
     "yes": "Yes",
     "no": "No",
+    "back": "Back",
     "unknown": "Unknown",
     "recordCount_one": "{{count}} record",
     "recordCount_other": "{{count}} records",
@@ -37,7 +38,8 @@
     "pokedex": "Pokedex",
     "myPokemons": "My Pokemons",
     "pokemonCenter": "Pokemon Center",
-    "battle": "Battle"
+    "battle": "Battle",
+    "catalog": "Catalog"
   },
   "filters": {
     "apply": "Apply filters",
@@ -271,13 +273,14 @@
     }
   },
   "pokemon": {
+    "unknown": "Unknown Pokémon",
     "status": {
       "COMPLETE": "COMPLETE",
       "INCOMPLETE": "INCOMPLETE"
     },
     "list": {
       "title": "Pokemon",
-      "description": "Browse the local catalog and open a Pokemon to enrich its complete profile.",
+      "description": "Explore the catalog of Pokémon captured by your trainer, and see details about each one.",
       "filtersAria": "Pokemon filters",
       "empty": "No Pokemon found.",
       "typesPending": "types pending",
@@ -514,6 +517,31 @@
         "WILD_POKEMON_DEFEATED": "Wild Pokemon defeated",
         "TRAINER_DEFEATED": "Trainer defeated"
       }
+    },
+    "ownedPokemon": {
+      "list": {
+        "title": "Owned Pokemons",
+        "description": "Track the roster already captured by your trainer.",
+        "filtersAria": "Owned Pokemon filters",
+        "empty": "No trainer-owned Pokemon found.",
+        "loadError": "Could not load your Pokemon.",
+        "basePokemonLabel": "Base: {{name}}",
+        "level": "Level {{value}}",
+        "hp": "HP {{current}}/{{max}}",
+        "experience": "XP {{value}}",
+        "moves": "{{count}} moves",
+        "capturedAt": "Captured at {{value}}"
+      }
+    }
+  },
+  "catalog": {
+    "list": {
+      "title": "Pokemon Catalog",
+      "description": "Browse the local catalog and open a Pokemon to enrich its complete profile.",
+      "filtersAria": "Pokemon filters",
+      "empty": "No Pokemon found.",
+      "typesPending": "types pending",
+      "loadError": "Could not load Pokemon Catalog."
     }
   }
 }

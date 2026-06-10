@@ -1,0 +1,1 @@
+export { default as AbilityDetails } from './ability-details';

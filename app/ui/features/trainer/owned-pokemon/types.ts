@@ -1,5 +1,5 @@
 import { TEntity } from '@/app/ui/types';
-import { TProgressionAttributes } from '@/app/ui/features/trainer/types';
+import { TProgressionAttributes } from '@/app/ui';
 import { TPokemon } from '@/app/ui/features/pokemon/types';
 import {
   TOwnedPokemonMove
@@ -17,6 +17,5 @@ export type TOwnedPokemonFilters = {
   type?: string;
   name?: string;
   order?: string;
-  status?: string;
   pokemon_name?: string;
 }

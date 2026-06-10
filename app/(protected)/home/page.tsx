@@ -2,9 +2,11 @@
 import { useUser } from '@/app/ui/features/auth';
 import { Text } from '@/app/ds';
 import { TrainerDashboard } from '@/app/ui/features/trainer';
+import { useAppTranslation } from '@/app/i18n';
 
 export default function Home() {
   const { user } = useUser();
+  const { t } = useAppTranslation();
 
   if (user && !user.trainer) {
     return (
@@ -19,10 +21,10 @@ export default function Home() {
       <div className='mx-auto flex max-w-7xl flex-col gap-6'>
         <div className='flex flex-col gap-3'>
           <Text as='h1' className='text-3xl font-bold text-slate-950 sm:text-4xl'>
-            Home
+            {t('home.title')}
           </Text>
           <Text className='max-w-2xl text-slate-600'>
-            Choose a section from the sidebar to continue exploring the local Pokemon catalog.
+            {t('home.welcome')}
           </Text>
         </div>
         { user?.trainer && (

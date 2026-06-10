@@ -9,6 +9,7 @@ import { AlertProvider ,BreadcrumbProvider ,LoadingProvider } from '@/app/ds';
 import { I18nProvider } from '@/app/i18n';
 import { UserProvider } from '@/app/ui/features/auth';
 import { NavigationFrame } from '@/app/ui';
+import React from 'react';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -53,7 +54,7 @@ export default async function RootLayout({
             >
               <LoadingProvider>
                 <BreadcrumbProvider>
-                  <NavigationFrame isAuthenticated={isAuthenticated}>{children}</NavigationFrame>
+                  <NavigationFrame isAuthenticated={isAuthenticated} role={initialUser?.role}>{children}</NavigationFrame>
                 </BreadcrumbProvider>
               </LoadingProvider>
             </UserProvider>

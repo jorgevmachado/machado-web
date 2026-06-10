@@ -9,15 +9,6 @@ export type TTrainer = TEntity & {
   known_encounters: Array<TTrainerEncounter>;
 }
 
-export type TProgressionAttributes = {
-  hp: number;
-  name: string;
-  level: number;
-  speed: number;
-  max_hp: number;
-  attack: number;
-  defense: number;
-  experience: number;
-  special_attack: number;
-  special_defense: number;
+export type TTrainerFilters = {
+  name?: string;
 }

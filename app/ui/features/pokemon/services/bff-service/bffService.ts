@@ -26,11 +26,11 @@ export class PokemonBffService extends BffBaseServiceAbstract<TPokemon> {
   private readonly typeModule: PokemonTypeBffService;
   constructor(baseUrl: string) {
     super('pokemon' ,baseUrl);
-    this.abilityModule = new PokemonAbilityBffService(baseUrl);
-    this.encounterModule = new PokemonEncounterBffService(baseUrl);
-    this.growthRateModule = new PokemonGrowthRateBffService(baseUrl);
-    this.moveModule = new PokemonMoveBffService(baseUrl);
-    this.typeModule = new PokemonTypeBffService(baseUrl);
+    this.abilityModule = new PokemonAbilityBffService(`${baseUrl}/ability`);
+    this.encounterModule = new PokemonEncounterBffService(`${baseUrl}/encounter`);
+    this.growthRateModule = new PokemonGrowthRateBffService(`${baseUrl}/growth-rate`);
+    this.moveModule = new PokemonMoveBffService(`${baseUrl}/move`);
+    this.typeModule = new PokemonTypeBffService(`${baseUrl}/type`);
   }
 
   get ability(): PokemonAbilityBffService {

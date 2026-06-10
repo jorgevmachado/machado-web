@@ -8,7 +8,7 @@ import { TPaginatedListResponse } from '@/app/ds';
 
 export class PokemonGrowthRateService extends BaseServiceAbstract {
   constructor(baseUrl: string, token?: string) {
-    super(baseUrl, 'pokemon/growth_rate', token);
+    super(baseUrl, 'pokemon/growth-rate', token);
   }
 
   public async list(params: TPokemonGrowthRateFilters & { page?: string; limit?: string }): Promise<TPaginatedListResponse<TPokemonGrowthRate>> {

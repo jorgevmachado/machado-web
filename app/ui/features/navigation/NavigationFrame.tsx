@@ -13,13 +13,15 @@ import { getAuthenticatedMenuItems } from './constants';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
 import './navigation.scss';
+import { RoleEnum } from '@/app/ui/features/auth/user/types';
 
 type NavigationFrameProps = {
-  isAuthenticated: boolean;
+  role?: RoleEnum;
   children: React.ReactNode;
+  isAuthenticated: boolean;
 };
 
-const NavigationFrame = ({ isAuthenticated, children }: NavigationFrameProps) => {
+const NavigationFrame = ({ role = 'USER', isAuthenticated, children }: NavigationFrameProps) => {
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
@@ -27,6 +29,7 @@ const NavigationFrame = ({ isAuthenticated, children }: NavigationFrameProps) =>
   const { t } = useAppTranslation();
   const isSidebarVisible = isAuthenticated && !isSidebarCollapsed;
   const authenticatedMenuItems = getAuthenticatedMenuItems(t);
+  const authenticatedMenuItemsFiltered = authenticatedMenuItems.filter((item) => item.roles.includes(role));
 
   const handleToggleSidebar = useCallback(() => {
     setIsSidebarCollapsed((prev) => !prev);
@@ -50,7 +53,7 @@ const NavigationFrame = ({ isAuthenticated, children }: NavigationFrameProps) =>
       <div className={`${isAuthenticated ? 'app-content' : 'app-content--public'} ${isSidebarVisible ? 'app-content--sidebar-open' : ''}`}>
         {isAuthenticated && (
           <Sidebar
-            items={authenticatedMenuItems}
+            items={authenticatedMenuItemsFiltered}
             isCollapsed={isSidebarCollapsed}
             pathname={pathname}
             onLogout={handleLogout}

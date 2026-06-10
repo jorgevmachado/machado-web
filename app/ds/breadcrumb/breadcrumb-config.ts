@@ -1,4 +1,4 @@
-import type { BreadcrumbItem } from './types';
+import type { TBreadcrumbItem } from './types';
 
 /**
  * Maps URL path segments to human-readable breadcrumb labels.
@@ -16,9 +16,10 @@ export const ROUTE_SEGMENT_LABELS: Record<string, string> = {
   'register-user': 'Register User',
 };
 
-const HOME_BREADCRUMB: BreadcrumbItem = {
+const HOME_BREADCRUMB: TBreadcrumbItem = {
   label: 'Home',
   href: '/home',
+  clickable: true,
   isCurrent: false,
 };
 
@@ -41,13 +42,13 @@ const formatFallbackLabel = (segment: string): string =>
  * buildBreadcrumbs('/home/register-user')  // [Home, Register User*]
  * buildBreadcrumbs('/pokedex')             // [Home, Pokédex*]
  */
-export const buildBreadcrumbs = (pathname: string): BreadcrumbItem[] => {
+export const buildBreadcrumbs = (pathname: string, blockedPaths: Array<string> = []): Array<TBreadcrumbItem> => {
   const segments = pathname.split('/').filter(Boolean);
 
   if (segments.length === 0) return [];
   if (segments.length === 1 && segments[0] === 'home') return [];
 
-  const items: BreadcrumbItem[] = [];
+  const items: Array<TBreadcrumbItem> = [];
 
   const needsHomeRoot = segments[0] !== 'home';
 
@@ -59,11 +60,12 @@ export const buildBreadcrumbs = (pathname: string): BreadcrumbItem[] => {
     const href = '/' + segments.slice(0, index + 1).join('/');
     const label = ROUTE_SEGMENT_LABELS[segment] ?? formatFallbackLabel(segment);
     const isCurrent = index === segments.length - 1;
+    const clickable = !blockedPaths.includes(segment);
 
     if (segment === 'home' && !isCurrent) {
-      items.push({ label, href, isCurrent: false });
+      items.push({ label, href, clickable, isCurrent: false });
     } else {
-      items.push({ label, href, isCurrent });
+      items.push({ label, href, clickable, isCurrent });
     }
   });
 

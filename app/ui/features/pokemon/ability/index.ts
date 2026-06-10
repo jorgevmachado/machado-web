@@ -1,3 +1,4 @@
+export { AbilityDetails } from './components';
 export {
   pokemonAbilityBffService,
   pokemonAbilityService,

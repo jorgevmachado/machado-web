@@ -1,5 +1,4 @@
-import { TEntity } from '@/app/ui/types';
-import { TProgressionAttributes } from '@/app/ui/features/trainer/types';
+import { type TEntity, type TProgressionAttributes } from '@/app/ui';
 
 export type TPokedexEntry = TEntity & TProgressionAttributes & {
   name: string;

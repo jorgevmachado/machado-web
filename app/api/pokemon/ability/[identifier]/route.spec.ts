@@ -17,8 +17,8 @@ jest.mock('@/app/shared/lib/auth/server', () => ({
   getServerSession: jest.fn(async () => ({ isAuthenticated: true, token: 'token' })),
 }));
 
-jest.mock('@/app/ui/features/pokemon/ability', () => ({
-  pokemonAbilityService: jest.fn(() => ({ detail: detailMock })),
+jest.mock('@/app/ui', () => ({
+  pokemonService: jest.fn(() => ({ ability: { detail: detailMock } })),
 }));
 
 describe('GET /api/pokemon/ability/[identifier]', () => {

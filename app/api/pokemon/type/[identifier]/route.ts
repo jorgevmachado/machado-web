@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { getServerSession } from '@/app/shared/lib/auth/server';
-import { pokemonTypeService } from '@/app/ui/features/pokemon/type';
+import { pokemonService } from '@/app/ui';
 
 type PokemonTypeDetailRouteContext = {
   params: Promise<{
@@ -21,7 +21,7 @@ export async function GET(
 
   try {
     const { identifier } = await context.params;
-    const response = await pokemonTypeService(session.token).detail(identifier);
+    const response = await pokemonService(session.token).type.detail(identifier);
     return NextResponse.json(response);
   } catch (error) {
     const message = error instanceof Error && error.message ? error.message : 'Could not load Pokemon type detail.';

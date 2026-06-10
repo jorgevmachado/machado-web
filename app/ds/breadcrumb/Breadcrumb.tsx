@@ -1,13 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import React, { useMemo } from 'react';
+import React from 'react';
 import { MdChevronRight, MdHome } from 'react-icons/md';
 
-import { buildBreadcrumbs } from './breadcrumb-config';
 import { useBreadcrumb } from '@/app/ds/breadcrumb/useBreadcrumb';
-import { Text } from '@/app/ds';
+import BreadcrumbItem from '@/app/ds/breadcrumb/BreadcrumbItem';
 
 /**
  * Global breadcrumb component.
@@ -17,17 +15,9 @@ import { Text } from '@/app/ds';
  * Extend ROUTE_SEGMENT_LABELS in breadcrumb-config.ts to add labels for new routes.
  */
 const Breadcrumb = () => {
-  const pathname = usePathname();
-  const { customLabels } = useBreadcrumb();
-  const items = useMemo(() => {
-    const breadcrumbs = buildBreadcrumbs(pathname);
-    return breadcrumbs.map((item) => ({
-      ...item,
-      label: customLabels[item.href] || item.label,
-    }));
-  }, [customLabels, pathname]);
+  const { breadcrumbs } = useBreadcrumb();
 
-  if (items.length === 0) return null;
+  if (breadcrumbs.length === 0) return null;
 
   return (
     <nav
@@ -45,30 +35,14 @@ const Breadcrumb = () => {
           </Link>
         </li>
 
-        {items.map((item) => (
+        {breadcrumbs.map((item) => (
           <li key={item.href} className='flex items-center gap-x-1'>
             <MdChevronRight
               size={15}
               aria-hidden='true'
               className='shrink-0 text-slate-300'
             />
-            {item.isCurrent ? (
-              <Text
-                size="sm"
-                color="text-slate-700"
-                weight="semibold"
-                aria-current='page'
-              >
-                {item.label}
-              </Text>
-            ) : (
-              <Link
-                href={item.href}
-                className='text-sm font-medium text-slate-400 transition hover:text-blue-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500'
-              >
-                {item.label}
-              </Link>
-            )}
+            <BreadcrumbItem item={item}/>
           </li>
         ))}
       </ol>

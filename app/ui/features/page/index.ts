@@ -1,0 +1,1 @@
+export { DetailsPage, ListPage } from './components';

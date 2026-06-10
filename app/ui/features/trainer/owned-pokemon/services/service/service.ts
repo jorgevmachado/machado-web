@@ -8,7 +8,7 @@ import { TPaginatedListResponse } from '@/app/ds';
 
 export class TrainerOwnedPokemonService extends BaseServiceAbstract {
   constructor(baseUrl: string, token?: string) {
-    super(baseUrl, 'trainer/owned-pokemon', token);
+    super(baseUrl, 'trainer/pokemon', token);
   }
 
   public async list(params: TOwnedPokemonFilters & { page?: string; limit?: string }): Promise<TPaginatedListResponse<TOwnedPokemon>> {

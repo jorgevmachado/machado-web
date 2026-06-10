@@ -10,7 +10,7 @@ type TFilters = {
 export type FiltersProps = {
   filters: Array<TFilters>;
   onApply: (nextFilters: Record<string, string>) => void;
-  onClear: () => void;
+  onClear?: () => void;
   ariaLabel?: string;
   filterCleanLabel?: string;
   filterApplyLabel?: string;

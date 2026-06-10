@@ -37,7 +37,7 @@ const Filters = ({
   const handleClear = () => {
     const resetFilters = initDraftFilters(filters, true);
     setDraftFilters(resetFilters);
-    onClear();
+    onClear?.();
   };
 
   const hasActiveFilters = useMemo(() => {

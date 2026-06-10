@@ -41,3 +41,31 @@ export function convertSubPathUrl({ by, pathUrl, isParam, subPathUrl, conectorPa
 export function sanitizedParams(value: string | null): string | undefined {
   return value?.trim() || undefined;
 }
+
+export function buildDetailUrl(pathname: string) {
+  const segments = pathname.split('/').filter(Boolean);
+  return segments[segments.length - 1];
+}
+
+type BuildPathRelationsParams = {
+  param?: string;
+  origin?: string;
+  domain?: string;
+  relation: string;
+  identifier: string;
+}
+
+export const buildPathRelations = ({
+  param,
+  origin,
+  domain = 'catalog',
+  relation,
+  identifier
+}: BuildPathRelationsParams) => {
+  const path = `/${domain}/${ relation }/${ identifier }`;
+  if (origin) {
+    const originPath = `${ path }?origin=${ origin }`;
+    return !param ? originPath : `${ originPath }&param=${ param }`;
+  }
+  return path;
+};

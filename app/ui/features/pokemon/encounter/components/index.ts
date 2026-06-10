@@ -1,0 +1,1 @@
+export { default as EncountersBadge } from './encounters-badge';

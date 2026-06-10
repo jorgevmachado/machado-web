@@ -10,4 +10,5 @@ export {
 export { type TOwnedPokemon, type TOwnedPokemonFilters } from './owned-pokemon';
 export { MainParty,type TTrainerParty, type TTrainerPartyFilters } from './party';
 export { LatestDiscoveries,type TPokedex ,type TPokedexEntry, type TPokedexFilters } from './pokedex';
-export type { TProgressionAttributes ,TTrainer } from './types';
+export { trainerBffService, trainerService } from './services';
+export type { TTrainer, TTrainerFilters } from './types';

@@ -10,6 +10,7 @@ export type TPokemonMove = TEntity & {
   target: string;
   effect: string;
   accuracy: number;
+  priority: number;
   short_effect: string;
   damage_class: string;
   effect_chance?: number;

@@ -17,13 +17,13 @@ jest.mock('@/app/shared/lib/auth/server', () => ({
   getServerSession: jest.fn(async () => ({ isAuthenticated: true, token: 'token' })),
 }));
 
-jest.mock('@/app/ui/features/pokemon/move', () => ({
-  pokemonMoveService: jest.fn(() => ({ list: listMock })),
+jest.mock('@/app/ui', () => ({
+  pokemonService: jest.fn(() => ({ move: {  list: listMock } })),
 }));
 
 const getServerSessionMock = getServerSession as jest.MockedFunction<typeof getServerSession>;
 
-describe('GET /api/pokemon/move', () => {
+describe('GET /api/catalog/move', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     getServerSessionMock.mockResolvedValue({ isAuthenticated: true, token: 'token' });

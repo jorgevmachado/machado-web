@@ -17,8 +17,8 @@ jest.mock('@/app/shared/lib/auth/server', () => ({
   getServerSession: jest.fn(async () => ({ isAuthenticated: true, token: 'token' })),
 }));
 
-jest.mock('@/app/ui/features/pokemon/type', () => ({
-  pokemonTypeService: jest.fn(() => ({ detail: detailMock })),
+jest.mock('@/app/ui', () => ({
+  pokemonService: jest.fn(() => ({ type: { detail: detailMock } })),
 }));
 
 const getServerSessionMock = getServerSession as jest.MockedFunction<typeof getServerSession>;

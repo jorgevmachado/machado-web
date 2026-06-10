@@ -8,6 +8,7 @@ export type {
   SignUpParams,
 } from './types';
 export {
+  type RoleEnum,
   type TUser,
   UserProvider,
   useUser } from './user';

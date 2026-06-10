@@ -2,6 +2,7 @@
   "common": {
     "yes": "Sí",
     "no": "No",
+    "back": "Volver",
     "unknown": "Desconocido",
     "recordCount_one": "{{count}} registro",
     "recordCount_other": "{{count}} registros",
@@ -37,7 +38,8 @@
     "pokedex": "Pokédex",
     "myPokemons": "Mis Pokémons",
     "pokemonCenter": "Centro Pokémon",
-    "battle": "Batalla"
+    "battle": "Batalla",
+    "catalog": "Catalogo"
   },
   "filters": {
     "apply": "Aplicar filtros",
@@ -271,13 +273,14 @@
     }
   },
   "pokemon": {
+    "unknown": "Pokémon desconocido",
     "status": {
       "COMPLETE": "COMPLETO",
       "INCOMPLETE": "INCOMPLETO"
     },
     "list": {
       "title": "Pokémon",
-      "description": "Explora el catálogo local y abre un Pokémon para enriquecer su perfil completo.",
+      "description": "Explora el catálogo de Pokémon capturados por tu entrenador y descubre detalles sobre cada uno de ellos.",
       "filtersAria": "Filtros de Pokémon",
       "empty": "No se encontraron Pokémon.",
       "typesPending": "tipos pendientes",
@@ -514,6 +517,31 @@
         "WILD_POKEMON_DEFEATED": "Pokémon salvaje derrotado",
         "TRAINER_DEFEATED": "Entrenador derrotado"
       }
+    },
+    "ownedPokemon": {
+      "list": {
+        "title": "Mis Pokémons",
+        "description": "Sigue el equipo ya capturado por tu entrenador.",
+        "filtersAria": "Filtros de mis Pokémons",
+        "empty": "No se encontraron Pokémons del entrenador.",
+        "loadError": "No se pudieron cargar tus Pokémons.",
+        "basePokemonLabel": "Base: {{name}}",
+        "level": "Nivel {{value}}",
+        "hp": "HP {{current}}/{{max}}",
+        "experience": "XP {{value}}",
+        "moves": "{{count}} movimientos",
+        "capturedAt": "Capturado en {{value}}"
+      }
+    }
+  },
+  "catalog": {
+    "list": {
+      "title": "Catálogo Pokémon",
+      "description": "Explora el catálogo local y abre un Pokémon para enriquecer su perfil completo.",
+      "filtersAria": "Filtros de Pokémon",
+      "empty": "No se encontraron Pokémon.",
+      "typesPending": "tipos pendientes",
+      "loadError": "No se pudieron cargar el Catalogo Pokemon."
     }
   }
 }

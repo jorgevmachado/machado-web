@@ -12,59 +12,70 @@ import type { MenuItem } from './types';
 export const getAuthenticatedMenuItems = (translate: (key: string) => string): MenuItem[] => [
   {
     label: translate('navigation.home'),
+    roles: ['USER'],
     href: '/home',
     icon: MdHome,
   },
   {
     label: translate('navigation.pokemon'),
+    roles: ['USER'],
     href: '/pokemon',
-    icon: MdCatchingPokemon,
-    children: [
-      {
-        label: translate('navigation.types'),
-        href: '/pokemon/type',
-        icon: MdCategory,
-      },
-      {
-        label: translate('navigation.abilities'),
-        href: '/pokemon/ability',
-        icon: MdAutoAwesome,
-      },
-      {
-        label: translate('navigation.moves'),
-        href: '/pokemon/move',
-        icon: GiPunchBlast,
-      },
-      {
-        label: translate('navigation.growthRate'),
-        href: '/pokemon/growth-rate',
-        icon: GiStumpRegrowth,
-      },
-      {
-        label: translate('navigation.encounters'),
-        href: '/pokemon/encounter',
-        icon: GiPositionMarker,
-      }
-    ],
+    icon: MdCatchingPokemon
   },
   {
     label: translate('navigation.pokedex'),
+    roles: ['USER'],
     href: '/pokedex',
     icon: MdOutlineCatchingPokemon,
   },
   {
-    label: translate('navigation.myPokemons'),
-    href: '/my-pokemon',
-    icon: MdInventory2,
-  },
-  {
     label: translate('navigation.pokemonCenter'),
+    roles: ['USER'],
     href: '/pokemon-center',
     icon: GiHealing,
   },
   {
     label: translate('navigation.battle'),
+    roles: ['USER'],
     href: '/battle',
     icon: GiCrossedSwords,
+  },
+  {
+    label: translate('navigation.catalog'),
+    href: '/catalog',
+    icon: MdInventory2,
+    roles: ['ADMIN'],
+    children: [
+      {
+        label: translate('navigation.types'),
+        href: '/catalog/type',
+        icon: MdCategory,
+        roles: ['ADMIN'],
+      },
+      {
+        label: translate('navigation.abilities'),
+        href: '/catalog/ability',
+        icon: MdAutoAwesome,
+        roles: ['ADMIN'],
+      },
+      {
+        label: translate('navigation.moves'),
+        href: '/catalog/move',
+        icon: GiPunchBlast,
+        roles: ['ADMIN'],
+      },
+      {
+        label: translate('navigation.growthRate'),
+        href: '/catalog/growth-rate',
+        icon: GiStumpRegrowth,
+        roles: ['ADMIN'],
+      },
+      {
+        label: translate('navigation.encounters'),
+        href: '/catalog/encounter',
+        icon: GiPositionMarker,
+        roles: ['ADMIN'],
+      }
+    ],
   },
 ];
