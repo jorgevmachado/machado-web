@@ -92,7 +92,7 @@ export default function MovePage() {
                 </div>
                 <div className="flex flex-1 flex-col gap-3">
                   <Text className="line-clamp-3 text-sm text-slate-700">
-                    {growthRate.formula || t('pokemon.growthRate.list.formulaPending')}
+                    {growthRate.formula || t('pokemon.growthRate.formulaPending')}
                   </Text>
                 </div>
 

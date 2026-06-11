@@ -45,18 +45,18 @@ export default function PokemonFeatures({
   const { t } = useAppTranslation();
 
   const attributes = [
-    { id: 1, label: t('pokemon.detail.labels.height'), value: formatNumber(height) },
-    { id: 2, label: t('pokemon.detail.labels.weight'), value: formatNumber(weight) },
-    { id: 3, label: t('pokemon.detail.labels.habitat'), value: habitat ? formatLabel(habitat.name) : t('common.unknown') },
-    { id: 4, label: t('pokemon.detail.labels.shape'), value: shape ? formatLabel(shape.name) : t('common.unknown') },
-    { id: 5, label: t('pokemon.detail.labels.hatchCounter'), value: formatNumber(hatch_counter) },
-    { id: 6, label: t('pokemon.detail.labels.captureRate'), value: formatNumber(capture_rate) },
-    { id: 7, label: t('pokemon.detail.labels.baseHappiness'), value: formatNumber(base_happiness) },
-    { id: 8, label: t('pokemon.detail.labels.baseExperience'), value: formatNumber(base_experience) },
-    { id: 9, label: t('pokemon.detail.labels.isBaby'), value: is_baby ? t('common.yes') : t('common.no') },
-    { id: 10, label: t('pokemon.detail.labels.isMythical'), value: is_mythical ? t('common.yes') : t('common.no') },
-    { id: 11, label: t('pokemon.detail.labels.isLegendary'), value: is_legendary ? t('common.yes') : t('common.no') },
-    { id: 12, label: t('pokemon.detail.labels.hasGenderDifferences'), value: has_gender_differences ? t('common.yes') : t('common.no') },
+    { id: 1, label: t('pokemon.height'), value: formatNumber(height) },
+    { id: 2, label: t('pokemon.weight'), value: formatNumber(weight) },
+    { id: 3, label: t('pokemon.habitat'), value: habitat ? formatLabel(habitat.name) : t('common.unknown') },
+    { id: 4, label: t('pokemon.shape'), value: shape ? formatLabel(shape.name) : t('common.unknown') },
+    { id: 5, label: t('pokemon.hatchCounter'), value: formatNumber(hatch_counter) },
+    { id: 6, label: t('pokemon.captureRate'), value: formatNumber(capture_rate) },
+    { id: 7, label: t('pokemon.baseHappiness'), value: formatNumber(base_happiness) },
+    { id: 8, label: t('pokemon.baseExperience'), value: formatNumber(base_experience) },
+    { id: 9, label: t('pokemon.isBaby'), value: is_baby ? t('common.yes') : t('common.no') },
+    { id: 10, label: t('pokemon.isMythical'), value: is_mythical ? t('common.yes') : t('common.no') },
+    { id: 11, label: t('pokemon.isLegendary'), value: is_legendary ? t('common.yes') : t('common.no') },
+    { id: 12, label: t('pokemon.hasGenderDifferences'), value: has_gender_differences ? t('common.yes') : t('common.no') },
   ];
 
   return (
@@ -69,7 +69,7 @@ export default function PokemonFeatures({
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="space-y-3">
             <Text as="small" color="text-slate-400" weight="semibold" className="uppercase tracking-[0.28em]">
-              {t('pokemon.detail.number', { value: String(order).padStart(3, '0') })}
+              {t('pokemon.order', { value: String(order).padStart(3, '0') })}
             </Text>
             <Text as="h1" className="capitalize">
               {name}

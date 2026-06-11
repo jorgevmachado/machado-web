@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useAlert, useLoading } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
 
-import { BffResponse } from '@/app/shared';
+import { BffDetailResponse } from '@/app/shared';
 
 type DetailState<TItem> = {
   data?: TItem;
@@ -11,7 +11,7 @@ type DetailState<TItem> = {
   errorMessage?: string;
 };
 
-type FetchDetailFn<TItem> = (identifier: string) => Promise<BffResponse<TItem>>;
+type FetchDetailFn<TItem> = (identifier: string) => Promise<BffDetailResponse<TItem>>;
 
 type UseDetailParams<TItem> = {
   identifier: string;

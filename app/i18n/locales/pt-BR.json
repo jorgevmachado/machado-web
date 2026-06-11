@@ -1,66 +1,9 @@
 {
-  "common": {
-    "yes": "Sim",
-    "no": "Não",
-    "back": "Voltar",
-    "unknown": "Desconhecido",
-    "recordCount_one": "{{count}} registro",
-    "recordCount_other": "{{count}} registros",
-    "viewMore": "Ver mais"
-  },
-  "language": {
-    "label": "Selecionar idioma",
-    "selector": "Seletor de idioma",
-    "changeTo": "Alterar idioma para {{language}}",
-    "ptBR": "Português",
-    "en": "Inglês",
-    "es": "Espanhol"
-  },
-  "navigation": {
-    "title": "Sistema Pokémon",
-    "subtitle": "Portal do Treinador",
-    "expandSidebar": "Expandir barra lateral",
-    "collapseSidebar": "Recolher barra lateral",
-    "closeSidebar": "Fechar barra lateral",
-    "pokeballLogo": "Logo da Pokebola",
-    "sidebar": "Barra lateral",
-    "authenticatedNavigation": "Navegação autenticada",
-    "expandSection": "Expandir {{section}}",
-    "collapseSection": "Recolher {{section}}",
-    "signOut": "Sair",
-    "home": "Início",
-    "pokemon": "Pokémon",
-    "types": "Tipos",
-    "abilities": "Habilidades",
-    "moves": "Movimentos",
-    "growthRate": "Taxa de Crescimento",
-    "encounters": "Encontros",
-    "pokedex": "Pokédex",
-    "myPokemons": "Meus Pokémons",
-    "pokemonCenter": "Centro Pokémon",
-    "battle": "Batalha",
-    "catalog": "Catálogo"
-  },
-  "filters": {
-    "apply": "Aplicar filtros",
-    "clear": "Limpar filtros",
-    "noOptions": "Nenhuma opção encontrada.",
-    "name": "Nome",
-    "order": "Ordem",
-    "type": "Tipo",
-    "status": "Status"
-  },
-  "pagination": {
-    "ariaLabel": "Paginação",
-    "goToPage": "Ir para a página {{page}}",
-    "previous": "Ir para a página anterior",
-    "next": "Ir para a próxima página"
-  },
   "auth": {
     "login": {
       "title": "Entrar",
-      "subtitle": "Bem-vindo de volta! Informe suas credenciais abaixo.",
-      "credentialLabel": "E-mail ou usuário",
+      "subtitle": "Bem-vindo de volta! Digite suas credenciais abaixo.",
+      "credentialLabel": "E-mail ou nome de usuário",
       "credentialPlaceholder": "voce@exemplo.com ou seu_usuario",
       "passwordLabel": "Senha",
       "passwordPlaceholder": "••••••••",
@@ -69,16 +12,28 @@
       "noAccount": "Não tem uma conta?",
       "signUp": "Cadastre-se"
     },
+    "errors": {
+      "invalidCredential": "Digite seu e-mail ou nome de usuário.",
+      "invalidFullName": "Digite seu nome completo.",
+      "invalidBirthDate": "Informe sua data de nascimento.",
+      "invalidGender": "Selecione seu gênero.",
+      "invalidUsername": "Digite um nome de usuário.",
+      "invalidEmail": "Digite um e-mail válido.",
+      "passwordConfirmation": "A confirmação de senha não confere.",
+      "passwordRule": "A senha deve conter pelo menos 7 caracteres, uma letra maiúscula e um caractere especial.",
+      "defaultLogin": "Não foi possível entrar. Tente novamente.",
+      "accessDenied": "Você não tem permissão para acessar esta página."
+    },
     "register": {
-      "title": "Criar conta",
+      "title": "Criar uma conta",
       "subtitle": "Preencha os dados abaixo para começar.",
       "successTitle": "Conta criada!",
-      "successAction": "Ir para entrar",
+      "successAction": "Ir para Entrar",
       "fullName": "Nome completo",
       "fullNamePlaceholder": "Ash Ketchum",
       "email": "E-mail",
       "emailPlaceholder": "voce@exemplo.com",
-      "username": "Usuário",
+      "username": "Nome de usuário",
       "usernamePlaceholder": "ash_ketchum",
       "gender": "Gênero",
       "genderPlaceholder": "Selecione o gênero",
@@ -95,392 +50,98 @@
     },
     "messages": {
       "accountCreated": "Conta criada! Faça login."
-    },
-    "errors": {
-      "invalidCredential": "Informe seu e-mail ou usuário.",
-      "invalidFullName": "Informe seu nome completo.",
-      "invalidBirthDate": "Informe sua data de nascimento.",
-      "invalidGender": "Selecione seu gênero.",
-      "invalidUsername": "Informe um nome de usuário.",
-      "invalidEmail": "Informe um endereço de e-mail válido.",
-      "passwordConfirmation": "A confirmação de senha não confere.",
-      "passwordRule": "A senha deve conter ao menos 7 caracteres, uma letra maiúscula e um caractere especial.",
-      "defaultLogin": "Não foi possível entrar. Tente novamente.",
-      "accessDenied": "Você não tem permissão para acessar esta página."
     }
   },
   "home": {
     "title": "Início",
-    "welcome": "Escolha uma seção na barra lateral para continuar explorando o catálogo local de Pokémon.",
+    "welcome": "Escolha uma seção na barra lateral para continuar explorando o catálogo local de Pokemon.",
     "dashboard": {
       "loading": "Carregando painel do treinador...",
       "loadError": "Não foi possível carregar o painel do treinador.",
       "trainerTitle": "Resumo do treinador",
-      "pokeballs": "Pokébolas: {{value}}",
-      "captureRate": "Capture Rate: {{value}}",
-      "activeEncounter": "Encounter ativo",
-      "noActiveEncounter": "Nenhum encounter ativo selecionado.",
-      "chooseEncounter": "Escolha um encounter conhecido para começar a explorar.",
+      "pokeballs": "Pokeballs: {{value}}",
+      "captureRate": "Taxa de captura: {{value}}",
+      "activeEncounter": "Encontro ativo",
+      "noActiveEncounter": "Nenhum encontro ativo selecionado.",
+      "chooseEncounter": "Escolha um encontro conhecido para começar a explorar.",
       "walkTitle": "Exploração",
       "walkButton": "Dar um passo",
       "walking": "Explorando...",
       "lastEvent": "Último evento",
-      "encountersTitle": "Encounters conhecidos",
+      "encountersTitle": "Encontros conhecidos",
       "active": "Ativo",
-      "encounterSelectError": "Não foi possível alterar o encounter ativo.",
-      "latestDiscoveries": "Últimas descobertas",
+      "encounterSelectError": "Não foi possível alterar o encontro ativo.",
+      "latestDiscoveries": "Descobertas recentes",
       "noDiscoveries": "Nenhuma descoberta recente encontrada.",
       "noDiscoveryDate": "Data de descoberta indisponível.",
-      "partyTitle": "Party principal",
-      "partyHint": "Selecione até seis Pokémons do treinador para a party principal.",
-      "saveParty": "Salvar party",
-      "savingParty": "Salvando party...",
-      "partySaveError": "Não foi possível atualizar a party principal.",
-      "inParty": "Na party",
-        "walkError": "Não foi possível explorar o encounter ativo.",
-        "foundPokemon": "Pokémon encontrado: {{name}}",
-        "foundPokeballs": "Pokébolas encontradas: {{value}}",
-        "openBattle": "Abrir batalha",
-        "battleModalSubtitle": "Retome a batalha atual sem sair da Home.",
+      "partyTitle": "Time principal",
+      "partyHint": "Selecione até seis Pokemon do treinador para o time principal.",
+      "saveParty": "Salvar time",
+      "savingParty": "Salvando time...",
+      "partySaveError": "Não foi possível atualizar o time principal.",
+      "inParty": "No time",
+      "walkError": "Não foi possível explorar o encontro ativo.",
+      "foundPokemon": "Pokemon encontrado: {{name}}",
+      "foundPokeballs": "Pokeballs encontradas: {{value}}",
+      "openBattle": "Abrir batalha",
+      "battleModalSubtitle": "Retome a batalha atual sem sair do Início.",
       "activeBattleTitle": "Batalha ativa",
       "activeBattlePokemon": "Enfrentando {{name}}",
       "activeBattleTurn": "Turno {{value}}",
       "lastHealingTitle": "Última cura",
-      "lastHealingCount": "{{value}} Pokémon(s) restaurado(s)",
+      "lastHealingCount": "{{value}} Pokemon restaurados",
       "lastHealingHp": "HP restaurado: {{value}}",
       "lastHealingPp": "PP restaurado: {{value}}",
       "resumeBattle": "Retomar batalha",
-        "eventType": {
-          "WILD_POKEMON": "Pokémon selvagem",
-          "POKEBALLS": "Pokébolas"
-        }
-      }
-  },
-  "pokemonCenter": {
-    "title": "Centro Pokémon",
-    "description": "Restaure a party principal, recupere HP e PP e acompanhe o histórico detalhado de healing do treinador.",
-    "loading": "Carregando Centro Pokémon...",
-    "loadError": "Não foi possível carregar o Centro Pokémon.",
-    "historyLoadError": "Não foi possível carregar o histórico de healing.",
-    "healButton": "Restaurar party",
-    "healing": "Restaurando...",
-    "healError": "Não foi possível restaurar a party no Centro Pokémon.",
-    "latestHealingTitle": "Última operação de cura",
-    "lastHealingResult": "Resultado da restauração atual",
-    "healedPokemonCount": "{{value}} Pokémon(s) restaurado(s)",
-    "restoredHp": "HP restaurado: {{value}}",
-    "restoredPp": "PP restaurado: {{value}}",
-    "revived": "Revive aplicado",
-    "partyTitle": "Party atual",
-    "partyHint": "A restauração sempre afeta todos os Pokémons ativos da party principal.",
-    "partySlot": "Slot {{value}}",
-    "hpSummary": "HP {{current}}/{{max}}",
-    "ppSummary": "PP total {{value}}",
-    "noParty": "Nenhum Pokémon ativo na party principal.",
-    "historyTitle": "Histórico item a item",
-    "noHistory": "Nenhum healing registrado até agora."
-  },
-  "myPokemon": {
-    "filters": {
-      "basePokemon": "Pokémon base"
-    },
-    "list": {
-      "title": "Meus Pokémons",
-      "description": "Acompanhe o elenco já capturado pelo seu treinador.",
-      "filtersAria": "Filtros de meus Pokémons",
-      "empty": "Nenhum Pokémon do treinador encontrado.",
-      "loadError": "Não foi possível carregar seus Pokémons.",
-      "basePokemonLabel": "Base: {{name}}",
-      "level": "Nível {{value}}",
-      "hp": "HP {{current}}/{{max}}",
-      "experience": "XP {{value}}",
-      "moves": "{{count}} movimentos",
-      "capturedAt": "Capturado em {{value}}"
-    },
-    "detail": {
-      "loading": "Carregando Pokémon do treinador...",
-      "notFound": "Pokémon do treinador não encontrado.",
-      "back": "Voltar para Meus Pokémons",
-      "loadError": "Não foi possível carregar o detalhe do Pokémon do treinador.",
-      "publicName": "Identificador {{value}}",
-      "basePokemon": "Pokémon base: {{name}}",
-      "capturedAt": "Capturado em {{value}}",
-      "experience": "Experiência",
-      "hp": "HP",
-      "pokeballs": "Pokébolas",
-      "captureRate": "Capture Rate",
-      "moves": "Movimentos",
-      "moveMeta": "Tipo {{type}} • Poder {{power}} • Precisão {{accuracy}}",
-      "movePp": "PP {{current}}/{{max}}"
-    },
-    "onboarding": {
-      "title": "Escolha seu primeiro Pokémon",
-      "userDescription": "Você ainda não possui um treinador. Escolha um dos três iniciais para começar sua jornada.",
-      "adminDescription": "Você ainda não possui um treinador. Como admin, pode escolher qualquer Pokémon e ajustar os parâmetros iniciais do treinador.",
-      "nicknameLabel": "Nickname",
-      "nicknamePlaceholder": "Opcional",
-      "pokeballsLabel": "Pokébolas iniciais",
-      "captureRateLabel": "Capture Rate inicial",
-      "selectPokemonLabel": "Pokémon",
-      "selectPokemonPlaceholder": "Digite para buscar um Pokémon",
-      "loadOptionsError": "Não foi possível carregar a lista de Pokémon para o onboarding.",
-      "submit": "Criar treinador",
-      "submitting": "Criando treinador...",
-      "submitError": "Não foi possível concluir o onboarding.",
-      "success": "Treinador e primeiro Pokémon criados com sucesso.",
-      "validation": {
-        "selectPokemon": "Selecione um Pokémon para continuar."
+      "eventType": {
+        "WILD_POKEMON": "Pokemon selvagem",
+        "POKEBALLS": "Pokeballs"
       }
     }
   },
-  "pokedex": {
-    "filters": {
-      "nickname": "Nickname",
-      "basePokemon": "Pokémon base",
-      "discovered": "Descoberto"
-    },
-    "list": {
-      "title": "Pokédex do Treinador",
-      "description": "Acompanhe o progresso de descoberta do seu treinador por espécie.",
-      "filtersAria": "Filtros da Pokédex",
-      "empty": "Nenhuma entrada de Pokédex encontrada.",
-      "loadError": "Não foi possível carregar a Pokédex.",
-      "basePokemonLabel": "Base: {{name}}",
-      "level": "Nível {{value}}",
-      "hp": "HP {{current}}/{{max}}",
-      "experience": "XP {{value}}",
-      "discovered": "Descoberto",
-      "undiscovered": "Não descoberto",
-      "discoveredAt": "Descoberto em {{value}}",
-      "notDiscoveredAt": "Ainda não descoberto"
-    },
-    "detail": {
-      "loading": "Carregando entrada da Pokédex...",
-      "notFound": "Entrada da Pokédex não encontrada.",
-      "back": "Voltar para Pokédex",
-      "loadError": "Não foi possível carregar o detalhe da Pokédex.",
-      "basePokemonNumber": "Pokémon #{{value}}",
-      "basePokemon": "Pokémon base: {{name}}",
-      "discoveredAt": "Descoberto em {{value}}",
-      "discoveredAtLabel": "Data da descoberta",
-      "notDiscovered": "Ainda não descoberto",
-      "experience": "Experiência",
-      "hp": "HP",
-      "level": "Nível",
-      "captureRate": "Capture Rate",
-      "pokeballs": "Pokébolas",
-      "status": "Status",
-      "discovery": "Descoberta"
-    }
-  },
-  "pokemon": {
-    "unknown": "Pokémon desconhecido",
-    "status": {
-      "COMPLETE": "COMPLETO",
-      "INCOMPLETE": "INCOMPLETO"
-    },
-    "list": {
-      "title": "Pokémon",
-      "description": "Explore o catálogo de pokémons capturados pelo seu treinador, e veja detalhes de cada um.",
-      "filtersAria": "Filtros de Pokémon",
-      "empty": "Nenhum Pokémon encontrado.",
-      "typesPending": "tipos pendentes",
-      "loadError": "Não foi possível carregar os Pokémon."
-    },
-    "detail": {
-      "loading": "Carregando Pokémon...",
-      "notFound": "Pokémon não encontrado.",
-      "back": "Voltar para a lista",
-      "number": "Nº {{value}}",
-      "statistics": "Estatísticas",
-      "abilities": "Habilidades",
-      "growthRate": "Taxa de Crescimento",
-      "strengths": "Vantagens",
-      "weaknesses": "Fraquezas",
-      "found": "Encontrado",
-      "labels": {
-        "hp": "HP",
-        "attack": "Ataque",
-        "defense": "Defesa",
-        "speed": "Velocidade",
-        "specialAttack": "Atq. Esp.",
-        "specialDefense": "Def. Esp.",
-        "height": "Altura",
-        "weight": "Peso",
-        "habitat": "Habitat",
-        "shape": "Forma",
-        "hatchCounter": "Contador de Ovo",
-        "captureRate": "Taxa de Captura",
-        "baseHappiness": "Felicidade Base",
-        "baseExperience": "Experiência Base",
-        "isBaby": "É Bebê",
-        "isMythical": "É Mítico",
-        "isLegendary": "É Lendário",
-        "hasGenderDifferences": "Tem Diferenças de Gênero"
-      },
-      "loadError": "Não foi possível carregar o detalhe do Pokémon."
-    },
-    "type": {
-      "names": {
-        "normal": "Normal",
-        "fire": "Fogo",
-        "water": "Água",
-        "electric": "Elétrico",
-        "grass": "Grama",
-        "ice": "Gelo",
-        "fighting": "Lutador",
-        "poison": "Veneno",
-        "ground": "Terrestre",
-        "flying": "Voador",
-        "psychic": "Psíquico",
-        "bug": "Inseto",
-        "rock": "Pedra",
-        "ghost": "Fantasma",
-        "dragon": "Dragão",
-        "dark": "Sombrio",
-        "steel": "Aço",
-        "fairy": "Fada"
-      },
-      "list": {
-        "title": "Tipos de Pokémon",
-        "description": "Veja badges, cores, vantagens e fraquezas de cada tipo.",
-        "filtersAria": "Filtros de tipos de Pokémon",
-        "empty": "Nenhum tipo de Pokémon encontrado.",
-        "open": "Abrir tipo {{name}}",
-        "strengthCount_one": "{{count}} vantagem",
-        "strengthCount_other": "{{count}} vantagens",
-        "weaknessCount_one": "{{count}} fraqueza",
-        "weaknessCount_other": "{{count}} fraquezas",
-        "fallbackDescription": "Explore relações de dano e identidade visual deste tipo.",
-        "loadError": "Não foi possível carregar os tipos de Pokémon."
-      },
-      "detail": {
-        "loading": "Carregando tipo de Pokémon...",
-        "notFound": "Tipo de Pokémon não encontrado.",
-        "back": "Voltar para Tipos",
-        "descriptionFallback": "Nenhuma descrição disponível.",
-        "strengths": "Vantagens",
-        "weaknesses": "Fraquezas",
-        "loadError": "Não foi possível carregar o detalhe do tipo de Pokémon."
-      }
-    },
-    "ability": {
-      "list": {
-        "title": "Habilidades de Pokémon",
-        "description": "Leia efeitos, flavor text e metadados de habilidades ocultas.",
-        "filtersAria": "Filtros de habilidades de Pokémon",
-        "empty": "Nenhuma habilidade de Pokémon encontrada.",
-        "open": "Abrir habilidade {{name}}",
-        "hidden": "Oculta",
-        "standard": "Padrão",
-        "slot": "Slot {{value}}",
-        "effectPending": "Efeito pendente.",
-        "loadError": "Não foi possível carregar as habilidades de Pokémon."
-      },
-      "detail": {
-        "loading": "Carregando habilidade de Pokémon...",
-        "notFound": "Habilidade de Pokémon não encontrada.",
-        "back": "Voltar para Habilidades",
-        "shortEffect": "Efeito Curto",
-        "effect": "Efeito",
-        "flavorText": "Flavor Text",
-        "shortEffectPending": "Efeito curto pendente.",
-        "effectPending": "Efeito pendente.",
-        "flavorTextPending": "Flavor text pendente.",
-        "loadError": "Não foi possível carregar o detalhe da habilidade de Pokémon."
-      }
-    },
-    "move": {
-      "list": {
-        "title": "Movimentos de Pokémon",
-        "description": "Explore efeitos, metadados de combate e informações de alvo.",
-        "filtersAria": "Filtros de movimentos de Pokémon",
-        "empty": "Nenhum movimento de Pokémon encontrado.",
-        "open": "Abrir movimento {{name}}",
-        "power": "Poder {{value}}",
-        "accuracy": "Precisão {{value}}",
-        "pp": "PP {{value}}",
-        "effectPending": "Efeito pendente.",
-        "loadError": "Não foi possível carregar os movimentos de Pokémon."
-      },
-      "detail": {
-        "loading": "Carregando movimento de Pokémon...",
-        "notFound": "Movimento de Pokémon não encontrado.",
-        "back": "Voltar para Movimentos",
-        "shortEffect": "Efeito Curto",
-        "effect": "Efeito",
-        "moveData": "Dados do Movimento",
-        "shortEffectPending": "Efeito curto pendente.",
-        "effectPending": "Efeito pendente.",
-        "power": "Poder",
-        "accuracy": "Precisão",
-        "pp": "PP",
-        "chance": "Chance",
-        "target": "Alvo",
-        "class": "Classe",
-        "loadError": "Não foi possível carregar o detalhe do movimento de Pokémon."
-      }
-    },
-    "growthRate": {
-      "list": {
-        "title": "Taxa de Crescimento de Pokémon",
-        "filtersAria": "Filtros de taxa de crescimento de Pokémon",
-        "empty": "Nenhuma taxa de crescimento de Pokémon encontrada.",
-        "open": "Abrir taxa de crescimento {{name}}",
-        "formulaPending": "Fórmula pendente.",
-        "loadError": "Não foi possível carregar as taxas de crescimento de Pokémon."
-      },
-      "detail": {
-        "loading": "Carregando taxa de crescimento de Pokémon...",
-        "notFound": "Taxa de crescimento de Pokémon não encontrada.",
-        "back": "Voltar para Taxas de Crescimento",
-        "formula": "Fórmula",
-        "formulaPending": "Fórmula pendente.",
-        "tableTitle": "Tabela de Experiência por Nível",
-        "level": "Nível",
-        "experience": "Experiência",
-        "loadError": "Não foi possível carregar o detalhe da taxa de crescimento de Pokémon."
-      }
-    },
-    "encounter": {
-      "list": {
-        "title": "Encontros de Pokémon",
-        "filtersAria": "Filtros de encontros de Pokémon",
-        "empty": "Nenhum encontro de Pokémon encontrado.",
-        "open": "Abrir encontro {{name}}",
-        "method": "Método: {{value}}",
-        "pending": "Encontro pendente.",
-        "loadError": "Não foi possível carregar os encontros de Pokémon."
-      },
-      "detail": {
-        "loading": "Carregando encontro de Pokémon...",
-        "notFound": "Encontro de Pokémon não encontrado.",
-        "back": "Voltar para Encontros",
-        "chance": "Chance",
-        "minLevel": "Nível Mínimo",
-        "maxLevel": "Nível Máximo",
-        "maxChance": "Chance Máxima",
-        "condition": "Condição",
-        "method": "Método",
-        "loadError": "Não foi possível carregar o detalhe do encontro de Pokémon."
-      }
-    },
-    "movesExpand": {
-      "title": "Movimentos",
-      "description": "Ataques destacados em lotes progressivos para manter o ritmo da página.",
-      "total_one": "{{count}} no total",
-      "total_other": "{{count}} no total",
-      "priority": "Prioridade",
-      "stats": "Poder {{power}} • Precisão {{accuracy}} • PP {{pp}}",
-      "viewMore": "Ver mais {{count}} movimentos"
-    }
+  "common": {
+    "yes": "Sim",
+    "no": "Não",
+    "back": "Voltar",
+    "found": "Encontrado",
+    "chance": "Chance",
+    "unknown": "Desconhecido",
+    "viewMore": "Ver mais",
+    "statistics": "Estatísticas",
+    "recordCount_one": "{{count}} registro",
+    "recordCount_other": "{{count}} registros",
+    "descriptionFallback": "Nenhuma descrição disponível."
   },
   "trainer": {
     "home": {
-     "loadError": "Não foi possível carregar as informações do treinador."
+      "loadError": "Não foi possível carregar as informações do treinador."
+    },
+    "pokedex": {
+      "list": {
+        "title": "Pokedex do treinador",
+        "description": "Acompanhe o progresso de descoberta de espécies do seu treinador.",
+        "filtersAria": "Filtros da Pokedex",
+        "loadError": "Não foi possível carregar a Pokedex."
+      },
+      "detail": {
+        "loading": "Carregando Pokedex..."
+      },
+      "notDiscoveredAt": "Ainda não descoberto"
+    },
+    "ownedPokemon": {
+      "list": {
+        "title": "Pokemons capturados",
+        "empty": "Nenhum Pokemon do treinador encontrado.",
+        "loadError": "Não foi possível carregar seus Pokemons.",
+        "description": "Acompanhe a lista de Pokemon já capturados pelo seu treinador.",
+        "filtersAria": "Filtros de Pokemons capturados"
+      },
+      "detail": {
+        "loading": "Carregando Pokemon..."
+      }
     },
     "encounter": {
-      "loadError": "Não foi possível carregar os encontros com o treinador."
+      "loadError": "Não foi possível carregar os encontros do treinador."
     },
     "battle": {
       "title": "Sessão de batalha",
@@ -492,57 +153,259 @@
       "backToHome": "Voltar para Início",
       "moves": "Movimentos",
       "moveMeta": "Tipo {{type}} • Poder {{power}} • Precisão {{accuracy}}",
-      "inventory": "Pokébolas {{pokeballs}} • Taxa de captura {{captureRate}}",
-      "switchTitle": "Trocar Pokémon",
-      "noSwitchTargets": "Nenhum membro disponível para troca neste momento.",
-      "capture": "Capturar Pokémon",
-      "captureHint": "Use uma pokébola para tentar capturar o Pokémon selvagem.",
+      "inventory": "Pokeballs {{pokeballs}} • Taxa de captura {{captureRate}}",
+      "switchTitle": "Trocar Pokemon",
+      "noSwitchTargets": "Nenhum membro disponível para troca no momento.",
+      "capture": "Capturar Pokemon",
+      "captureHint": "Use uma pokeball para tentar capturar o Pokemon selvagem.",
       "captureChance": "Chance {{value}}%",
       "flee": "Fugir da batalha",
-      "logs": "Logs da batalha",
+      "logs": "Logs de batalha",
       "noLogs": "Nenhum log disponível para esta batalha.",
       "refresh": "Atualizar",
       "loadError": "Não foi possível carregar a batalha ativa.",
-      "logsError": "Não foi possível carregar os logs da batalha.",
+      "logsError": "Não foi possível carregar os logs de batalha.",
       "actionError": "Não foi possível executar a ação da batalha.",
-      "finished": "Esta batalha foi encerrada. As ações estão bloqueadas.",
+      "finished": "Esta batalha terminou. As ações estão desabilitadas.",
       "captureOutcome": {
         "CAPTURED": "Captura bem-sucedida",
-        "FAILED_CHANCE": "O Pokémon escapou da pokébola",
-        "INELIGIBLE_CAPTURE_RATE": "Seu treinador ainda não consegue capturar esse Pokémon"
+        "FAILED_CHANCE": "O Pokemon escapou",
+        "INELIGIBLE_CAPTURE_RATE": "Seu treinador ainda não pode capturar este Pokemon"
       },
       "status": {
         "ACTIVE": "Ativa",
         "CAPTURED": "Capturado",
         "ESCAPED": "Escapou",
-        "WILD_POKEMON_DEFEATED": "Pokémon selvagem derrotado",
+        "WILD_POKEMON_DEFEATED": "Pokemon selvagem derrotado",
         "TRAINER_DEFEATED": "Treinador derrotado"
-      }
-    },
-    "ownedPokemon": {
-      "list": {
-        "title": "Meus Pokémons",
-        "description": "Acompanhe o elenco já capturado pelo seu treinador.",
-        "filtersAria": "Filtros de meus Pokémons",
-        "empty": "Nenhum Pokémon do treinador encontrado.",
-        "loadError": "Não foi possível carregar seus Pokémons.",
-        "basePokemonLabel": "Base: {{name}}",
-        "level": "Nível {{value}}",
-        "hp": "HP {{current}}/{{max}}",
-        "experience": "XP {{value}}",
-        "moves": "{{count}} movimentos",
-        "capturedAt": "Capturado em {{value}}"
       }
     }
   },
   "catalog": {
     "list": {
-      "title": "Catálogo de Pokémon",
-      "description": "Explore o catálogo local e abra um Pokémon para enriquecer seu perfil completo.",
-      "filtersAria": "Filtros de Pokémon",
-      "empty": "Nenhum Pokémon encontrado.",
-      "typesPending": "tipos pendentes",
-      "loadError": "Could not load Catálogo de Pokémon."
+      "title": "Catálogo de Pokemon",
+      "empty": "Nenhum catálogo de Pokemon encontrado.",
+      "loadError": "Não foi possível carregar o catálogo de Pokemon.",
+      "description": "Navegue pelo catálogo local e abra um Pokemon para enriquecer seu perfil completo.",
+      "filtersAria": "Filtros de Pokemon"
+    },
+    "detail": {
+      "loading": "Carregando catálogo de Pokemon..."
     }
+  },
+  "filters": {
+    "apply": "Aplicar filtros",
+    "clear": "Limpar filtros",
+    "noOptions": "Nenhuma opção encontrada.",
+    "name": "Nome",
+    "order": "Ordem",
+    "type": "Tipo",
+    "status": "Status",
+    "nickname": "Apelido",
+    "discovered": "Descoberto"
+  },
+  "pokemon": {
+    "hp": "HP",
+    "type": {
+      "list": {
+        "title": "Tipos de Pokemon",
+        "empty": "Nenhum tipo de Pokemon encontrado.",
+        "loadError": "Não foi possível carregar os tipos de Pokemon.",
+        "description": "Explore emblemas de tipo, cores, forças e fraquezas.",
+        "filtersAria": "Filtros de tipo de Pokemon"
+      },
+      "names": {
+        "normal": "Normal",
+        "fire": "Fogo",
+        "water": "Água",
+        "electric": "Elétrico",
+        "grass": "Planta",
+        "ice": "Gelo",
+        "fighting": "Lutador",
+        "poison": "Veneno",
+        "ground": "Terra",
+        "flying": "Voador",
+        "psychic": "Psíquico",
+        "bug": "Inseto",
+        "rock": "Pedra",
+        "ghost": "Fantasma",
+        "dragon": "Dragão",
+        "dark": "Sombrio",
+        "steel": "Aço",
+        "fairy": "Fada"
+      },
+      "detail": {
+        "back": "Voltar para Tipos",
+        "loading": "Carregando tipo de Pokemon...",
+        "notFound": "Tipo de Pokemon não encontrado.",
+        "loadError": "Não foi possível carregar os detalhes do tipo de Pokemon."
+      },
+      "strengths": "Forças",
+      "weaknesses": "Fraquezas",
+      "typesPending": "tipos pendentes",
+      "weaknessCount_one": "{{count}} fraqueza",
+      "strengthCount_one": "{{count}} força",
+      "strengthCount_other": "{{count}} forças",
+      "weaknessCount_other": "{{count}} fraquezas",
+      "fallbackDescription": "Explore relações de dano e identidade visual deste tipo."
+    },
+    "move": {
+      "pp": "PP",
+      "list": {
+        "title": "Movimentos Pokemon",
+        "empty": "Nenhum movimento Pokemon encontrado.",
+        "loadError": "Não foi possível carregar os movimentos Pokemon.",
+        "description": "Explore efeitos de movimentos, metadados de combate e informações de alvo.",
+        "filtersAria": "Filtros de movimentos Pokemon"
+      },
+      "power": "Poder",
+      "class": "Classe",
+      "target": "Alvo",
+      "detail": {
+        "back": "Voltar para Movimentos",
+        "loading": "Carregando movimento Pokemon...",
+        "notFound": "Movimento Pokemon não encontrado.",
+        "loadError": "Não foi possível carregar os detalhes do movimento Pokemon."
+      },
+      "expand": {
+        "stats": "Poder {{power}} • Precisão {{accuracy}} • PP {{pp}}",
+        "title": "Movimentos",
+        "priority": "Prioridade",
+        "viewMore": "Ver mais {{count}} movimentos",
+        "total_one": "{{count}} total",
+        "description": "Ataques em lotes progressivos para manter o ritmo da página.",
+        "total_other": "{{count}} totais"
+      },
+      "effect": "Efeito",
+      "moveData": "Dados do movimento",
+      "accuracy": "Precisão",
+      "shortEffect": "Efeito curto"
+    },
+    "level": "Nível",
+    "order": "Nº {{value}}",
+    "speed": "Velocidade",
+    "shape": "Forma",
+    "isBaby": "É bebê",
+    "status": {
+      "COMPLETE": "COMPLETO",
+      "INCOMPLETE": "INCOMPLETO"
+    },
+    "height": "Altura",
+    "weight": "Peso",
+    "attack": "Ataque",
+    "habitat": "Habitat",
+    "defense": "Defesa",
+    "unknown": "Pokemon desconhecido",
+    "current": "Pokemon atual",
+    "ability": {
+      "list": {
+        "title": "Habilidades Pokemon",
+        "empty": "Nenhuma habilidade Pokemon encontrada.",
+        "loadError": "Não foi possível carregar as habilidades Pokemon.",
+        "description": "Leia efeitos de habilidades, texto descritivo e metadados de habilidade oculta.",
+        "filtersAria": "Filtros de habilidades Pokemon"
+      },
+      "slot": "Slot {{value}}",
+      "detail": {
+        "back": "Voltar para Habilidades",
+        "loading": "Carregando habilidade Pokemon...",
+        "notFound": "Habilidade Pokemon não encontrada.",
+        "loadError": "Não foi possível carregar os detalhes da habilidade Pokemon."
+      },
+      "hidden": "Oculta",
+      "effect": "Efeito",
+      "standard": "Padrão",
+      "flavorText": "Texto descritivo",
+      "shortEffect": "Efeito curto",
+      "effectPending": "Efeito pendente."
+    },
+    "encounter": {
+      "list": {
+        "title": "Encontros Pokemon",
+        "empty": "Nenhum encontro Pokemon encontrado.",
+        "loadError": "Não foi possível carregar os encontros Pokemon.",
+        "description": "Explore detalhes de encontro, local e taxa de encontro.",
+        "filtersAria": "Filtros de encontros Pokemon"
+      },
+      "detail": {
+        "back": "Voltar para Encontros",
+        "loading": "Carregando encontro Pokemon...",
+        "notFound": "Encontro Pokemon não encontrado.",
+        "loadError": "Não foi possível carregar os detalhes do encontro Pokemon."
+      },
+      "method": "Método",
+      "minLevel": "Nível mín.",
+      "maxLevel": "Nível máx.",
+      "condition": "Condição",
+      "maxChance": "Chance máx.",
+      "methodValue": "Método: {{value}}"
+    },
+    "experience": "Experiência",
+    "isMythical": "É mítico",
+    "growthRate": {
+      "list": {
+        "title": "Taxa de crescimento Pokemon",
+        "empty": "Nenhuma taxa de crescimento Pokemon encontrada.",
+        "loadError": "Não foi possível carregar as taxas de crescimento Pokemon.",
+        "description": "Explore detalhes da taxa de crescimento, cadeias evolutivas e tabela de experiência por nível.",
+        "filtersAria": "Filtros de taxa de crescimento Pokemon"
+      },
+      "detail": {
+        "back": "Voltar para Taxas de crescimento",
+        "loading": "Carregando taxa de crescimento Pokemon...",
+        "notFound": "Taxa de crescimento Pokemon não encontrada.",
+        "loadError": "Não foi possível carregar os detalhes da taxa de crescimento Pokemon."
+      },
+      "formula": "Fórmula",
+      "tableTitle": "Tabela de experiência por nível",
+      "formulaPending": "Fórmula pendente."
+    },
+    "captureRate": "Taxa de captura",
+    "isLegendary": "É lendário",
+    "hatchCounter": "Contador de eclosão",
+    "baseHappiness": "Felicidade base",
+    "baseExperience": "Experiência base",
+    "specialAttack": "Atq. Esp.",
+    "specialDefense": "Def. Esp.",
+    "hasGenderDifferences": "Tem diferenças de gênero"
+  },
+  "language": {
+    "en": "Inglês",
+    "es": "Espanhol",
+    "ptBR": "Português",
+    "label": "Selecionar idioma",
+    "selector": "Seletor de idioma",
+    "changeTo": "Mudar idioma para {{language}}"
+  },
+  "pagination": {
+    "ariaLabel": "Paginação",
+    "goToPage": "Ir para a página {{page}}",
+    "previous": "Ir para a página anterior",
+    "next": "Ir para a próxima página"
+  },
+  "navigation": {
+    "home": "Início",
+    "moves": "Movimentos",
+    "types": "Tipos",
+    "title": "Sistema Pokemon",
+    "battle": "Batalha",
+    "catalog": "Catálogo",
+    "sidebar": "Barra lateral",
+    "signOut": "Sair",
+    "pokedex": "Pokedex",
+    "pokemon": "Pokemon",
+    "subtitle": "Portal do treinador",
+    "abilities": "Habilidades",
+    "growthRate": "Taxa de crescimento",
+    "encounters": "Encontros",
+    "pokeballLogo": "Logo da Pokeball",
+    "closeSidebar": "Fechar barra lateral",
+    "ownedPokemons": "Meus Pokemons",
+    "pokemonCenter": "Centro Pokemon",
+    "expandSidebar": "Expandir barra lateral",
+    "expandSection": "Expandir {{section}}",
+    "collapseSidebar": "Recolher barra lateral",
+    "collapseSection": "Recolher {{section}}",
+    "authenticatedNavigation": "Navegação autenticada"
   }
 }

@@ -48,7 +48,7 @@ export abstract class BffBaseServiceAbstract<T> extends Http {
     };
   };
 
-  public fetchOne = async (identifier: string): Promise<BffDetailResponse<T>> => {
+  public fetchOne = async <T>(identifier: string): Promise<BffDetailResponse<T>> => {
     const response = await this.get<T | ResponseError>(`${this.pathUrl}/${identifier}`);
     const validatedResponse = this.validateResponse<T>(response, `${this.domain}.detail.loadError`);
     return {
@@ -57,7 +57,7 @@ export abstract class BffBaseServiceAbstract<T> extends Http {
     };
   };
 
-  public fetchAll = async <TFilter>(
+  public fetchAll = async <T,TFilter>(
     filters: TFilter,
     page?: number,
     perPage?: number,

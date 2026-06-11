@@ -12,31 +12,31 @@ import type { MenuItem } from './types';
 export const getAuthenticatedMenuItems = (translate: (key: string) => string): MenuItem[] => [
   {
     label: translate('navigation.home'),
-    roles: ['USER'],
+    roles: ['USER', 'ADMIN'],
     href: '/home',
     icon: MdHome,
   },
   {
     label: translate('navigation.pokemon'),
-    roles: ['USER'],
+    roles: ['USER', 'ADMIN'],
     href: '/pokemon',
     icon: MdCatchingPokemon
   },
   {
     label: translate('navigation.pokedex'),
-    roles: ['USER'],
+    roles: ['USER', 'ADMIN'],
     href: '/pokedex',
     icon: MdOutlineCatchingPokemon,
   },
   {
     label: translate('navigation.pokemonCenter'),
-    roles: ['USER'],
+    roles: ['USER', 'ADMIN'],
     href: '/pokemon-center',
     icon: GiHealing,
   },
   {
     label: translate('navigation.battle'),
-    roles: ['USER'],
+    roles: ['USER', 'ADMIN'],
     href: '/battle',
     icon: GiCrossedSwords,
   },

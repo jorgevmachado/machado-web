@@ -30,16 +30,16 @@ const PokemonStats = ({
     return [
       {
         key: 'hp' ,
-        label: t('pokemon.detail.labels.hp') ,
+        label: t('pokemon.hp') ,
         value: hp ,
         compareValue: max_hp ,
         maxValue: 100,
       } ,
-      { key: 'speed' ,label: t('pokemon.detail.labels.speed') ,value: speed } ,
-      { key: 'attack' ,label: t('pokemon.detail.labels.attack') ,value: attack } ,
-      { key: 'defense' ,label: t('pokemon.detail.labels.defense') ,value: defense } ,
-      { key: 'sp-atk' ,label: t('pokemon.detail.labels.specialAttack') ,value: special_attack } ,
-      { key: 'sp-def' ,label: t('pokemon.detail.labels.specialDefense') ,value: special_defense } ,
+      { key: 'speed' ,label: t('pokemon.speed') ,value: speed } ,
+      { key: 'attack' ,label: t('pokemon.attack') ,value: attack } ,
+      { key: 'defense' ,label: t('pokemon.defense') ,value: defense } ,
+      { key: 'sp-atk' ,label: t('pokemon.specialAttack') ,value: special_attack } ,
+      { key: 'sp-def' ,label: t('pokemon.specialDefense') ,value: special_defense } ,
     ];
   } ,[attack, defense, hp, max_hp, special_attack, special_defense, speed, t]);
 

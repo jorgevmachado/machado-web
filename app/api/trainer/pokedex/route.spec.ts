@@ -18,16 +18,16 @@ jest.mock('@/app/shared/lib/auth/server', () => ({
 }));
 
 jest.mock('@/app/ui', () => ({
-  pokemonService: jest.fn(() => ({ ownedPokemon: { list: listMock } })),
+  pokemonService: jest.fn(() => ({ pokedex: { list: listMock } })),
 }));
 
-describe('GET /api/trainer/pokemon', () => {
+describe('GET /api/trainer/pokedex', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     getServerSessionMock.mockResolvedValue({ isAuthenticated: true, token: 'token' });
   });
 
-  it('delegates query params to the pokemon service', async () => {
+  it('delegates query params to the pokemon service pokedex', async () => {
     listMock.mockResolvedValueOnce({ items: [], meta: { total: 0 } });
     const request = {
       nextUrl: {
@@ -77,6 +77,6 @@ describe('GET /api/trainer/pokemon', () => {
     const json = await response.json();
 
     expect(response.status).toBe(500);
-    expect(json).toEqual({ message: 'Could not load Trainer Pokemon.' });
+    expect(json).toEqual({ message: 'Could not load Pokedex.' });
   });
 });

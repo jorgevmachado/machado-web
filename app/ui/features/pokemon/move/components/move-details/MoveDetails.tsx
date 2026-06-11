@@ -24,7 +24,9 @@ export default function MoveDetails({ origin, param, identifier }: MoveDetailsPr
       hasData={ !!data }
       isLoading={ isLoading }
       originDomain="catalog"
-      errorMessage={ errorMessage }>
+      errorMessage={ errorMessage }
+      domainTranslationKey="pokemon.move"
+    >
       {data && (
         <>
           <Card rounded="lg" className="bg-white">
@@ -52,26 +54,26 @@ export default function MoveDetails({ origin, param, identifier }: MoveDetailsPr
           <section className="grid gap-6 lg:grid-cols-[1fr_360px]">
             <div className="flex flex-col gap-6">
               <Card rounded="lg" className="bg-white">
-                <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.move.detail.shortEffect')}</Text>
-                <Text className="mt-3 text-slate-700">{data.short_effect || t('pokemon.move.detail.shortEffectPending')}</Text>
+                <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.move.shortEffect')}</Text>
+                <Text className="mt-3 text-slate-700">{data.short_effect || t('pokemon.move.shortEffectPending')}</Text>
               </Card>
 
               <Card rounded="lg" className="bg-white">
-                <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.move.detail.effect')}</Text>
-                <Text className="mt-3 whitespace-pre-line text-slate-700">{data.effect || t('pokemon.move.detail.effectPending')}</Text>
+                <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.move.effect')}</Text>
+                <Text className="mt-3 whitespace-pre-line text-slate-700">{data.effect || t('pokemon.move.effectPending')}</Text>
               </Card>
             </div>
 
             <Card rounded="lg" className="bg-white">
-              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.move.detail.moveData')}</Text>
+              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.move.moveData')}</Text>
               <div className="mt-4 grid grid-cols-2 gap-3">
                 {[
-                  [t('pokemon.move.detail.power'), formatValue(data.power)],
-                  [t('pokemon.move.detail.accuracy'), formatValue(data.accuracy)],
-                  [t('pokemon.move.detail.pp'), formatValue(data.pp)],
-                  [t('pokemon.move.detail.chance'), formatValue(data.effect_chance)],
-                  [t('pokemon.move.detail.target'), data.target || '-'],
-                  [t('pokemon.move.detail.class'), data.damage_class || '-'],
+                  [t('pokemon.move.power',), formatValue(data.power)],
+                  [t('pokemon.move.accuracy'), formatValue(data.accuracy)],
+                  [t('pokemon.move.pp'), formatValue(data.pp)],
+                  [t('common.chance'), formatValue(data.effect_chance)],
+                  [t('pokemon.move.target'), data.target || '-'],
+                  [t('pokemon.move.class'), data.damage_class || '-'],
                 ].map(([label, value]) => (
                   <div key={label} className="rounded-lg border border-slate-200 p-3">
                     <Text className="text-xs font-semibold uppercase text-slate-500">{label}</Text>

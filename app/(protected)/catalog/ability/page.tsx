@@ -103,7 +103,7 @@ export default function AbilityPage() {
                 </div>
                 <div className="flex flex-1 flex-col gap-3">
                   <Text className="line-clamp-3 text-sm text-slate-700">
-                    {ability.short_effect || ability.effect || ability.flavor_text || t('pokemon.ability.list.effectPending')}
+                    {ability.short_effect || ability.effect || ability.flavor_text || t('pokemon.ability.effectPending')}
                   </Text>
                   {ability.flavor_text ? (
                     <Text className="line-clamp-2 text-xs italic text-slate-500">
@@ -114,9 +114,9 @@ export default function AbilityPage() {
                 <div className="mt-auto">
                   <div className="flex flex-wrap gap-2">
                     <Badge tone={ability.is_hidden ? 'warning' : 'info'} variant="soft">
-                      {ability.is_hidden ? t('pokemon.ability.list.hidden') : t('pokemon.ability.list.standard')}
+                      {ability.is_hidden ? t('pokemon.ability.hidden') : t('pokemon.ability.standard')}
                     </Badge>
-                    <Badge tone="neutral" variant="soft">{t('pokemon.ability.list.slot', { value: ability.slot })}</Badge>
+                    <Badge tone="neutral" variant="soft">{t('pokemon.ability.slot', { value: ability.slot })}</Badge>
                     <span className="text-sm font-semibold text-blue-700">{t('common.viewMore')}</span>
                   </div>
                 </div>

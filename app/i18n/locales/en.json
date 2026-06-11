@@ -1,61 +1,4 @@
 {
-  "common": {
-    "yes": "Yes",
-    "no": "No",
-    "back": "Back",
-    "unknown": "Unknown",
-    "recordCount_one": "{{count}} record",
-    "recordCount_other": "{{count}} records",
-    "viewMore": "View more"
-  },
-  "language": {
-    "label": "Select language",
-    "selector": "Language selector",
-    "changeTo": "Change language to {{language}}",
-    "ptBR": "Portuguese",
-    "en": "English",
-    "es": "Spanish"
-  },
-  "navigation": {
-    "title": "Pokemon System",
-    "subtitle": "Trainer Portal",
-    "expandSidebar": "Expand sidebar",
-    "collapseSidebar": "Collapse sidebar",
-    "closeSidebar": "Close sidebar",
-    "pokeballLogo": "Pokeball logo",
-    "sidebar": "Sidebar",
-    "authenticatedNavigation": "Authenticated navigation",
-    "expandSection": "Expand {{section}}",
-    "collapseSection": "Collapse {{section}}",
-    "signOut": "Sign out",
-    "home": "Home",
-    "pokemon": "Pokemon",
-    "types": "Types",
-    "abilities": "Abilities",
-    "moves": "Moves",
-    "growthRate": "Growth Rate",
-    "encounters": "Encounters",
-    "pokedex": "Pokedex",
-    "myPokemons": "My Pokemons",
-    "pokemonCenter": "Pokemon Center",
-    "battle": "Battle",
-    "catalog": "Catalog"
-  },
-  "filters": {
-    "apply": "Apply filters",
-    "clear": "Clear filters",
-    "noOptions": "No options found.",
-    "name": "Name",
-    "order": "Order",
-    "type": "Type",
-    "status": "Status"
-  },
-  "pagination": {
-    "ariaLabel": "Pagination",
-    "goToPage": "Go to page {{page}}",
-    "previous": "Go to previous page",
-    "next": "Go to next page"
-  },
   "auth": {
     "login": {
       "title": "Sign in",
@@ -68,6 +11,18 @@
       "submitting": "Signing in...",
       "noAccount": "Don't have an account?",
       "signUp": "Sign up"
+    },
+    "errors": {
+      "invalidCredential": "Please enter your email or username.",
+      "invalidFullName": "Please enter your full name.",
+      "invalidBirthDate": "Please provide your birth date.",
+      "invalidGender": "Please select your gender.",
+      "invalidUsername": "Please enter a username.",
+      "invalidEmail": "Please enter a valid email address.",
+      "passwordConfirmation": "Password confirmation does not match.",
+      "passwordRule": "Password must contain at least 7 characters, one uppercase letter, and one special character.",
+      "defaultLogin": "Unable to sign in. Please try again.",
+      "accessDenied": "You do not have permission to access this page."
     },
     "register": {
       "title": "Create an account",
@@ -95,18 +50,6 @@
     },
     "messages": {
       "accountCreated": "Account created! Please log in."
-    },
-    "errors": {
-      "invalidCredential": "Please enter your email or username.",
-      "invalidFullName": "Please enter your full name.",
-      "invalidBirthDate": "Please provide your birth date.",
-      "invalidGender": "Please select your gender.",
-      "invalidUsername": "Please enter a username.",
-      "invalidEmail": "Please enter a valid email address.",
-      "passwordConfirmation": "Password confirmation does not match.",
-      "passwordRule": "Password must contain at least 7 characters, one uppercase letter, and one special character.",
-      "defaultLogin": "Unable to sign in. Please try again.",
-      "accessDenied": "You do not have permission to access this page."
     }
   },
   "home": {
@@ -137,11 +80,11 @@
       "savingParty": "Saving party...",
       "partySaveError": "Could not update the main party.",
       "inParty": "In party",
-        "walkError": "Could not explore the active encounter.",
-        "foundPokemon": "Pokemon found: {{name}}",
-        "foundPokeballs": "Pokeballs found: {{value}}",
-        "openBattle": "Open battle",
-        "battleModalSubtitle": "Resume the current battle without leaving Home.",
+      "walkError": "Could not explore the active encounter.",
+      "foundPokemon": "Pokemon found: {{name}}",
+      "foundPokeballs": "Pokeballs found: {{value}}",
+      "openBattle": "Open battle",
+      "battleModalSubtitle": "Resume the current battle without leaving Home.",
       "activeBattleTitle": "Active battle",
       "activeBattlePokemon": "Facing {{name}}",
       "activeBattleTurn": "Turn {{value}}",
@@ -150,334 +93,52 @@
       "lastHealingHp": "Restored HP: {{value}}",
       "lastHealingPp": "Restored PP: {{value}}",
       "resumeBattle": "Resume battle",
-        "eventType": {
-          "WILD_POKEMON": "Wild Pokemon",
-          "POKEBALLS": "Pokeballs"
-        }
-      }
-  },
-  "pokemonCenter": {
-    "title": "Pokemon Center",
-    "description": "Restore the main party, recover HP and PP, and review the trainer's detailed healing history.",
-    "loading": "Loading Pokemon Center...",
-    "loadError": "Could not load the Pokemon Center.",
-    "historyLoadError": "Could not load the healing history.",
-    "healButton": "Restore party",
-    "healing": "Restoring...",
-    "healError": "Could not restore the trainer party at the Pokemon Center.",
-    "latestHealingTitle": "Latest healing operation",
-    "lastHealingResult": "Current restoration result",
-    "healedPokemonCount": "{{value}} restored Pokemon",
-    "restoredHp": "Restored HP: {{value}}",
-    "restoredPp": "Restored PP: {{value}}",
-    "revived": "Revive applied",
-    "partyTitle": "Current party",
-    "partyHint": "Restoration always affects every active Pokemon in the main party.",
-    "partySlot": "Slot {{value}}",
-    "hpSummary": "HP {{current}}/{{max}}",
-    "ppSummary": "Total PP {{value}}",
-    "noParty": "No active Pokemon in the main party.",
-    "historyTitle": "Itemized history",
-    "noHistory": "No healing has been recorded yet."
-  },
-  "myPokemon": {
-    "filters": {
-      "basePokemon": "Base Pokemon"
-    },
-    "list": {
-      "title": "My Pokemons",
-      "description": "Track the roster already captured by your trainer.",
-      "filtersAria": "My Pokemon filters",
-      "empty": "No trainer-owned Pokemon found.",
-      "loadError": "Could not load your Pokemon.",
-      "basePokemonLabel": "Base: {{name}}",
-      "level": "Level {{value}}",
-      "hp": "HP {{current}}/{{max}}",
-      "experience": "XP {{value}}",
-      "moves": "{{count}} moves",
-      "capturedAt": "Captured at {{value}}"
-    },
-    "detail": {
-      "loading": "Loading trainer-owned Pokemon...",
-      "notFound": "Trainer-owned Pokemon not found.",
-      "back": "Back to My Pokemons",
-      "loadError": "Could not load the trainer-owned Pokemon detail.",
-      "publicName": "Identifier {{value}}",
-      "basePokemon": "Base Pokemon: {{name}}",
-      "capturedAt": "Captured at {{value}}",
-      "experience": "Experience",
-      "hp": "HP",
-      "pokeballs": "Pokeballs",
-      "captureRate": "Capture Rate",
-      "moves": "Moves",
-      "moveMeta": "Type {{type}} • Power {{power}} • Accuracy {{accuracy}}",
-      "movePp": "PP {{current}}/{{max}}"
-    },
-    "onboarding": {
-      "title": "Choose your first Pokemon",
-      "userDescription": "You do not have a trainer yet. Choose one of the three starters to begin your journey.",
-      "adminDescription": "You do not have a trainer yet. As admin, you can choose any Pokemon and adjust the trainer initial parameters.",
-      "nicknameLabel": "Nickname",
-      "nicknamePlaceholder": "Optional",
-      "pokeballsLabel": "Initial pokeballs",
-      "captureRateLabel": "Initial capture rate",
-      "selectPokemonLabel": "Pokemon",
-      "selectPokemonPlaceholder": "Type to search a Pokemon",
-      "loadOptionsError": "Could not load the Pokemon list for onboarding.",
-      "submit": "Create trainer",
-      "submitting": "Creating trainer...",
-      "submitError": "Could not finish onboarding.",
-      "success": "Trainer and first Pokemon created successfully.",
-      "validation": {
-        "selectPokemon": "Select a Pokemon to continue."
+      "eventType": {
+        "WILD_POKEMON": "Wild Pokemon",
+        "POKEBALLS": "Pokeballs"
       }
     }
   },
-  "pokedex": {
-    "filters": {
-      "nickname": "Nickname",
-      "basePokemon": "Base Pokemon",
-      "discovered": "Discovered"
-    },
-    "list": {
-      "title": "Trainer Pokedex",
-      "description": "Track your trainer's species discovery progress.",
-      "filtersAria": "Pokedex filters",
-      "empty": "No Pokedex entries found.",
-      "loadError": "Could not load the Pokedex.",
-      "basePokemonLabel": "Base: {{name}}",
-      "level": "Level {{value}}",
-      "hp": "HP {{current}}/{{max}}",
-      "experience": "XP {{value}}",
-      "discovered": "Discovered",
-      "undiscovered": "Undiscovered",
-      "discoveredAt": "Discovered on {{value}}",
-      "notDiscoveredAt": "Not discovered yet"
-    },
-    "detail": {
-      "loading": "Loading Pokedex entry...",
-      "notFound": "Pokedex entry not found.",
-      "back": "Back to Pokedex",
-      "loadError": "Could not load the Pokedex detail.",
-      "basePokemonNumber": "Pokemon #{{value}}",
-      "basePokemon": "Base Pokemon: {{name}}",
-      "discoveredAt": "Discovered on {{value}}",
-      "discoveredAtLabel": "Discovery date",
-      "notDiscovered": "Not discovered yet",
-      "experience": "Experience",
-      "hp": "HP",
-      "level": "Level",
-      "captureRate": "Capture Rate",
-      "pokeballs": "Pokeballs",
-      "status": "Status",
-      "discovery": "Discovery"
-    }
-  },
-  "pokemon": {
-    "unknown": "Unknown Pokémon",
-    "status": {
-      "COMPLETE": "COMPLETE",
-      "INCOMPLETE": "INCOMPLETE"
-    },
-    "list": {
-      "title": "Pokemon",
-      "description": "Explore the catalog of Pokémon captured by your trainer, and see details about each one.",
-      "filtersAria": "Pokemon filters",
-      "empty": "No Pokemon found.",
-      "typesPending": "types pending",
-      "loadError": "Could not load Pokemon."
-    },
-    "detail": {
-      "loading": "Loading Pokemon...",
-      "notFound": "Pokemon not found.",
-      "back": "Back to list",
-      "number": "No. {{value}}",
-      "statistics": "Statistics",
-      "abilities": "Abilities",
-      "growthRate": "Growth Rate",
-      "strengths": "Strengths",
-      "weaknesses": "Weaknesses",
-      "found": "Found",
-      "labels": {
-        "hp": "HP",
-        "attack": "Attack",
-        "defense": "Defense",
-        "speed": "Speed",
-        "specialAttack": "Sp. Atk",
-        "specialDefense": "Sp. Def",
-        "height": "Height",
-        "weight": "Weight",
-        "habitat": "Habitat",
-        "shape": "Shape",
-        "hatchCounter": "Hatch Counter",
-        "captureRate": "Capture Rate",
-        "baseHappiness": "Base Happiness",
-        "baseExperience": "Base Experience",
-        "isBaby": "Is Baby",
-        "isMythical": "Is Mythical",
-        "isLegendary": "Is Legendary",
-        "hasGenderDifferences": "Has Gender Differences"
-      },
-      "loadError": "Could not load Pokemon detail."
-    },
-    "type": {
-      "names": {
-        "normal": "Normal",
-        "fire": "Fire",
-        "water": "Water",
-        "electric": "Electric",
-        "grass": "Grass",
-        "ice": "Ice",
-        "fighting": "Fighting",
-        "poison": "Poison",
-        "ground": "Ground",
-        "flying": "Flying",
-        "psychic": "Psychic",
-        "bug": "Bug",
-        "rock": "Rock",
-        "ghost": "Ghost",
-        "dragon": "Dragon",
-        "dark": "Dark",
-        "steel": "Steel",
-        "fairy": "Fairy"
-      },
-      "list": {
-        "title": "Pokemon Types",
-        "description": "Browse type badges, colors, strengths, and weaknesses.",
-        "filtersAria": "Pokemon type filters",
-        "empty": "No Pokemon types found.",
-        "open": "Open {{name}} type",
-        "strengthCount_one": "{{count}} strength",
-        "strengthCount_other": "{{count}} strengths",
-        "weaknessCount_one": "{{count}} weakness",
-        "weaknessCount_other": "{{count}} weaknesses",
-        "fallbackDescription": "Explore damage relations and visual identity for this type.",
-        "loadError": "Could not load Pokemon types."
-      },
-      "detail": {
-        "loading": "Loading Pokemon type...",
-        "notFound": "Pokemon type not found.",
-        "back": "Back to Types",
-        "descriptionFallback": "No description available.",
-        "strengths": "Strengths",
-        "weaknesses": "Weaknesses",
-        "loadError": "Could not load Pokemon type detail."
-      }
-    },
-    "ability": {
-      "list": {
-        "title": "Pokemon Abilities",
-        "description": "Read ability effects, flavor text, and hidden ability metadata.",
-        "filtersAria": "Pokemon ability filters",
-        "empty": "No Pokemon abilities found.",
-        "open": "Open {{name}} ability",
-        "hidden": "Hidden",
-        "standard": "Standard",
-        "slot": "Slot {{value}}",
-        "effectPending": "Effect pending.",
-        "loadError": "Could not load Pokemon abilities."
-      },
-      "detail": {
-        "loading": "Loading Pokemon ability...",
-        "notFound": "Pokemon ability not found.",
-        "back": "Back to Abilities",
-        "shortEffect": "Short Effect",
-        "effect": "Effect",
-        "flavorText": "Flavor Text",
-        "shortEffectPending": "Short effect pending.",
-        "effectPending": "Effect pending.",
-        "flavorTextPending": "Flavor text pending.",
-        "loadError": "Could not load Pokemon ability detail."
-      }
-    },
-    "move": {
-      "list": {
-        "title": "Pokemon Moves",
-        "description": "Browse move effects, combat metadata, and targeting information.",
-        "filtersAria": "Pokemon move filters",
-        "empty": "No Pokemon moves found.",
-        "open": "Open {{name}} move",
-        "power": "Power {{value}}",
-        "accuracy": "Acc {{value}}",
-        "pp": "PP {{value}}",
-        "effectPending": "Effect pending.",
-        "loadError": "Could not load Pokemon moves."
-      },
-      "detail": {
-        "loading": "Loading Pokemon move...",
-        "notFound": "Pokemon move not found.",
-        "back": "Back to Moves",
-        "shortEffect": "Short Effect",
-        "effect": "Effect",
-        "moveData": "Move Data",
-        "shortEffectPending": "Short effect pending.",
-        "effectPending": "Effect pending.",
-        "power": "Power",
-        "accuracy": "Accuracy",
-        "pp": "PP",
-        "chance": "Chance",
-        "target": "Target",
-        "class": "Class",
-        "loadError": "Could not load Pokemon move detail."
-      }
-    },
-    "growthRate": {
-      "list": {
-        "title": "Pokemon Growth Rate",
-        "filtersAria": "Pokemon growth rate filters",
-        "empty": "No Pokemon growth rate found.",
-        "open": "Open {{name}} growth rate",
-        "formulaPending": "Formula pending.",
-        "loadError": "Could not load Pokemon growth rates."
-      },
-      "detail": {
-        "loading": "Loading Pokemon growth rate...",
-        "notFound": "Pokemon growth rate not found.",
-        "back": "Back to Growth Rates",
-        "formula": "Formula",
-        "formulaPending": "Formula pending.",
-        "tableTitle": "Level Experience Table",
-        "level": "Level",
-        "experience": "Experience",
-        "loadError": "Could not load Pokemon growth rate detail."
-      }
-    },
-    "encounter": {
-      "list": {
-        "title": "Pokemon Encounters",
-        "filtersAria": "Pokemon encounter filters",
-        "empty": "No Pokemon encounter found.",
-        "open": "Open {{name}} encounter",
-        "method": "Method: {{value}}",
-        "pending": "Encounter pending.",
-        "loadError": "Could not load Pokemon encounters."
-      },
-      "detail": {
-        "loading": "Loading Pokemon encounter...",
-        "notFound": "Pokemon encounter not found.",
-        "back": "Back to Encounters",
-        "chance": "Chance",
-        "minLevel": "Min Level",
-        "maxLevel": "Max Level",
-        "maxChance": "Max Chance",
-        "condition": "Condition",
-        "method": "Method",
-        "loadError": "Could not load Pokemon encounter detail."
-      }
-    },
-    "movesExpand": {
-      "title": "Moves",
-      "description": "Highlighted attacks in progressive batches so the page keeps its rhythm.",
-      "total_one": "{{count}} total",
-      "total_other": "{{count}} total",
-      "priority": "Priority",
-      "stats": "Power {{power}} • Accuracy {{accuracy}} • PP {{pp}}",
-      "viewMore": "View {{count}} more moves"
-    }
+  "common": {
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "found": "Found",
+    "chance": "Chance",
+    "unknown": "Unknown",
+    "viewMore": "View more",
+    "statistics": "Statistics",
+    "recordCount_one": "{{count}} record",
+    "recordCount_other": "{{count}} records",
+    "descriptionFallback": "No description available."
   },
   "trainer": {
     "home": {
-     "loadError": "Could not load trainer info."
+      "loadError": "Could not load trainer info."
+    },
+    "pokedex": {
+      "list": {
+        "title": "Trainer Pokedex",
+        "description": "Track your trainer's species discovery progress.",
+        "filtersAria": "Pokedex filters",
+        "loadError": "Could not load the Pokedex."
+      },
+      "detail": {
+        "loading": "Loading Pokedex..."
+      },
+      "notDiscoveredAt": "Not discovered yet"
+    },
+    "ownedPokemon": {
+      "list": {
+        "title": "Owned Pokemons",
+        "empty": "No trainer-owned Pokemon found.",
+        "loadError": "Could not load your Pokemon.",
+        "description": "Track the roster already captured by your trainer.",
+        "filtersAria": "Owned Pokemon filters"
+      },
+      "detail": {
+        "loading": "Loading Pokemon..."
+      }
     },
     "encounter": {
       "loadError": "Could not load trainer encounters."
@@ -518,31 +179,234 @@
         "WILD_POKEMON_DEFEATED": "Wild Pokemon defeated",
         "TRAINER_DEFEATED": "Trainer defeated"
       }
-    },
-    "ownedPokemon": {
-      "list": {
-        "title": "Owned Pokemons",
-        "description": "Track the roster already captured by your trainer.",
-        "filtersAria": "Owned Pokemon filters",
-        "empty": "No trainer-owned Pokemon found.",
-        "loadError": "Could not load your Pokemon.",
-        "basePokemonLabel": "Base: {{name}}",
-        "level": "Level {{value}}",
-        "hp": "HP {{current}}/{{max}}",
-        "experience": "XP {{value}}",
-        "moves": "{{count}} moves",
-        "capturedAt": "Captured at {{value}}"
-      }
     }
   },
   "catalog": {
     "list": {
       "title": "Pokemon Catalog",
+      "empty": "No Pokemon Catalog found.",
+      "loadError": "Could not load Pokemon Catalog.",
       "description": "Browse the local catalog and open a Pokemon to enrich its complete profile.",
-      "filtersAria": "Pokemon filters",
-      "empty": "No Pokemon found.",
-      "typesPending": "types pending",
-      "loadError": "Could not load Pokemon Catalog."
+      "filtersAria": "Pokemon filters"
+    },
+    "detail": {
+      "loading": "Loading Pokemon Catalog..."
     }
+  },
+  "filters": {
+    "apply": "Apply filters",
+    "clear": "Clear filters",
+    "noOptions": "No options found.",
+    "name": "Name",
+    "order": "Order",
+    "type": "Type",
+    "status": "Status",
+    "nickname": "Nickname",
+    "discovered": "Discovered"
+  },
+  "pokemon": {
+    "hp": "HP",
+    "type": {
+      "list": {
+        "title": "Pokemon Types",
+        "empty": "No Pokemon types found.",
+        "loadError": "Could not load Pokemon types.",
+        "description": "Browse type badges, colors, strengths, and weaknesses.",
+        "filtersAria": "Pokemon type filters"
+      },
+      "names": {
+        "normal": "Normal",
+        "fire": "Fire",
+        "water": "Water",
+        "electric": "Electric",
+        "grass": "Grass",
+        "ice": "Ice",
+        "fighting": "Fighting",
+        "poison": "Poison",
+        "ground": "Ground",
+        "flying": "Flying",
+        "psychic": "Psychic",
+        "bug": "Bug",
+        "rock": "Rock",
+        "ghost": "Ghost",
+        "dragon": "Dragon",
+        "dark": "Dark",
+        "steel": "Steel",
+        "fairy": "Fairy"
+      },
+      "detail": {
+        "back": "Back to Types",
+        "loading": "Loading Pokemon type...",
+        "notFound": "Pokemon type not found.",
+        "loadError": "Could not load Pokemon type detail."
+      },
+      "strengths": "Strengths",
+      "weaknesses": "Weaknesses",
+      "typesPending": "types pending",
+      "weaknessCount_one": "{{count}} weakness",
+      "strengthCount_one": "{{count}} strength",
+      "strengthCount_other": "{{count}} strengths",
+      "weaknessCount_other": "{{count}} weaknesses",
+      "fallbackDescription": "Explore damage relations and visual identity for this type."
+    },
+    "move": {
+      "pp": "PP",
+      "list": {
+        "title": "Pokemon Moves",
+        "empty": "No Pokemon moves found.",
+        "loadError": "Could not load Pokemon moves.",
+        "description": "Browse move effects, combat metadata, and targeting information.",
+        "filtersAria": "Pokemon move filters"
+      },
+      "power": "Power",
+      "class": "Class",
+      "target": "Target",
+      "detail": {
+        "back": "Back to Moves",
+        "loading": "Loading Pokemon move...",
+        "notFound": "Pokemon move not found.",
+        "loadError": "Could not load Pokemon move detail."
+      },
+      "expand": {
+        "stats": "Power {{power}} • Accuracy {{accuracy}} • PP {{pp}}",
+        "title": "Moves",
+        "priority": "Priority",
+        "viewMore": "View {{count}} more moves",
+        "total_one": "{{count}} total",
+        "description": "Highlighted attacks in progressive batches so the page keeps its rhythm.",
+        "total_other": "{{count}} total"
+      },
+      "effect": "Effect",
+
+      "moveData": "Move Data",
+      "accuracy": "Accuracy",
+      "shortEffect": "Short Effect"
+    },
+    "level": "Level",
+    "order": "No. {{value}}",
+    "speed": "Speed",
+    "shape": "Shape",
+    "isBaby": "Is Baby",
+    "status": {
+      "COMPLETE": "COMPLETE",
+      "INCOMPLETE": "INCOMPLETE"
+    },
+    "height": "Height",
+    "weight": "Weight",
+    "attack": "Attack",
+    "habitat": "Habitat",
+    "defense": "Defense",
+    "unknown": "Unknown Pokémon",
+    "current": "Current Pokemon",
+    "ability": {
+      "list": {
+        "title": "Pokemon Abilities",
+        "empty": "No Pokemon abilities found.",
+        "loadError": "Could not load Pokemon abilities.",
+        "description": "Read ability effects, flavor text, and hidden ability metadata.",
+        "filtersAria": "Pokemon ability filters"
+      },
+      "slot": "Slot {{value}}",
+      "detail": {
+        "back": "Back to Abilities",
+        "loading": "Loading Pokemon ability...",
+        "notFound": "Pokemon ability not found.",
+        "loadError": "Could not load Pokemon ability detail."
+      },
+      "hidden": "Hidden",
+      "effect": "Effect",
+      "standard": "Standard",
+      "flavorText": "Flavor Text",
+      "shortEffect": "Short Effect",
+      "effectPending": "Effect pending."
+    },
+    "encounter": {
+      "list": {
+        "title": "Pokemon Encounters",
+        "empty": "No Pokemon encounter found.",
+        "loadError": "Could not load Pokemon encounters.",
+        "description": "Explore encounter details, location, and encounter rate.",
+        "filtersAria": "Pokemon encounter filters"
+      },
+      "detail": {
+        "back": "Back to Encounters",
+        "loading": "Loading Pokemon encounter...",
+        "notFound": "Pokemon encounter not found.",
+        "loadError": "Could not load Pokemon encounter detail."
+      },
+      "method": "Method",
+      "minLevel": "Min Level",
+      "maxLevel": "Max Level",
+      "condition": "Condition",
+      "maxChance": "Max Chance",
+      "methodValue": "Method: {{value}}"
+    },
+    "experience": "Experience",
+    "isMythical": "Is Mythical",
+    "growthRate": {
+      "list": {
+        "title": "Pokemon Growth Rate",
+        "empty": "No Pokemon growth rate found.",
+        "loadError": "Could not load Pokemon growth rates.",
+        "description": "Explore growth rate details, evolution chains, and level experience table.",
+        "filtersAria": "Pokemon growth rate filters"
+      },
+      "detail": {
+        "back": "Back to Growth Rates",
+        "loading": "Loading Pokemon growth rate...",
+        "notFound": "Pokemon growth rate not found.",
+        "loadError": "Could not load Pokemon growth rate detail."
+      },
+      "formula": "Formula",
+      "tableTitle": "Level Experience Table",
+      "formulaPending": "Formula pending."
+    },
+    "captureRate": "Capture Rate",
+    "isLegendary": "Is Legendary",
+    "hatchCounter": "Hatch Counter",
+    "baseHappiness": "Base Happiness",
+    "baseExperience": "Base Experience",
+    "specialAttack": "Sp. Atk",
+    "specialDefense": "Sp. Def",
+    "hasGenderDifferences": "Has Gender Differences"
+  },
+  "language": {
+    "en": "English",
+    "es": "Spanish",
+    "ptBR": "Portuguese",
+    "label": "Select language",
+    "selector": "Language selector",
+    "changeTo": "Change language to {{language}}"
+  },
+  "pagination": {
+    "ariaLabel": "Pagination",
+    "goToPage": "Go to page {{page}}",
+    "previous": "Go to previous page",
+    "next": "Go to next page"
+  },
+  "navigation": {
+    "home": "Home",
+    "moves": "Moves",
+    "types": "Types",
+    "title": "Pokemon System",
+    "battle": "Battle",
+    "catalog": "Catalog",
+    "sidebar": "Sidebar",
+    "signOut": "Sign out",
+    "pokedex": "Pokedex",
+    "pokemon": "Pokemon",
+    "subtitle": "Trainer Portal",
+    "abilities": "Abilities",
+    "growthRate": "Growth Rate",
+    "encounters": "Encounters",
+    "pokeballLogo": "Pokeball logo",
+    "closeSidebar": "Close sidebar",
+    "ownedPokemons": "My Pokemons",
+    "pokemonCenter": "Pokemon Center",
+    "expandSidebar": "Expand sidebar",
+    "expandSection": "Expand {{section}}",
+    "collapseSidebar": "Collapse sidebar",
+    "collapseSection": "Collapse {{section}}",
+    "authenticatedNavigation": "Authenticated navigation"
   }
 }

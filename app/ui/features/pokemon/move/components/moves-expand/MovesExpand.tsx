@@ -26,14 +26,14 @@ export default function MovesExpand({
       <div className="space-y-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="space-y-1">
-            <Text as="h3">{t('pokemon.movesExpand.title')}</Text>
+            <Text as="h3">{t('pokemon.move.expand.title')}</Text>
             <Text color="text-slate-500">
-              {t('pokemon.movesExpand.description')}
+              {t('pokemon.move.expand.description')}
             </Text>
           </div>
 
           <Badge tone="secondary" variant="soft">
-            {t('pokemon.movesExpand.total', { count: moves.length })}
+            {t('pokemon.move.expand.total', { count: moves.length })}
           </Badge>
         </div>
 
@@ -65,7 +65,7 @@ export default function MovesExpand({
                       weight="semibold"
                       className="uppercase tracking-[0.16em]"
                     >
-                      {t('pokemon.movesExpand.priority')}
+                      {t('pokemon.move.expand.priority')}
                     </Text>
                     <Text as="p" weight="bold" color="text-slate-900">
                       {move.priority}
@@ -74,7 +74,7 @@ export default function MovesExpand({
                 </div>
 
                 <Text color="text-slate-500">
-                  {t('pokemon.movesExpand.stats', { power: move.power, accuracy: move.accuracy, pp: move.pp })}
+                  {t('pokemon.move.expand.stats', { power: move.power, accuracy: move.accuracy, pp: move.pp })}
                 </Text>
                 <Text color="text-slate-600" lineClamp={2}>
                   {move.short_effect || move.effect}
@@ -96,7 +96,7 @@ export default function MovesExpand({
                 });
               }}
             >
-              {t('common.viewMore', { count: item_size })}
+              {t('pokemon.move.expand.viewMore', { count: item_size })}
             </Button>
           </div>
         ) : null}

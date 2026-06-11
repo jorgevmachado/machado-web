@@ -44,7 +44,7 @@ export default function ListPage<TItem, TFilters>({
             </Text>
             <Text
               className="mt-1 max-w-2xl text-sm text-slate-600 sm:text-base">
-              { t('catalog.list.description') }
+              { t(`${domain}.list.description`) }
             </Text>
           </div>
           <Badge tone="info" variant="soft" size="lg">
@@ -54,7 +54,7 @@ export default function ListPage<TItem, TFilters>({
         { inputFilters && inputFilters.length > 0 && (
           <Filters
             filters={ inputFilters }
-            ariaLabel={ t('catalog.list.filtersAria') }
+            ariaLabel={ t(`${domain}.list.filtersAria`) }
             onApply={ (filters) => applyInputFilters?.(filters as TFilters) }
             onClear={ clearInputFilters }
           />
@@ -62,7 +62,7 @@ export default function ListPage<TItem, TFilters>({
         
         { !isLoading && totalItems === 0 ? (
           <Card variant="outlined" rounded="lg" className="text-center">
-            <Text className="text-slate-600">{ t('catalog.list.empty') }</Text>
+            <Text className="text-slate-600">{ t(`${domain}.list.empty`) }</Text>
           </Card>
         ) : null }
 

@@ -14,8 +14,9 @@ type DetailsPageProps = {
   isLoading?: boolean;
   originDomain?: string;
   errorMessage?: string;
+  domainTranslationKey?: string;
 };
-export default function DetailsPage({ param, origin, domain, hasData, children, isLoading, originDomain, errorMessage }: DetailsPageProps) {
+export default function DetailsPage({ param, origin, domain, hasData, children, isLoading, originDomain, errorMessage, domainTranslationKey }: DetailsPageProps) {
   const pathname = usePathname();
 
   const { t } = useAppTranslation();
@@ -23,11 +24,14 @@ export default function DetailsPage({ param, origin, domain, hasData, children, 
   const { customBuildBreadcrumbs } = useBreadcrumb();
   
   const translateDomain = useMemo(() => {
+    if (domainTranslationKey) {
+      return domainTranslationKey;
+    }
     if (originDomain) {
       return `${originDomain}.${domain}`;
     }
     return domain;
-  }, [domain, originDomain]);
+  }, [domain, domainTranslationKey, originDomain]);
 
   
 

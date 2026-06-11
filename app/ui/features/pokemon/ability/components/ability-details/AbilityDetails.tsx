@@ -23,7 +23,9 @@ export default function AbilityDetails({ origin, param, identifier }: AbilityDet
       hasData={ !!data }
       isLoading={ isLoading }
       originDomain="catalog"
-      errorMessage={ errorMessage }>
+      errorMessage={ errorMessage }
+      domainTranslationKey="pokemon.ability"
+    >
       {data && (
         <>
           <Card rounded="lg" className="bg-white">
@@ -43,10 +45,10 @@ export default function AbilityDetails({ origin, param, identifier }: AbilityDet
               </div>
               <div className="flex flex-wrap gap-2">
                 <Badge tone={data.is_hidden ? 'warning' : 'info'} variant="soft" size="lg">
-                  {data.is_hidden ? t('pokemon.ability.list.hidden') : t('pokemon.ability.list.standard')}
+                  {data.is_hidden ? t('pokemon.ability.hidden') : t('pokemon.ability.standard')}
                 </Badge>
                 <Badge tone="neutral" variant="soft" size="lg">
-                  {t('pokemon.ability.list.slot', { value: data.slot })}
+                  {t('pokemon.ability.slot', { value: data.slot })}
                 </Badge>
               </div>
             </div>
@@ -55,20 +57,20 @@ export default function AbilityDetails({ origin, param, identifier }: AbilityDet
           <section className="grid gap-6 lg:grid-cols-[1fr_320px]">
             <div className="flex flex-col gap-6">
               <Card rounded="lg" className="bg-white">
-                <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.ability.detail.shortEffect')}</Text>
-                <Text className="mt-3 text-slate-700">{data.short_effect || t('pokemon.ability.detail.shortEffectPending')}</Text>
+                <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.ability.shortEffect')}</Text>
+                <Text className="mt-3 text-slate-700">{data.short_effect || t('pokemon.ability.shortEffectPending')}</Text>
               </Card>
 
               <Card rounded="lg" className="bg-white">
-                <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.ability.detail.effect')}</Text>
-                <Text className="mt-3 whitespace-pre-line text-slate-700">{data.effect || t('pokemon.ability.detail.effectPending')}</Text>
+                <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.ability.effect')}</Text>
+                <Text className="mt-3 whitespace-pre-line text-slate-700">{data.effect || t('pokemon.ability.effectPending')}</Text>
               </Card>
             </div>
 
             <Card rounded="lg" className="bg-white">
-              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.ability.detail.flavorText')}</Text>
+              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.ability.flavorText')}</Text>
               <Text className="mt-3 text-sm italic text-slate-600">
-                {data.flavor_text || t('pokemon.ability.detail.flavorTextPending')}
+                {data.flavor_text || t('pokemon.ability.flavorTextPending')}
               </Text>
             </Card>
           </section>

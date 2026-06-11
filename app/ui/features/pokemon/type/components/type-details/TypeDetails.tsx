@@ -31,7 +31,9 @@ export default function TypeDetails({ origin, param, identifier }: TypeDetailsPr
       hasData={ !!data }
       isLoading={ isLoading }
       originDomain="catalog"
-      errorMessage={ errorMessage }>
+      errorMessage={ errorMessage }
+      domainTranslationKey="pokemon.type"
+    >
       {data && (
         <>
           <Card rounded="lg" className="bg-white">
@@ -42,12 +44,12 @@ export default function TypeDetails({ origin, param, identifier }: TypeDetailsPr
               {formatOrder(data.order)}
             </Text>
             <Text className="mt-4 text-slate-700">
-              {data.description || t('pokemon.type.detail.descriptionFallback')}
+              {data.description || t('common.descriptionFallback')}
             </Text>
           </Card>
           {data.strengths.length > 0 && (
             <Card rounded="lg" className="bg-white">
-              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.type.detail.strengths')}</Text>
+              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.type.strengths')}</Text>
               <section className="grid grid-cols-1 gap-4 mt-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {data.strengths.map((type) => {
                   const translatedRelatedTypeName = translatePokemonTypeName(t, type.name);
@@ -119,7 +121,7 @@ export default function TypeDetails({ origin, param, identifier }: TypeDetailsPr
 
           {data.weaknesses.length > 0 && (
             <Card rounded="lg" className="bg-white">
-              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.type.detail.weaknesses')}</Text>
+              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.type.weaknesses')}</Text>
               <section className="grid grid-cols-1 gap-4 mt-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {data.weaknesses.map((type) => {
                   const translatedRelatedTypeName = translatePokemonTypeName(t, type.name);

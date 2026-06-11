@@ -6,12 +6,13 @@ import { useMemo } from 'react';
 
 type PokemonCardHeaderProps = {
   name?: string;
+  hide?: boolean;
   order: TPokemon['order'];
   status: TPokemon['status'];
   nickname?: string;
 };
 
-export default function PokemonCardHeader({ name, order, status, nickname }: PokemonCardHeaderProps) {
+export default function PokemonCardHeader({ name, hide = false, order, status, nickname }: PokemonCardHeaderProps) {
   const { t } = useAppTranslation();
 
   const display = nickname || name;
@@ -50,12 +51,13 @@ export default function PokemonCardHeader({ name, order, status, nickname }: Pok
         <Text
           as="h3"
           size="3xl"
+          color={hide ? 'text-slate-400' : undefined}
           tracking="tight"
           leading="none"
           className="font-black"
         >
           { displayName }
-          { displaySubName && (
+          { displaySubName && !hide && (
             <Text
               as="p"
               size="sm"

@@ -65,7 +65,7 @@ export default function MovePage() {
   return (
     <ListPage
       meta={meta}
-      domain="catalog"
+      domain="pokemon.encounter"
       goToPage={goToPage}
       isLoading={isLoading}
       totalItems={items?.length}
@@ -94,8 +94,8 @@ export default function MovePage() {
                 </div>
                 <div className="flex flex-1 flex-col gap-3">
                   <Text className="line-clamp-3 text-sm text-slate-700" data-testid="pokemon-encounter-list-method">
-                    {t('pokemon.encounter.list.method', {
-                      value: encounter.method ? normalizedName(encounter.method) : t('pokemon.encounter.list.pending'),
+                    {t('pokemon.encounter.methodValue', {
+                      value: encounter.method ? normalizedName(encounter.method) : t('pokemon.encounter.pending'),
                     })}
                   </Text>
                 </div>

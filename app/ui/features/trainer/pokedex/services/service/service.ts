@@ -1,7 +1,7 @@
 import { BaseServiceAbstract } from '@/app/shared/services/service/service';
 import {
-  TPokedex,
-  TPokedexFilters,
+  TPokedexEntry ,
+  TPokedexEntryFilters ,
 } from '@/app/ui';
 import { TPaginatedListResponse } from '@/app/ds';
 
@@ -11,11 +11,11 @@ export class TrainerPokedexService extends BaseServiceAbstract {
     super(baseUrl, 'trainer/pokedex', token);
   }
 
-  public async list(params: TPokedexFilters & { page?: string; limit?: string }): Promise<TPaginatedListResponse<TPokedex>> {
-    return await this.get<TPaginatedListResponse<TPokedex>>(this.pathUrl, { params });
+  public async list(params: TPokedexEntryFilters & { page?: string; limit?: string }): Promise<TPaginatedListResponse<TPokedexEntry>> {
+    return await this.get<TPaginatedListResponse<TPokedexEntry>>(this.pathUrl, { params });
   }
 
-  public async detail(identifier: string): Promise<TPokedex> {
-    return await this.get<TPokedex>(`${this.pathUrl}/${identifier}`);
+  public async detail(identifier: string): Promise<TPokedexEntry> {
+    return await this.get<TPokedexEntry>(`${this.pathUrl}/${identifier}`);
   }
 }

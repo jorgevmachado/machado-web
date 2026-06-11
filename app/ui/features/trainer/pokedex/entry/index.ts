@@ -1,1 +1,1 @@
-export type { TPokedexEntry } from './types';
+export type { TPokedexEntry, TPokedexEntryFilters } from './types';

@@ -49,7 +49,9 @@ export default function GrowthRateDetails({ origin, param, identifier }: GrowthR
       hasData={ !!data }
       isLoading={ isLoading }
       originDomain="catalog"
-      errorMessage={ errorMessage }>
+      errorMessage={ errorMessage }
+      domainTranslationKey="pokemon.growthRate"
+    >
       {data && (
         <>
           <Card rounded="lg" className="bg-white">
@@ -65,7 +67,7 @@ export default function GrowthRateDetails({ origin, param, identifier }: GrowthR
                   <Text className="mt-2 text-sm font-semibold text-slate-500">
                     {formatOrder(data.order)}
                   </Text>
-                  <Text className="mt-3 text-slate-700">{t('pokemon.growthRate.detail.formula')}: {data.formula || t('pokemon.growthRate.detail.formulaPending')}</Text>
+                  <Text className="mt-3 text-slate-700">{t('pokemon.growthRate.formula')}: {data.formula || t('pokemon.growthRate.formulaPending')}</Text>
                 </div>
               </div>
             </div>
@@ -73,16 +75,16 @@ export default function GrowthRateDetails({ origin, param, identifier }: GrowthR
 
           <section className="grid gap-6">
             <Card rounded="lg" className="bg-white">
-              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.growthRate.detail.tableTitle')}</Text>
+              <Text as="h2" className="text-xl font-semibold text-slate-950">{t('pokemon.growthRate.tableTitle')}</Text>
 
               <div className="mt-4 overflow-x-auto">
                 <table className="min-w-full border-collapse text-left text-sm text-slate-700">
                   <thead>
                     <tr className="border-b border-slate-200">
                       <th scope="col"
-                        className="px-3 py-2 font-semibold text-slate-900">{t('pokemon.growthRate.detail.level')}</th>
+                        className="px-3 py-2 font-semibold text-slate-900">{t('pokemon.level')}</th>
                       <th scope="col"
-                        className="px-3 py-2 font-semibold text-slate-900">{t('pokemon.growthRate.detail.experience')}</th>
+                        className="px-3 py-2 font-semibold text-slate-900">{t('pokemon.experience')}</th>
                     </tr>
                   </thead>
 

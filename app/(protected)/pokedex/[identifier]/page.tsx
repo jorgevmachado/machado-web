@@ -1,29 +1,27 @@
 'use client';
 import { useDetail } from '@/app/ui/hooks/detail';
-import { TOwnedPokemon , PokemonDetail, trainerBffService } from '@/app/ui';
+import { TPokedexEntry , PokemonDetail, trainerBffService } from '@/app/ui';
 import { usePathname } from 'next/navigation';
-
-function buildDetailUrl(pathname: string) {
-  const segments = pathname.split('/').filter(Boolean);
-  return segments[segments.length - 1];
-}
+import { buildDetailUrl } from '@/app/utils';
 
 export default function OwnedPokemonDetailPage() {
   const pathname = usePathname();
 
   const identifier = buildDetailUrl(pathname);
 
-  const { data ,isLoading ,errorMessage } = useDetail<TOwnedPokemon>(
-    { identifier ,fetchDetail: trainerBffService.ownedPokemon.fetchOne });
+  const { data ,isLoading ,errorMessage } = useDetail<TPokedexEntry>({
+    identifier ,
+    fetchDetail: trainerBffService.pokedex.fetchOne<TPokedexEntry>
+  });
 
   return (
     <PokemonDetail
-      origin="pokemon"
-      domain="trainer.ownedPokemon"
+      hide={!data?.discovered}
+      origin="pokedex"
       pokemon={ data?.pokemon }
       isLoading={ isLoading }
       errorMessage={ errorMessage }
-      ownedPokemonMove={ data?.moves }
+      errorHideMessage="trainer.pokedex.notDiscovered"
       progressionAttributes={!data ? undefined :{
         hp: data?.hp,
         level: data.level,

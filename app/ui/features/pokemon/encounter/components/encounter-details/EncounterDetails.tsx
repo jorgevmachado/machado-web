@@ -22,18 +22,18 @@ export default function EncounterDetails({ origin, param, identifier }: Encounte
   const { t } = useAppTranslation();
 
   const attributes = !data ? [] : [
-    { id: 1, label: t('pokemon.encounter.detail.chance'), value: formatNumber(data.chance) },
-    { id: 2, label: t('pokemon.encounter.detail.minLevel'), value: formatNumber(data.min_level) },
-    { id: 3, label: t('pokemon.encounter.detail.maxLevel'), value: formatNumber(data.max_level) },
-    { id: 4, label: t('pokemon.encounter.detail.maxChance'), value: formatNumber(data.max_chance) },
+    { id: 1, label: t('common.chance'), value: formatNumber(data.chance) },
+    { id: 2, label: t('pokemon.encounter.minLevel'), value: formatNumber(data.min_level) },
+    { id: 3, label: t('pokemon.encounter.maxLevel'), value: formatNumber(data.max_level) },
+    { id: 4, label: t('pokemon.encounter.maxChance'), value: formatNumber(data.max_chance) },
     {
       id: 5,
-      label: t('pokemon.encounter.detail.condition'),
+      label: t('pokemon.encounter.condition'),
       value: data.condition ? formatLabel(data.condition) : t('common.unknown')
     },
     {
       id: 6,
-      label: t('pokemon.encounter.detail.method'),
+      label: t('pokemon.encounter.method'),
       value: data.method ? formatLabel(data.method) : t('common.unknown')
     },
   ];
@@ -46,7 +46,9 @@ export default function EncounterDetails({ origin, param, identifier }: Encounte
       hasData={ !!data }
       isLoading={ isLoading }
       originDomain="catalog"
-      errorMessage={ errorMessage }>
+      errorMessage={ errorMessage }
+      domainTranslationKey="pokemon.encounter"
+    >
       {data && (
         <>
           <Card rounded="lg" className="bg-white">

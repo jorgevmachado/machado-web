@@ -11,7 +11,7 @@ export default function EncountersBadge({ encounters }: EncountersBadgeProps) {
   const { t } = useAppTranslation();
   return (
     <Card variant="elevated" rounded="2xl" className="border border-white/80 bg-white/90">
-      <Text as="h2" className="text-xl font-semibold text-slate-950">{t('catalog.encounter.detail.found')}</Text>
+      <Text as="h2" className="text-xl font-semibold text-slate-950">{t('common.found')}</Text>
       {encounters && encounters.length > 0
         ? (
           <div className="mt-4 flex flex-wrap gap-2">

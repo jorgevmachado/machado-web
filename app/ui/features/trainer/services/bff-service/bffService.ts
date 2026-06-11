@@ -22,7 +22,7 @@ export class TrainerBffService extends BffBaseServiceAbstract<TTrainer> {
   constructor(baseUrl: string) {
     super('trainer' ,baseUrl);
     this.partyModule = new TrainerPartyBffService(baseUrl);
-    this.pokedexModule = new TrainerPokedexBffService(baseUrl);
+    this.pokedexModule = new TrainerPokedexBffService(`${baseUrl}/pokedex`);
     this.encounterModule = new TrainerEncounterBffService(baseUrl);
     this.ownedPokemonModule = new TrainerOwnedPokemonBffService(`${baseUrl}/owned-pokemon`);
   }

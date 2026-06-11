@@ -103,7 +103,7 @@ export default function MovePage() {
                 </div>
                 <div className="flex flex-1 flex-col gap-3">
                   <Text className="line-clamp-3 text-sm text-slate-700">
-                    {move.short_effect || move.effect || t('pokemon.move.list.effectPending')}
+                    {move.short_effect || move.effect || t('pokemon.move.effectPending')}
                   </Text>
                   <div className="flex flex-wrap gap-2">
                     <Badge tone="info" variant="soft">{move.type}</Badge>
@@ -112,9 +112,9 @@ export default function MovePage() {
                 </div>
                 <div className="mt-auto">
                   <div className="flex flex-wrap gap-2">
-                    <Badge tone="neutral" variant="soft">{t('pokemon.move.list.power', { value: formatValue(move.power) })}</Badge>
-                    <Badge tone="neutral" variant="soft">{t('pokemon.move.list.accuracy', { value: formatValue(move.accuracy) })}</Badge>
-                    <Badge tone="neutral" variant="soft">{t('pokemon.move.list.pp', { value: formatValue(move.pp) })}</Badge>
+                    <Badge tone="neutral" variant="soft">{t('pokemon.move.power', { value: formatValue(move.power) })}</Badge>
+                    <Badge tone="neutral" variant="soft">{t('pokemon.move.accuracy', { value: formatValue(move.accuracy) })}</Badge>
+                    <Badge tone="neutral" variant="soft">{t('pokemon.move.pp', { value: formatValue(move.pp) })}</Badge>
                     <span className="text-sm font-semibold text-blue-700">{t('common.viewMore')}</span>
                   </div>
                 </div>

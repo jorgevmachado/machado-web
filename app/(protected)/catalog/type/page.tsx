@@ -102,13 +102,13 @@ export default function TypePage() {
                 </div>
                 <div className="flex flex-1 flex-col gap-3">
                   <Text className="line-clamp-2 text-sm text-slate-600">
-                    {type.description ?? t('pokemon.type.list.fallbackDescription')}
+                    {type.description ?? t('pokemon.type.fallbackDescription')}
                   </Text>
                 </div>
                 <div className="mt-auto">
                   <div className="flex flex-wrap gap-2">
-                    <Badge tone="success" variant="soft">{t('pokemon.type.list.strengthCount', { count: type.strengths.length })}</Badge>
-                    <Badge tone="warning" variant="soft">{t('pokemon.type.list.weaknessCount', { count: type.weaknesses.length })}</Badge>
+                    <Badge tone="success" variant="soft">{t('pokemon.type.strengthCount', { count: type.strengths.length })}</Badge>
+                    <Badge tone="warning" variant="soft">{t('pokemon.type.weaknessCount', { count: type.weaknesses.length })}</Badge>
                   </div>
                 </div>
               </div>

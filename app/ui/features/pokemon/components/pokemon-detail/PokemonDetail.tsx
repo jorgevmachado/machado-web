@@ -1,3 +1,4 @@
+'use client';
 import {
   MovesExpand ,
   PokemonGallery ,
@@ -6,26 +7,56 @@ import {
   TProgressionAttributes ,
   translatePokemonTypeName ,
 } from '@/app/ui';
-import { Badge ,Card ,Text } from '@/app/ds';
+import { Badge ,Card ,Text ,useAlert } from '@/app/ds';
 import { useAppTranslation } from '@/app/i18n';
 import Link from 'next/link';
 import { buildPathRelations ,formatLabel ,uniqueById } from '@/app/utils';
 import PokemonFeatures from '../pokemon-features';
 import PokemonEvolutions from '../pokemon-evolutions';
 import EncountersBadge from '../../encounter/components/encounters-badge';
-import { useMemo } from 'react';
-import { TOwnedPokemonMove } from '@/app/ui/features/trainer/owned-pokemon';
+import { useEffect ,useMemo } from 'react';
+import { TOwnedPokemonMove } from '@/app/ui';
+import { useRouter } from 'next/navigation';
 
 type PokemonDetailProps = {
+  hide?: boolean;
   origin?: string;
+  domain?: string;
   pokemon?: TPokemon;
   isLoading?: boolean;
   errorMessage?: string;
+  errorHideMessage?: string;
   ownedPokemonMove?: Array<TOwnedPokemonMove>;
   progressionAttributes?: TProgressionAttributes;
 };
-export default function PokemonDetail({ origin, pokemon, isLoading, errorMessage, ownedPokemonMove, progressionAttributes }: PokemonDetailProps) {
+export default function PokemonDetail({
+  hide = false,
+  domain='catalog',
+  origin,
+  pokemon,
+  isLoading,
+  errorMessage,
+  errorHideMessage = 'auth.errors.accessDenied',
+  ownedPokemonMove,
+  progressionAttributes
+}: PokemonDetailProps) {
+  const router = useRouter();
+
   const { t } = useAppTranslation();
+  const { showAlert } = useAlert();
+
+  useEffect(() => {
+    if (!pokemon || !hide) {
+      return;
+    }
+
+    showAlert({
+      type: 'error',
+      message: t(errorHideMessage)
+    });
+
+    router.push(`/${origin}`);
+  } ,[errorHideMessage, hide, origin, pokemon, router, showAlert, t]);
 
   const pokemonStats = useMemo(() => {
     if (progressionAttributes) {
@@ -67,7 +98,7 @@ export default function PokemonDetail({ origin, pokemon, isLoading, errorMessage
       <main className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
         <Card rounded="lg" className="mx-auto max-w-5xl text-center">
           <Text className="text-slate-600">{ t(
-            'pokemon.detail.loading') }</Text>
+            `${domain}.detail.loading`) }</Text>
         </Card>
       </main>
     );
@@ -78,9 +109,9 @@ export default function PokemonDetail({ origin, pokemon, isLoading, errorMessage
       <main className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8">
         <Card rounded="lg" className="mx-auto max-w-5xl text-center">
           <Text className="text-slate-600">{ errorMessage ||
-            t('pokemon.detail.notFound') }</Text>
+            t(`${domain}.detail.notFound`) }</Text>
           <Link className="mt-4 inline-flex text-sm font-semibold text-blue-700" href="/catalog">
-            { t('pokemon.detail.back') }
+            { t(`${domain}.detail.back`) }
           </Link>
         </Card>
       </main>
@@ -131,14 +162,14 @@ export default function PokemonDetail({ origin, pokemon, isLoading, errorMessage
           { pokemonStats && (
             <PokemonStats
               {...pokemonStats}
-              title={ t('pokemon.detail.statistics') }
+              title={ t('common.statistics') }
               withBorder
             />
           )}
           
           <Card variant="elevated" rounded="2xl" className="border border-white/80 bg-white/90">
             <div className="space-y-5">
-              <Text as="h3">{ t('pokemon.detail.abilities') }</Text>
+              <Text as="h3">{ t('navigation.abilities') }</Text>
               <div className="flex flex-wrap gap-2">
                 { pokemon.abilities.map((ability) => (
                   <Link
@@ -153,7 +184,7 @@ export default function PokemonDetail({ origin, pokemon, isLoading, errorMessage
               </div>
 
               <div className="space-y-3 border-t border-slate-100 pt-4">
-                <Text as="h4">{ t('pokemon.detail.growthRate') }</Text>
+                <Text as="h4">{ t('navigation.growthRate') }</Text>
                 { pokemon.growth_rate ? (
                   <Link
                     key={ pokemon.growth_rate.id }
@@ -176,8 +207,7 @@ export default function PokemonDetail({ origin, pokemon, isLoading, errorMessage
 
         <section className="grid gap-6 lg:grid-cols-2">
           <Card rounded="lg" className="bg-white">
-            <Text as="h2" className="text-xl font-semibold text-slate-950">{ t(
-              'pokemon.detail.strengths') }</Text>
+            <Text as="h2" className="text-xl font-semibold text-slate-950">{ t('pokemon.type.strengths') }</Text>
             <div className="mt-4 flex flex-wrap gap-2">
               { strengths.map((strength) => (
                 <Link
@@ -205,8 +235,7 @@ export default function PokemonDetail({ origin, pokemon, isLoading, errorMessage
           </Card>
 
           <Card rounded="lg" className="bg-white">
-            <Text as="h2" className="text-xl font-semibold text-slate-950">{ t(
-              'pokemon.detail.weaknesses') }</Text>
+            <Text as="h2" className="text-xl font-semibold text-slate-950">{ t('pokemon.type.weaknesses') }</Text>
             <div className="mt-4 flex flex-wrap gap-2">
               { weaknesses.map((weakness) => (
                 <Link
@@ -241,12 +270,12 @@ export default function PokemonDetail({ origin, pokemon, isLoading, errorMessage
             )
           }
 
-
           <PokemonEvolutions
             name={ pokemon.name }
             origin={ origin }
             external_image={ pokemon.external_image }
-            evolutions={ pokemon.evolutions }/>
+            evolutions={ pokemon.evolutions }
+          />
           <EncountersBadge encounters={ pokemon.encounters?.map((encounter) => ({ ...encounter, href: buildPathRelations({ origin, param: pokemon.name, relation:'encounter', identifier: encounter.name }) })) }/>
         </section>
       </div>

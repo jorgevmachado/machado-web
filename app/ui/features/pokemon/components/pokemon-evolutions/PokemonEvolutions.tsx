@@ -1,6 +1,7 @@
 import { Card, Image, Text } from '@/app/ds';
 import { TPokemon } from '@/app/ui';
 import Link from 'next/link';
+import { useAppTranslation } from '@/app/i18n';
 
 type EvolutionTimelineProps = Readonly<{
   name: string;
@@ -10,6 +11,7 @@ type EvolutionTimelineProps = Readonly<{
 }>;
 
 export default function PokemonEvolutions({ name, origin, evolutions, external_image }: EvolutionTimelineProps) {
+  const { t } = useAppTranslation();
   return (
     <Card variant="elevated" rounded="2xl" className="border border-white/80 bg-white/90">
       <div className="space-y-4">
@@ -20,7 +22,7 @@ export default function PokemonEvolutions({ name, origin, evolutions, external_i
               <Image src={external_image} alt={name} size="sm" fit="contain" className="h-20 w-20"/>
               <div>
                 <Text as="h4" className="capitalize">{name}</Text>
-                <Text color="text-slate-500">Current Pokemon</Text>
+                <Text color="text-slate-500">{ t('pokemon.current') }</Text>
               </div>
             </div>
           </Card>
@@ -48,7 +50,7 @@ export default function PokemonEvolutions({ name, origin, evolutions, external_i
                       <Image src={evolutionImage} alt={evolution.name} size="sm" fit="contain" className="h-20 w-20"/>
                       <div>
                         <Text as="h4" className="capitalize">{evolution.name}</Text>
-                        <Text color="text-slate-500">{evolution.status}</Text>
+                        <Text color="text-slate-500">{ t(`pokemon.status.${evolution.status}`) }</Text>
                       </div>
                     </div>
                   </Card>

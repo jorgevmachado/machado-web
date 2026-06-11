@@ -21,7 +21,7 @@ export default function TypesBadge({ types }: TypesBadgeProps) {
           {translatePokemonTypeName(t, type.name)}
         </span>
       )) : (
-        <Badge tone="neutral" variant="soft">{t('pokemon.list.typesPending')}</Badge>
+        <Badge tone="neutral" variant="soft">{t('pokemon.type.typesPending')}</Badge>
       )}
     </div>
   );

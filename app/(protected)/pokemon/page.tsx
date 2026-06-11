@@ -79,7 +79,7 @@ export default function PokemonPage() {
   return (
     <ListPage
       meta={meta}
-      domain="pokemon.move"
+      domain="trainer.ownedPokemon"
       goToPage={goToPage}
       isLoading={isLoading}
       totalItems={items?.length}
