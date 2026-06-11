@@ -105,7 +105,8 @@
       "invalidEmail": "Informe um endereço de e-mail válido.",
       "passwordConfirmation": "A confirmação de senha não confere.",
       "passwordRule": "A senha deve conter ao menos 7 caracteres, uma letra maiúscula e um caractere especial.",
-      "defaultLogin": "Não foi possível entrar. Tente novamente."
+      "defaultLogin": "Não foi possível entrar. Tente novamente.",
+      "accessDenied": "Você não tem permissão para acessar esta página."
     }
   },
   "home": {

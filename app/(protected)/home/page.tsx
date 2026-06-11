@@ -1,12 +1,35 @@
 'use client';
 import { useUser } from '@/app/ui/features/auth';
-import { Text } from '@/app/ds';
+import { Text, useAlert } from '@/app/ds';
 import { TrainerDashboard } from '@/app/ui/features/trainer';
 import { useAppTranslation } from '@/app/i18n';
+import { useEffect, useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 export default function Home() {
   const { user } = useUser();
   const { t } = useAppTranslation();
+  const { showAlert } = useAlert();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const hasHandledAccessDenied = useRef(false);
+
+  useEffect(() => {
+    const reason = searchParams.get('reason');
+
+    if (reason !== 'forbidden' || hasHandledAccessDenied.current) {
+      return;
+    }
+
+    hasHandledAccessDenied.current = true;
+
+    showAlert({
+      type: 'error',
+      message: t('auth.errors.accessDenied'),
+    });
+
+    router.replace('/home');
+  }, [router, searchParams, showAlert, t]);
 
   if (user && !user.trainer) {
     return (

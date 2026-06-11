@@ -105,7 +105,8 @@
       "invalidEmail": "Ingresa una dirección de correo válida.",
       "passwordConfirmation": "La confirmación de contraseña no coincide.",
       "passwordRule": "La contraseña debe tener al menos 7 caracteres, una letra mayúscula y un carácter especial.",
-      "defaultLogin": "No se pudo iniciar sesión. Inténtalo de nuevo."
+      "defaultLogin": "No se pudo iniciar sesión. Inténtalo de nuevo.",
+      "accessDenied": "No tienes permiso para acceder a esta página."
     }
   },
   "home": {

@@ -105,7 +105,8 @@
       "invalidEmail": "Please enter a valid email address.",
       "passwordConfirmation": "Password confirmation does not match.",
       "passwordRule": "Password must contain at least 7 characters, one uppercase letter, and one special character.",
-      "defaultLogin": "Unable to sign in. Please try again."
+      "defaultLogin": "Unable to sign in. Please try again.",
+      "accessDenied": "You do not have permission to access this page."
     }
   },
   "home": {
