@@ -1,7 +1,7 @@
 export { AbilityDetails,type TPokemonAbility, type TPokemonAbilityFilters } from './ability';
 export { PokemonCard, PokemonDetail,PokemonFeatures,PokemonGallery, PokemonStats } from './components';
-export { EncountersBadge,type TPokemonEncounter, type TPokemonEncounterFilters } from './encounter';
-export { type TPokemonGrowthRate, type TPokemonGrowthRateFilters } from './growth_rate';
+export { EncounterDetails, EncountersBadge, type TPokemonEncounter, type TPokemonEncounterFilters } from './encounter';
+export { GrowthRateDetails, type TPokemonGrowthRate, type TPokemonGrowthRateFilters } from './growth_rate';
 export { type TPokemonHabitat } from './habitat';
 export { type TPokemonImage } from './image';
 export { MoveDetails,MovesExpand, type TPokemonMove, type TPokemonMoveFilters } from './move';

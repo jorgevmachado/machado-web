@@ -1,0 +1,1 @@
+export { default as GrowthRateDetails } from './growth-rate-details';

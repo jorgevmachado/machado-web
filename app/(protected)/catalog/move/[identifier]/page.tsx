@@ -1,5 +1,4 @@
-import MoveDetails
-  from '@/app/ui/features/pokemon/move/components/move-details/MoveDetails';
+import { MoveDetails } from '@/app/ui';
 type PokemonMoveDetailPageProps = Readonly<{
   params: Promise<{
     identifier: string;

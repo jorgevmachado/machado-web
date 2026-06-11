@@ -1,3 +1,4 @@
+export { GrowthRateDetails } from './components';
 export {
   pokemonGrowthRateBffService,
   pokemonGrowthRateService,

@@ -1,9 +1,7 @@
 'use client';
 import { useDetail } from '@/app/ui/hooks/detail';
-import { TOwnedPokemon ,trainerBffService } from '@/app/ui';
+import { TOwnedPokemon , PokemonDetail, trainerBffService } from '@/app/ui';
 import { usePathname } from 'next/navigation';
-import PokemonDetail
-  from '../../../ui/features/pokemon/components/pokemon-detail';
 
 function buildDetailUrl(pathname: string) {
   const segments = pathname.split('/').filter(Boolean);
