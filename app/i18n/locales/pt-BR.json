@@ -179,6 +179,13 @@
         "WILD_POKEMON_DEFEATED": "Pokemon selvagem derrotado",
         "TRAINER_DEFEATED": "Treinador derrotado"
       }
+    },
+    "exploration": {
+      "loading": "Explorando...",
+      "nextStep": "Dar um passo",
+      "showBattle": "Mostrar batalha.",
+      "tryAgainLater": "Tente novamente mais tarde.",
+      "loadError": "Não foi possível explorar o encontro ativo."
     }
   },
   "catalog": {

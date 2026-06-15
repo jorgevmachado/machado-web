@@ -1,4 +1,5 @@
-import { Button ,Card ,Text } from '@/app/ds';
+'use client';
+import { Card ,Text } from '@/app/ds';
 
 import { useMemo } from 'react';
 import { formatLabel } from '@/app/utils';
@@ -9,6 +10,7 @@ import {
   TTrainer ,
 } from '@/app/ui';
 import { useAppTranslation } from '@/app/i18n';
+import ExplorationAction from '../../exploration/components/exploration-action';
 
 type TrainerDashboardProps = {
   trainer: TTrainer
@@ -16,15 +18,14 @@ type TrainerDashboardProps = {
 export default function TrainerDashboard({ trainer }: TrainerDashboardProps) {
 
   const { t } = useAppTranslation();
-  const isWalking = false;
 
   const activeEncounter = useMemo(() => {
     return trainer.known_encounters.find((encounter) => encounter.is_active);
   } ,[trainer.known_encounters]);
 
-  const handleWalk = async () => {
-    console.log('Walking');
-  };
+  const lastExplorationEvent = useMemo(() => {
+    return trainer.exploration_events?.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0];
+  }, [trainer.exploration_events]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -49,16 +50,7 @@ export default function TrainerDashboard({ trainer }: TrainerDashboardProps) {
               t('home.dashboard.chooseEncounter') }
           </Text>
         </Card>
-        <Card rounded="lg" variant="elevated">
-          <Text as="h2" className="text-lg font-semibold">{ t(
-            'home.dashboard.walkTitle') }</Text>
-          <Button onClick={ () => void handleWalk() }
-            disabled={ isWalking || !activeEncounter }>
-            { isWalking ?
-              t('home.dashboard.walking') :
-              t('home.dashboard.walkButton') }
-          </Button>
-        </Card>
+        <ExplorationAction activeEncounter={activeEncounter} explorationEvent={lastExplorationEvent}/>
       </section>
       <section className="grid gap-6 xl:grid-cols-[1.2fr_1fr]">
         <SelectTrainerEncounters

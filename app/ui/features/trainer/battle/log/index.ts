@@ -1,0 +1,1 @@
+export type { TTrainerBattleLog } from './types';

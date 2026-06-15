@@ -179,6 +179,13 @@
         "WILD_POKEMON_DEFEATED": "Wild Pokemon defeated",
         "TRAINER_DEFEATED": "Trainer defeated"
       }
+    },
+    "exploration": {
+      "loading": "Exploring...",
+      "nextStep": "Take a step",
+      "showBattle": "Show battle",
+      "tryAgainLater": "Try again later",
+      "loadError": "Could not explore the active encounter."
     }
   },
   "catalog": {
