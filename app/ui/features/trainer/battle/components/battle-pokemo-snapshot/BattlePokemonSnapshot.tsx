@@ -7,7 +7,8 @@ import { TBattleSessionStatus } from '@/app/ui';
 
 type BattlePokemonSnapshotProps = {
   type: 'WILD_POKEMON' | 'TRAINER_POKEMON';
-  status: TBattleSessionStatus
+  status: TBattleSessionStatus;
+  battleId: string;
   snapshot: TTrainerBattlePokemonSnapshot;
 };
 
@@ -23,12 +24,14 @@ const calculateHpPercent = (currentHp: number, maxHp: number): number => {
 export default function BattlePokemonSnapshot({
   type,
   status,
+  battleId,
   snapshot
 }: BattlePokemonSnapshotProps) {
   const { t } = useAppTranslation();
 
   const executeMove = useCallback(async (moveId: string) => {
     console.log('# => executeMove => moveId => ', moveId);
+    console.log('# => executeMove => battleId => ', battleId);
   }, []);
   
   const displayName = useMemo(() => {

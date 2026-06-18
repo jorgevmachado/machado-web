@@ -101,6 +101,7 @@ export default function BattleDetails({ identifier }: BattleDetailsProps) {
                 <BattlePokemonSnapshot
                   type="TRAINER_POKEMON"
                   status={data.status}
+                  battleId={data.id}
                   snapshot={trainerPokemon}
                 />
               )}
@@ -108,6 +109,7 @@ export default function BattleDetails({ identifier }: BattleDetailsProps) {
                 <BattlePokemonSnapshot
                   type="WILD_POKEMON"
                   status={data.status}
+                  battleId={data.id}
                   snapshot={wildPokemon}
                 />
               )}
